@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Mahasiswa {
+  id_mahasiswa            Int      @id @default(autoincrement())
+  nama_mahasiswa          String
+  npm_mahasiswa           String   @unique
+  password_mahasiswa      String
+  tahun_ajaran_mahasiswa  Int
+  fakultas_mahasiswa      String
+  jurusan_mahasiswa       String
+  no_telp_mahasiswa       String
+  bukti_regis_mahasiswa   String
+  status_mahasiswa        Boolean
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+}
+
+model Account {
+  id                      Int      @id @default(autoincrement())
+  NIK                     String?  @unique
+  NIP                     String?  @unique
+  nama                    String
+  email                   String   @unique
+  password                String
+  no_telp                 String
+  bukti_regis             String
+  role                    String
+  status_account          Boolean
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+}
+
+model Fakultas {
+  id_fakultas             Int      @id @default(autoincrement())
+  nama_fakultas           String
+}
+
+model Prodi {
+  id_prodi                Int      @id @default(autoincrement())
+  nama_prodi              String
+  id_fakultas             Int
+}
+
+model tahun_ajaran_mahasiswa {
+  id_tahun_ajaran         Int      @id @default(autoincrement())
+  tahun_ajaran            Int
+}
+
+model Role {
+  id_role                 Int      @id @default(autoincrement())
+  nama_role               String
+}
