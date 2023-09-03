@@ -5,9 +5,147 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 
 class _auth {
-    loginMahasiswa = async () => {};
+    loginMahasiswa = async (body) => {
+        try {
+            const schema = Joi.object({
+                npm_mahasiswa: Joi.string().required(),
+                password_mahasiswa: Joi.string().required(),
+            }).options({ abortEarly: false });
 
-    loginUmum = () => {};
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const checkNpm = await prisma.mahasiswa.findUnique({
+                where: {
+                    npm_mahasiswa: body.npm_mahasiswa,
+                },
+            });
+
+            if (!checkNpm) {
+                return {
+                    status: false,
+                    error: "NPM not registered",
+                };
+            }
+
+            const checkPassword = bcrypt.compareSync(
+                body.password_mahasiswa,
+                checkNpm.password_mahasiswa
+            );
+
+            if (!checkPassword) {
+                return {
+                    status: false,
+                    error: "Wrong password",
+                };
+            }
+
+            const payload = {
+                id_mahasiswa: checkNpm.id_mahasiswa,
+                npm_mahasiswa: checkNpm.npm_mahasiswa,
+                nama_mahasiswa: checkNpm.nama_mahasiswa,
+                fakultas_mahasiswa: checkNpm.fakultas_mahasiswa,
+                jurusan_mahasiswa: checkNpm.jurusan_mahasiswa,
+                tahun_ajaran_mahasiswa: checkNpm.tahun_ajaran_mahasiswa,
+                no_telp_mahasiswa: checkNpm.no_telp_mahasiswa,
+            };
+
+            const token = jwt.sign(payload, "jwt-secret-code", {
+                expiresIn: "1d",
+            });
+
+            return {
+                status: true,
+                data: {
+                    message: "Login success, here's your token",
+                    token: token,
+                },
+            };
+        } catch (error) {
+            console.error("login auth module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    loginUmum = async (body) => {
+        try {
+            const schema = Joi.object({
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
+            }).options({ abortEarly: false });
+
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const checkEmail = await prisma.account.findUnique({
+                where: {
+                    email: body.email,
+                },
+            });
+
+            if (!checkEmail) {
+                return {
+                    status: false,
+                    error: "Email not registered",
+                };
+            }
+
+            const checkPassword = bcrypt.compareSync(
+                body.password,
+                checkEmail.password
+            );
+
+            if (!checkPassword) {
+                return {
+                    status: false,
+                    error: "Wrong password",
+                };
+            }
+
+            const payload = {
+                id_account: checkEmail.id_account,
+                email: checkEmail.email,
+                nama: checkEmail.nama,
+                no_telp: checkEmail.no_telp,
+                role: checkEmail.role,
+            };
+
+            const token = jwt.sign(payload, "jwt-secret-code", {
+                expiresIn: "1d",
+            });
+
+            return {
+                status: true,
+                data: {
+                    message: "Login success, here's your token",
+                    token: token,
+                },
+            };
+        } catch (error) {
+            console.error("login auth module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
 
     registerMahasiswa = async (body, file) => {
         try {

@@ -26,4 +26,16 @@ authController.post(
     }
 );
 
+authController.post("/login/mahasiswa", async (req, res) => {
+    const result = await m$auth.loginMahasiswa(req.body);
+
+    return response.sendResponse(res, result);
+});
+
+authController.post("/login", async (req, res) => {
+    const result = await m$auth.loginUmum(req.body);
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = authController;
