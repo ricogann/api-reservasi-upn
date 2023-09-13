@@ -26,6 +26,21 @@ class _kamar {
                 },
             });
 
+            // Check if no_kamar already exists in the database
+            const existingKamar = await prisma.kamar_asrama.findFirst({
+                where: {
+                    no_kamar: body.no_kamar,
+                },
+            });
+
+            if (existingKamar) {
+                return {
+                  status: false,
+                  code: 400, // You can choose an appropriate HTTP status code
+                  message: "Kamar with this no_kamar already exists",
+                };
+              }
+
             const kamar = await prisma.kamar_asrama.create({
                 data: {
                     no_kamar: body.no_kamar,
