@@ -158,7 +158,7 @@ class _auth {
                 fakultas_mahasiswa: Joi.string().required(),
                 jurusan_mahasiswa: Joi.string().required(),
                 no_telp_mahasiswa: Joi.string().required(),
-                status_mahasiswa: Joi.string().required(),
+                status_mahasiswa: Joi.boolean().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
@@ -191,12 +191,6 @@ class _auth {
 
             //hash password
             const hash_password = bcrypt.hashSync(body.password_mahasiswa, 10);
-
-            if (body.status_mahasiswa == "0") {
-                body.status_mahasiswa = false;
-            } else {
-                body.status_mahasiswa = true;
-            }
 
             //insert data to database
             const insertData = await prisma.mahasiswa.create({
@@ -244,7 +238,7 @@ class _auth {
                 email: Joi.string().email().required(),
                 password: Joi.string().required(),
                 no_telp: Joi.string().required(),
-                role: Joi.string().required(),
+                role: Joi.boolean().required(),
                 status_account: Joi.string().required(),
             }).options({ abortEarly: false });
 
@@ -279,12 +273,6 @@ class _auth {
             //hash password
             const hash_password = bcrypt.hashSync(body.password, 10);
 
-            if (body.status_account == "0") {
-                body.status_account = false;
-            } else {
-                body.status_account = true;
-            }
-
             //insert data to database
 
             const insertData = await prisma.account.create({
@@ -313,6 +301,73 @@ class _auth {
                 fs.unlinkSync(`./public/${file.filename}`);
             }
             console.error("register auth module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    loginAdmin = async (body) => {
+        try {
+            const schema = Joi.object({
+                username_admin: Joi.string().required(),
+                password_admin: Joi.string().required(),
+            }).options({ abortEarly: false });
+
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const checkUsername = await prisma.admin.findFirst({
+                where: {
+                    username_admin: body.username_admin,
+                },
+            });
+
+            if (!checkUsername) {
+                return {
+                    status: false,
+                    error: "Username not registered",
+                };
+            }
+
+            const checkPassword = bcrypt.compareSync(
+                body.password_admin,
+                checkUsername.password_admin
+            );
+
+            if (!checkPassword) {
+                return {
+                    status: false,
+                    error: "Wrong password",
+                };
+            }
+
+            const payload = {
+                id_admin: checkUsername.id_admin,
+                username_admin: checkUsername.username_admin,
+            };
+
+            const token = jwt.sign(payload, "jwt-secret-code", {
+                expiresIn: "1d",
+            });
+
+            return {
+                status: true,
+                data: {
+                    message: "Login success, here's your token",
+                    token: token,
+                },
+            };
+        } catch (error) {
+            console.error("login auth module Error: ", error);
             return {
                 status: false,
                 error,

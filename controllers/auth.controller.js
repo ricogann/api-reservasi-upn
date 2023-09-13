@@ -38,4 +38,10 @@ authController.post("/login", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+authController.post("/login/admin", async (req, res) => {
+    const result = await m$auth.loginAdmin(req.body);
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = authController;

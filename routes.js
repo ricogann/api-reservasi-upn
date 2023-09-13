@@ -1,6 +1,16 @@
 const authController = require("./controllers/auth.controller");
+const seederController = require("./controllers/seeder.controller");
+const fasilitasController = require("./controllers/fasilitas.controller");
+const kamarController = require("./controllers/kamar.controller");
+const usersController = require("./controllers/users.controller");
 
-const _routes = [["auth", authController]];
+const _routes = [
+    ["auth", authController],
+    ["seeder", seederController],
+    ["fasilitas", fasilitasController],
+    ["kamar", kamarController],
+    ["users", usersController],
+];
 
 const routes = (app) => {
     _routes.forEach((route) => {

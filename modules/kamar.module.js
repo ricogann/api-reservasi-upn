@@ -1,0 +1,154 @@
+const Joi = require("joi");
+const prisma = require("../helpers/database");
+
+class _kamar {
+    addKamar = async (body) => {
+        try {
+            const schema = Joi.object({
+                no_kamar: Joi.number().required(),
+                lantai: Joi.number().required(),
+                status_kamar: Joi.boolean().required(),
+            }).options({ abortEarly: false });
+
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const lantai = await prisma.lantai_asrama.findFirst({
+                where: {
+                    lantai: body.lantai,
+                },
+            });
+
+            const kamar = await prisma.kamar_asrama.create({
+                data: {
+                    no_kamar: body.no_kamar,
+                    id_lantai: lantai.id_lantai,
+                    status_kamar: body.status_kamar,
+                },
+            });
+
+            if (kamar) {
+                return {
+                    status: true,
+                    code: 201,
+                    message: "Add Kamar success",
+                };
+            }
+        } catch (error) {
+            console.error("add kamar module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    getKamar = async () => {
+        try {
+            const kamar = await prisma.kamar_asrama.findMany({
+                include: {
+                    LantaiAsrama: true,
+                },
+            });
+
+            if (kamar) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Kamar success",
+                    data: kamar,
+                };
+            }
+        } catch (error) {
+            console.error("get kamar module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    updateKamar = async (id, body) => {
+        try {
+            const schema = Joi.object({
+                no_kamar: Joi.number().required(),
+                id_lantai: Joi.number().required(),
+                npm_bed1_a: Joi.string().allow(null),
+                npm_bed2_b: Joi.string().allow(null),
+                npm_bed3_3: Joi.string().allow(null),
+                status_kamar: Joi.boolean().required(),
+            }).options({ abortEarly: false });
+
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const kamar = await prisma.kamar_asrama.update({
+                where: {
+                    id_asrama: Number(id),
+                },
+                data: {
+                    no_kamar: body.no_kamar,
+                    id_lantai: Number(body.id_lantai),
+                    npm_bed1_a: body.npm_bed1_a,
+                    npm_bed2_b: body.npm_bed2_b,
+                    npm_bed3_3: body.npm_bed3_3,
+                    status_kamar: Boolean(body.status_kamar),
+                },
+            });
+
+            if (kamar) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Update Kamar success",
+                };
+            }
+        } catch (error) {
+            console.error("update kamar module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    deleteKamar = async (id) => {
+        try {
+            const kamar = await prisma.kamar_asrama.delete({
+                where: {
+                    id_asrama: Number(id),
+                },
+            });
+
+            if (kamar) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Delete Kamar success",
+                };
+            }
+        } catch (error) {
+            console.error("delete kamar module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+}
+
+module.exports = new _kamar();
