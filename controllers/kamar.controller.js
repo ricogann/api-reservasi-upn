@@ -18,6 +18,12 @@ kamarController.get("/", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+kamarController.get("/:id", async (req, res) => {
+    const result = await m$kamar.getKamarById(req.params.id);
+
+    return response.sendResponse(res, result);
+});
+
 kamarController.put("/update/:id", async (req, res) => {
     const result = await m$kamar.updateKamar(req.params.id, req.body);
 
