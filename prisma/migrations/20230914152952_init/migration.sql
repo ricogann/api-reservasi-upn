@@ -22,6 +22,7 @@ CREATE TABLE `Mahasiswa` (
     `id_prodi` INTEGER NOT NULL,
     `no_telp` VARCHAR(191) NOT NULL,
     `bukti_identitas` VARCHAR(191) NOT NULL,
+    `status` BOOLEAN NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -40,8 +41,10 @@ CREATE TABLE `Umum` (
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `bukti_identitas` VARCHAR(191) NOT NULL,
+    `status` BOOLEAN NOT NULL,
 
     UNIQUE INDEX `Umum_NIK_key`(`NIK`),
+    UNIQUE INDEX `Umum_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -55,9 +58,11 @@ CREATE TABLE `Dosen` (
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `bukti_identitas` VARCHAR(191) NOT NULL,
+    `status` BOOLEAN NOT NULL,
 
     UNIQUE INDEX `Dosen_id_account_key`(`id_account`),
     UNIQUE INDEX `Dosen_NIP_key`(`NIP`),
+    UNIQUE INDEX `Dosen_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

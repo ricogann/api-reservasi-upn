@@ -663,6 +663,7 @@ class _seeder {
                         id_prodi: 21,
                         no_telp: "089682285841",
                         bukti_identitas: "1694263931705-about-picture-2.jpeg",
+                        status: false,
                     },
                 ],
             });
@@ -677,6 +678,7 @@ class _seeder {
                         email: "rico.putra95@gmail.com",
                         password: await bcrypt.hash("12345678", 10),
                         bukti_identitas: "1694263931705-about-picture-2.jpeg",
+                        status: false,
                     },
                 ],
             });
@@ -691,6 +693,7 @@ class _seeder {
                         email: "rico.putra96@gmail.com",
                         password: await bcrypt.hash("12345678", 10),
                         bukti_identitas: "1694263931705-about-picture-2.jpeg",
+                        status: false,
                     },
                 ],
             });

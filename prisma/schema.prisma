@@ -37,6 +37,7 @@ model Mahasiswa {
   id_prodi                Int
   no_telp                 String
   bukti_identitas         String
+  status                  Boolean
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
 
@@ -52,9 +53,10 @@ model Umum {
   NIK                    String   @unique
   nama                   String
   no_telp                String
-  email                  String
+  email                  String   @unique
   password               String
   bukti_identitas        String
+  status                 Boolean
 
   Account                Account  @relation(fields: [id_account], references: [id_account])
 }
@@ -65,9 +67,10 @@ model Dosen {
   NIP                    String   @unique
   nama                   String
   no_telp                String
-  email                  String
+  email                  String   @unique
   password               String
   bukti_identitas        String
+  status                 Boolean
 
   Account                Account  @relation(fields: [id_account], references: [id_account])
 }

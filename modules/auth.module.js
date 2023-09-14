@@ -8,8 +8,8 @@ class _auth {
     loginMahasiswa = async (body) => {
         try {
             const schema = Joi.object({
-                npm_mahasiswa: Joi.string().required(),
-                password_mahasiswa: Joi.string().required(),
+                npm: Joi.string().required(),
+                password: Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
@@ -24,7 +24,15 @@ class _auth {
 
             const checkNpm = await prisma.mahasiswa.findUnique({
                 where: {
-                    npm_mahasiswa: body.npm_mahasiswa,
+                    npm: body.npm,
+                },
+                include: {
+                    Account: {
+                        select: {
+                            Role: true,
+                            status_account: true,
+                        },
+                    },
                 },
             });
 
@@ -36,8 +44,8 @@ class _auth {
             }
 
             const checkPassword = bcrypt.compareSync(
-                body.password_mahasiswa,
-                checkNpm.password_mahasiswa
+                body.password,
+                checkNpm.password
             );
 
             if (!checkPassword) {
@@ -48,13 +56,12 @@ class _auth {
             }
 
             const payload = {
-                id_mahasiswa: checkNpm.id_mahasiswa,
-                npm_mahasiswa: checkNpm.npm_mahasiswa,
-                nama_mahasiswa: checkNpm.nama_mahasiswa,
-                fakultas_mahasiswa: checkNpm.fakultas_mahasiswa,
-                jurusan_mahasiswa: checkNpm.jurusan_mahasiswa,
-                tahun_ajaran_mahasiswa: checkNpm.tahun_ajaran_mahasiswa,
-                no_telp_mahasiswa: checkNpm.no_telp_mahasiswa,
+                id_account: checkNpm.id_account,
+                npm: checkNpm.npm,
+                nama: checkNpm.nama,
+                no_telp: checkNpm.no_telp,
+                role: checkNpm.Account.Role.nama_role,
+                status: checkNpm.Account.status_account,
             };
 
             const token = jwt.sign(payload, "jwt-secret-code", {
@@ -94,9 +101,17 @@ class _auth {
                 return { status: false, error: errorDetails.join(", ") };
             }
 
-            const checkEmail = await prisma.account.findUnique({
+            const checkEmail = await prisma.umum.findUnique({
                 where: {
                     email: body.email,
+                },
+                include: {
+                    Account: {
+                        select: {
+                            Role: true,
+                            status_account: true,
+                        },
+                    },
                 },
             });
 
@@ -124,7 +139,87 @@ class _auth {
                 email: checkEmail.email,
                 nama: checkEmail.nama,
                 no_telp: checkEmail.no_telp,
-                role: checkEmail.role,
+                role: checkEmail.Account.Role.nama_role,
+                status: checkEmail.Account.status_account,
+            };
+
+            const token = jwt.sign(payload, "jwt-secret-code", {
+                expiresIn: "1d",
+            });
+
+            return {
+                status: true,
+                data: {
+                    message: "Login success, here's your token",
+                    token: token,
+                },
+            };
+        } catch (error) {
+            console.error("login auth module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    loginDosen = async (body) => {
+        try {
+            const schema = Joi.object({
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
+            }).options({ abortEarly: false });
+
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const checkEmail = await prisma.dosen.findUnique({
+                where: {
+                    email: body.email,
+                },
+                include: {
+                    Account: {
+                        select: {
+                            Role: true,
+                            status_account: true,
+                        },
+                    },
+                },
+            });
+
+            if (!checkEmail) {
+                return {
+                    status: false,
+                    error: "Email not registered",
+                };
+            }
+
+            const checkPassword = bcrypt.compareSync(
+                body.password,
+                checkEmail.password
+            );
+
+            if (!checkPassword) {
+                return {
+                    status: false,
+                    error: "Wrong password",
+                };
+            }
+
+            const payload = {
+                id_account: checkEmail.id_account,
+                email: checkEmail.email,
+                nama: checkEmail.nama,
+                no_telp: checkEmail.no_telp,
+                role: checkEmail.Account.Role.nama_role,
+                status: checkEmail.Account.status_account,
             };
 
             const token = jwt.sign(payload, "jwt-secret-code", {
@@ -149,16 +244,19 @@ class _auth {
 
     registerMahasiswa = async (body, file) => {
         try {
+            console.log(body, file);
             //check type and not null of the variable
             const schema = Joi.object({
-                nama_mahasiswa: Joi.string().required(),
-                npm_mahasiswa: Joi.string().required(),
-                password_mahasiswa: Joi.string().required(),
-                tahun_ajaran_mahasiswa: Joi.string().required(),
-                fakultas_mahasiswa: Joi.string().required(),
-                jurusan_mahasiswa: Joi.string().required(),
-                no_telp_mahasiswa: Joi.string().required(),
-                status_mahasiswa: Joi.boolean().required(),
+                id_account: Joi.string().required(),
+                nama: Joi.string().required(),
+                npm: Joi.string().required(),
+                email: Joi.string().required(),
+                password: Joi.string().required(),
+                id_tahun_ajaran: Joi.string().required(),
+                id_fakultas: Joi.string().required(),
+                id_prodi: Joi.string().required(),
+                no_telp: Joi.string().required(),
+                status: Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
@@ -172,12 +270,12 @@ class _auth {
                 return { status: false, error: errorDetails.join(", ") };
             }
 
-            const bukti_regis_mahasiswa = file ? file.filename : null;
+            const bukti_identitas = file ? file.filename : null;
 
             //check if npm already registered or not
             const checkNpm = await prisma.mahasiswa.findUnique({
                 where: {
-                    npm_mahasiswa: body.npm_mahasiswa,
+                    npm: body.npm,
                 },
             });
 
@@ -190,22 +288,22 @@ class _auth {
             }
 
             //hash password
-            const hash_password = bcrypt.hashSync(body.password_mahasiswa, 10);
+            const hash_password = bcrypt.hashSync(body.password, 10);
 
             //insert data to database
             const insertData = await prisma.mahasiswa.create({
                 data: {
-                    nama_mahasiswa: body.nama_mahasiswa,
-                    npm_mahasiswa: body.npm_mahasiswa,
-                    password_mahasiswa: hash_password,
-                    tahun_ajaran_mahasiswa: parseInt(
-                        body.tahun_ajaran_mahasiswa
-                    ),
-                    fakultas_mahasiswa: body.fakultas_mahasiswa,
-                    jurusan_mahasiswa: body.jurusan_mahasiswa,
-                    no_telp_mahasiswa: body.no_telp_mahasiswa,
-                    status_mahasiswa: body.status_mahasiswa,
-                    bukti_regis_mahasiswa: bukti_regis_mahasiswa,
+                    id_account: parseInt(body.id_account),
+                    nama: body.nama,
+                    npm: body.npm,
+                    email: body.email,
+                    password: hash_password,
+                    id_tahun_ajaran: Number(body.id_tahun_ajaran),
+                    id_fakultas: Number(body.id_fakultas),
+                    id_prodi: Number(body.id_prodi),
+                    no_telp: body.no_telp,
+                    status: Boolean(body.status),
+                    bukti_identitas: bukti_identitas,
                 },
             });
 
@@ -228,18 +326,17 @@ class _auth {
         }
     };
 
-    registerAccount = async (body, file) => {
+    registerUmum = async (body, file) => {
         try {
             //check type and not null of the variable
             const schema = Joi.object({
-                NIK: Joi.string(),
-                NIP: Joi.string(),
+                id_account: Joi.string().required(),
+                NIK: Joi.string().required(),
                 nama: Joi.string().required(),
                 email: Joi.string().email().required(),
                 password: Joi.string().required(),
                 no_telp: Joi.string().required(),
-                role: Joi.boolean().required(),
-                status_account: Joi.string().required(),
+                status: Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
@@ -253,10 +350,10 @@ class _auth {
                 return { status: false, error: errorDetails.join(", ") };
             }
 
-            const bukti_regis = file ? file.filename : null;
+            const bukti_identitas = file ? file.filename : null;
 
             //check if email already registered or not
-            const checkEmail = await prisma.account.findUnique({
+            const checkEmail = await prisma.umum.findUnique({
                 where: {
                     email: body.email,
                 },
@@ -275,17 +372,96 @@ class _auth {
 
             //insert data to database
 
-            const insertData = await prisma.account.create({
+            const insertData = await prisma.umum.create({
                 data: {
+                    id_account: Number(body.id_account),
                     NIK: body.NIK,
+                    nama: body.nama,
+                    email: body.email,
+                    password: hash_password,
+                    no_telp: body.no_telp,
+                    role: body.role,
+                    status: Boolean(body.status),
+                    bukti_identitas: bukti_identitas,
+                },
+            });
+
+            if (insertData) {
+                return {
+                    status: true,
+                    code: 201,
+                    message: "Register success",
+                };
+            }
+        } catch (error) {
+            if (file) {
+                fs.unlinkSync(`./public/${file.filename}`);
+            }
+            console.error("register auth module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    registerDosen = async (body, file) => {
+        try {
+            //check type and not null of the variable
+            const schema = Joi.object({
+                id_account: Joi.string().required(),
+                NIP: Joi.string().required(),
+                nama: Joi.string().required(),
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
+                no_telp: Joi.string().required(),
+                status: Joi.string().required(),
+            }).options({ abortEarly: false });
+
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                fs.unlinkSync(`./public/${file.filename}`);
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const bukti_identitas = file ? file.filename : null;
+
+            //check if email already registered or not
+            const checkEmail = await prisma.dosen.findUnique({
+                where: {
+                    email: body.email,
+                },
+            });
+
+            if (checkEmail) {
+                fs.unlinkSync(`./public/${file.filename}`);
+                return {
+                    status: false,
+                    error: "Email already registered",
+                };
+            }
+
+            //hash password
+            const hash_password = bcrypt.hashSync(body.password, 10);
+
+            //insert data to database
+
+            const insertData = await prisma.dosen.create({
+                data: {
+                    id_account: Number(body.id_account),
                     NIP: body.NIP,
                     nama: body.nama,
                     email: body.email,
                     password: hash_password,
                     no_telp: body.no_telp,
                     role: body.role,
-                    status_account: body.status_account,
-                    bukti_regis: bukti_regis,
+                    status: Boolean(body.status),
+                    bukti_identitas: bukti_identitas,
                 },
             });
 
