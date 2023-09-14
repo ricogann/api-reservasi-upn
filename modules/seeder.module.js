@@ -428,6 +428,10 @@ class _seeder {
             };
         }
     };
+
+    migrateSeederNew = async () => {
+
+    };
 }
 
 module.exports = new _seeder();

@@ -23,6 +23,7 @@ fasilitasController.get("/", async (req, res) => {
 });
 
 fasilitasController.get("/:id", async (req, res) => {
+    console.log(req.params.id);
     const result = await m$fasilitas.getFasilitasById(req.params.id);
 
     return response.sendResponse(res, result);
