@@ -8,9 +8,8 @@ class _booking {
             const schema = Joi.object({
                 id_fasilitas : Joi.number().required(),
                 id_harga : Joi.number().required(),
-                id_account : Joi.string().required(),
-                bukti_pembayaran : Joi.string().required(),
-                tanggal_pemesanan : Joi.string().required(),
+                id_account : Joi.number().required(),
+                tanggal_pemesanan : Joi.date().required(),
                 jam_checkin: Joi.string().required(),
                 jam_checkout : Joi.string().required(),
                 durasi : Joi.number().required(),
@@ -21,9 +20,7 @@ class _booking {
             const validation = schema.validate(body);
 
             if (validation.error) {
-                files.map((file) => {
-                    fs.unlinkSync(`./public/${file.filename}`);
-                });
+
 
                 const errorDetails = validation.error.details.map(
                     (detail) => detail.message
@@ -32,20 +29,18 @@ class _booking {
                 return { status: false, error: errorDetails.join(", ") };
             }
 
-            const bukti_pembayaran = files.map((file) => file.filename);
-
-            const Booking = await prisma.pemesanan.create({
+            const Booking = await prisma.Pemesanan.create({
                 data: {
-                    id_fasilitas: body.id_fasilitas,
+                    
                     id_harga: body.id_harga,
                     id_account: body.id_account,
-                    bukti_pembayaran: JSON.stringify(bukti_pembayaran),
                     tanggal_pemesanan: body.tanggal_pemesanan,
                     jam_checkin: body.jam_checkin,
                     jam_checkout: body.jam_checkout,
                     durasi: body.durasi,
                     total_harga: body.total_harga,
                     status: body.status,
+                    id_fasilitas: body.id_fasilitas,
                 },
             });
 
@@ -59,9 +54,7 @@ class _booking {
                 };
             }
         } catch (error) {
-            files.map((file) => {
-                fs.unlinkSync(`./public/${file.filename}`);
-            });
+           
             console.error("add fasilitas module Error: ", error);
             return {
                 status: false,

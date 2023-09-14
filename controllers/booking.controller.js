@@ -10,21 +10,21 @@ bookingController.post(
     "/add",
     upload.array("foto_booking", 7),
     async (req, res) => {
-        const result = await m$booking.addbooking(req.body, req.files);
+        const result = await m$booking.addBooking(req.body, req.files);
 
         return response.sendResponse(res, result);
     }
 );
 
 bookingController.get("/", async (req, res) => {
-    const result = await m$booking.getbooking();
+    const result = await m$booking.getBooking();
 
     return response.sendResponse(res, result);
 });
 
 bookingController.get("/:id", async (req, res) => {
     console.log(req.params.id);
-    const result = await m$booking.getbookingById(req.params.id);
+    const result = await m$booking.getBookingById(req.params.id);
 
     return response.sendResponse(res, result);
 });
@@ -33,7 +33,7 @@ bookingController.put(
     "/:id",
     upload.array("foto_booking", 3),
     async (req, res) => {
-        const result = await m$booking.updatebooking(
+        const result = await m$booking.updateBooking(
             req.params.id,
             req.body,
             req.files
@@ -44,7 +44,7 @@ bookingController.put(
 );
 
 bookingController.delete("/delete/:id", async (req, res) => {
-    const result = await m$booking.deletebooking(req.params.id);
+    const result = await m$booking.deleteBooking(req.params.id);
 
     return response.sendResponse(res, result);
 });
