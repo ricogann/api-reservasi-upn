@@ -244,7 +244,6 @@ class _auth {
 
     registerMahasiswa = async (body, file) => {
         try {
-            console.log(body, file);
             //check type and not null of the variable
             const schema = Joi.object({
                 id_account: Joi.string().required(),
@@ -287,13 +286,20 @@ class _auth {
                 };
             }
 
+            const account = await prisma.account.create({
+                data: {
+                    id_role: 2,
+                    status_account: true,
+                },
+            });
+
             //hash password
             const hash_password = bcrypt.hashSync(body.password, 10);
 
             //insert data to database
             const insertData = await prisma.mahasiswa.create({
                 data: {
-                    id_account: parseInt(body.id_account),
+                    id_account: account.id_account,
                     nama: body.nama,
                     npm: body.npm,
                     email: body.email,
