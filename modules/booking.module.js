@@ -2,18 +2,20 @@ const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
 
-class _fasilitas {
-    addFasilitas = async (body, files) => {
+class _booking {
+    addBooking = async (body, files) => {
         try {
             const schema = Joi.object({
-                nama : Joi.string().required(),
-                alamat : Joi.string().required(),
-                deskripsi : Joi.string().required(),
-                foto : Joi.string().required(),
-                buka_hari : Joi.string().required(),
-                jam_buka: Joi.string().required(),
-                jam_tutup : Joi.string().required(),
+                id_fasilitas : Joi.number().required(),
+                id_harga : Joi.number().required(),
+                id_account : Joi.string().required(),
+                bukti_pembayaran : Joi.string().required(),
+                tanggal_pemesanan : Joi.string().required(),
+                jam_checkin: Joi.string().required(),
+                jam_checkout : Joi.string().required(),
                 durasi : Joi.number().required(),
+                total_harga : Joi.number().required(),
+                status : Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
@@ -30,24 +32,26 @@ class _fasilitas {
                 return { status: false, error: errorDetails.join(", ") };
             }
 
-            const foto = files.map((file) => file.filename);
+            const bukti_pembayaran = files.map((file) => file.filename);
 
-            const fasilitas = await prisma.fasilitas.create({
+            const Booking = await prisma.pemesanan.create({
                 data: {
-                    nama: body.nama,
-                    alamat: body.alamat,
-                    deskripsi: body.deskripsi,
-                    foto: JSON.stringify(foto),
-                    buka_hari: body.buka_hari,
-                    jam_masuk: body.jam_masuk,
-                    jam_keluar: body.jam_keluar,
+                    id_fasilitas: body.id_fasilitas,
+                    id_harga: body.id_harga,
+                    id_account: body.id_account,
+                    bukti_pembayaran: JSON.stringify(bukti_pembayaran),
+                    tanggal_pemesanan: body.tanggal_pemesanan,
+                    jam_checkin: body.jam_checkin,
+                    jam_checkout: body.jam_checkout,
                     durasi: body.durasi,
+                    total_harga: body.total_harga,
+                    status: body.status,
                 },
             });
 
-            console.log(fasilitas);
+            console.log(Booking);
 
-            if (fasilitas) {
+            if (Booking) {
                 return {
                     status: true,
                     code: 201,
@@ -66,18 +70,17 @@ class _fasilitas {
         }
     };
 
-    getFasilitas = async () => {
+    getBooking = async () => {
         try {
-            const fasilitas = await prisma.fasilitas.findMany({
-
+            const Booking = await prisma.pemesanan.findMany({
             });
 
-            if (fasilitas) {
+            if (Booking) {
                 return {
                     status: true,
                     code: 200,
                     message: "Get Fasilitas success",
-                    data: fasilitas,
+                    data: Booking,
                 };
             }
         } catch (error) {
@@ -89,23 +92,20 @@ class _fasilitas {
         }
     };
 
-    getFasilitasById = async (id) => {
+    getBookingById = async (id) => {
         try {
-            const fasilitas = await prisma.fasilitas.findUnique({
+            const Booking = await prisma.pemesanan.findUnique({
                 where: {
-                    id_fasilitas: Number(id),
-                },
-                include: {
-                    jenis_fasilitas: true,
+                    id_pemesanan: Number(id),
                 },
             });
 
-            if (fasilitas) {
+            if (Booking) {
                 return {
                     status: true,
                     code: 200,
                     message: "Get Fasilitas success",
-                    data: fasilitas,
+                    data: Booking,
                 };
             }
         } catch (error) {
@@ -117,17 +117,17 @@ class _fasilitas {
         }
     };
 
-    updateFasilitas = async (body, files) => {};
+    updateBooking = async (body, files) => {};
 
-    deleteFasilitas = async (id) => {
+    deleteBooking = async (id) => {
         try {
-            const fasilitas = await prisma.fasilitas.delete({
+            const Booking = await prisma.pemesanan.delete({
                 where: {
-                    id_fasilitas: Number(id),
+                    id_pemesanan: Number(id),
                 },
             });
 
-            if (fasilitas) {
+            if (Booking) {
                 return {
                     status: true,
                     code: 200,
@@ -144,4 +144,4 @@ class _fasilitas {
     };
 }
 
-module.exports = new _fasilitas();
+module.exports = new _booking();
