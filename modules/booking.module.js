@@ -6,22 +6,20 @@ class _booking {
     addBooking = async (body, files) => {
         try {
             const schema = Joi.object({
-                id_fasilitas : Joi.number().required(),
-                id_harga : Joi.number().required(),
-                id_account : Joi.number().required(),
-                tanggal_pemesanan : Joi.date().required(),
+                id_fasilitas: Joi.number().required(),
+                id_harga: Joi.number().required(),
+                id_account: Joi.number().required(),
+                tanggal_pemesanan: Joi.date().required(),
                 jam_checkin: Joi.string().required(),
-                jam_checkout : Joi.string().required(),
-                durasi : Joi.number().required(),
-                total_harga : Joi.number().required(),
-                status : Joi.string().required(),
+                jam_checkout: Joi.string().required(),
+                durasi: Joi.number().required(),
+                total_harga: Joi.number().required(),
+                status: Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
 
             if (validation.error) {
-
-
                 const errorDetails = validation.error.details.map(
                     (detail) => detail.message
                 );
@@ -29,12 +27,11 @@ class _booking {
                 return { status: false, error: errorDetails.join(", ") };
             }
 
-            const Booking = await prisma.Pemesanan.create({
+            const Booking = await prisma.pemesanan.create({
                 data: {
-                    
                     id_harga: body.id_harga,
                     id_account: body.id_account,
-                    tanggal_pemesanan: body.tanggal_pemesanan,
+                    tanggal_pemesanan: new Date(body.tanggal_pemesanan),
                     jam_checkin: body.jam_checkin,
                     jam_checkout: body.jam_checkout,
                     durasi: body.durasi,
@@ -54,7 +51,6 @@ class _booking {
                 };
             }
         } catch (error) {
-           
             console.error("add fasilitas module Error: ", error);
             return {
                 status: false,
@@ -65,8 +61,7 @@ class _booking {
 
     getBooking = async () => {
         try {
-            const Booking = await prisma.pemesanan.findMany({
-            });
+            const Booking = await prisma.pemesanan.findMany({});
 
             if (Booking) {
                 return {
