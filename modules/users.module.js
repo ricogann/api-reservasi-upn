@@ -183,6 +183,30 @@ class _users {
             };
         }
     };
+
+    deleteMahasiswa = async (id) => {
+        try {
+            const account = await prisma.mahasiswa.delete({
+                where: {
+                    id_mahasiswa: parseInt(id),
+                },
+            });
+
+            if (account) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Delete Account success",
+                };
+            }
+        } catch (error) {
+            console.error("delete account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
 }
 
 module.exports = new _users();

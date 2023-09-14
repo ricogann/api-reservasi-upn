@@ -47,4 +47,10 @@ usersController.delete("/account/delete/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+usersController.delete("/mahasiswa/delete/:id", async (req, res) => {
+    const result = await m$users.deleteMahasiswa(req.params.id);
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = usersController;

@@ -26,6 +26,21 @@ class _kamar {
                 },
             });
 
+            // Check if no_kamar already exists in the database
+            const existingKamar = await prisma.kamar_asrama.findFirst({
+                where: {
+                    no_kamar: body.no_kamar,
+                },
+            });  
+
+            if (existingKamar) {
+                return {
+                  status: false,
+                  code: 400, // You can choose an appropriate HTTP status code
+                  message: "Kamar with this no_kamar already exists",
+                };
+              }
+
             const kamar = await prisma.kamar_asrama.create({
                 data: {
                     no_kamar: body.no_kamar,
@@ -63,6 +78,31 @@ class _kamar {
                     status: true,
                     code: 200,
                     message: "Get Kamar success",
+                    data: kamar,
+                };
+            }
+        } catch (error) {
+            console.error("get kamar module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    getKamarById = async (id) => {
+        try {
+            const kamar = await prisma.kamar_asrama.findUnique({
+                where: {
+                    id_asrama: Number(id),
+                },
+            });
+
+            if (kamar) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get kamar success",
                     data: kamar,
                 };
             }
