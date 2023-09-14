@@ -27,7 +27,7 @@ model Account {
 
 model Mahasiswa {
   id                      Int      @id @default(autoincrement())
-  id_account             Int
+  id_account              Int
   nama                    String
   npm                     String   @unique
   email                   String   @unique
@@ -44,7 +44,6 @@ model Mahasiswa {
   tahun_ajaran            tahun_ajaran @relation(fields: [id_tahun_ajaran], references: [id_tahun_ajaran])
   Fakultas                Fakultas @relation(fields: [id_fakultas], references: [id_fakultas])
   Account                 Account  @relation(fields: [id_account], references: [id_account])
-
 }
 
 model Umum {

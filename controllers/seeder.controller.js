@@ -6,7 +6,7 @@ const { Router } = require("express");
 const seederController = Router();
 
 seederController.get("/", async (req, res) => {
-    const result = await m$seeder.migrateSeeder();
+    const result = await m$seeder.migrateSeederNew();
 
     return response.sendResponse(res, result);
 });
