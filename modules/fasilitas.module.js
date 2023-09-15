@@ -6,14 +6,13 @@ class _fasilitas {
     addFasilitas = async (body, files) => {
         try {
             const schema = Joi.object({
-                nama : Joi.string().required(),
-                alamat : Joi.string().required(),
-                deskripsi : Joi.string().required(),
-                foto : Joi.string().required(),
-                buka_hari : Joi.string().required(),
+                nama: Joi.string().required(),
+                alamat: Joi.string().required(),
+                deskripsi: Joi.string().required(),
+                buka_hari: Joi.string().required(),
                 jam_buka: Joi.string().required(),
-                jam_tutup : Joi.string().required(),
-                durasi : Joi.number().required(),
+                jam_tutup: Joi.string().required(),
+                durasi: Joi.number().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
@@ -39,9 +38,9 @@ class _fasilitas {
                     deskripsi: body.deskripsi,
                     foto: JSON.stringify(foto),
                     buka_hari: body.buka_hari,
-                    jam_masuk: body.jam_masuk,
-                    jam_keluar: body.jam_keluar,
-                    durasi: body.durasi,
+                    jam_buka: body.jam_buka,
+                    jam_tutup: body.jam_tutup,
+                    durasi: Number(body.durasi),
                 },
             });
 
@@ -68,9 +67,7 @@ class _fasilitas {
 
     getFasilitas = async () => {
         try {
-            const fasilitas = await prisma.fasilitas.findMany({
-
-            });
+            const fasilitas = await prisma.fasilitas.findMany({});
 
             if (fasilitas) {
                 return {
@@ -94,9 +91,6 @@ class _fasilitas {
             const fasilitas = await prisma.fasilitas.findUnique({
                 where: {
                     id_fasilitas: Number(id),
-                },
-                include: {
-                    jenis_fasilitas: true,
                 },
             });
 

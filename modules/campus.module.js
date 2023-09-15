@@ -52,6 +52,32 @@ class _campus {
             };
         }
     };
+
+    getTahunAjaran = async () => {
+        try {
+            const TahunAjaran = await prisma.tahun_ajaran.findMany({
+                select: {
+                    id_tahun_ajaran: true,
+                    tahun_ajaran: true,
+                },
+            });
+
+            if (TahunAjaran) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Tahun Ajaran success",
+                    data: TahunAjaran,
+                };
+            }
+        } catch (error) {
+            console.error("get tahun ajaran module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
 }
 
 module.exports = new _campus();

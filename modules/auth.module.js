@@ -246,7 +246,6 @@ class _auth {
         try {
             //check type and not null of the variable
             const schema = Joi.object({
-                id_account: Joi.string().required(),
                 nama: Joi.string().required(),
                 npm: Joi.string().required(),
                 email: Joi.string().required(),
@@ -336,7 +335,6 @@ class _auth {
         try {
             //check type and not null of the variable
             const schema = Joi.object({
-                id_account: Joi.string().required(),
                 NIK: Joi.string().required(),
                 nama: Joi.string().required(),
                 email: Joi.string().email().required(),
@@ -373,6 +371,13 @@ class _auth {
                 };
             }
 
+            const account = await prisma.account.create({
+                data: {
+                    id_role: 3,
+                    status_account: true,
+                },
+            });
+
             //hash password
             const hash_password = bcrypt.hashSync(body.password, 10);
 
@@ -380,13 +385,12 @@ class _auth {
 
             const insertData = await prisma.umum.create({
                 data: {
-                    id_account: Number(body.id_account),
+                    id_account: account.id_account,
                     NIK: body.NIK,
                     nama: body.nama,
                     email: body.email,
                     password: hash_password,
                     no_telp: body.no_telp,
-                    role: body.role,
                     status: Boolean(body.status),
                     bukti_identitas: bukti_identitas,
                 },
@@ -415,7 +419,6 @@ class _auth {
         try {
             //check type and not null of the variable
             const schema = Joi.object({
-                id_account: Joi.string().required(),
                 NIP: Joi.string().required(),
                 nama: Joi.string().required(),
                 email: Joi.string().email().required(),
@@ -455,11 +458,18 @@ class _auth {
             //hash password
             const hash_password = bcrypt.hashSync(body.password, 10);
 
+            const account = await prisma.account.create({
+                data: {
+                    id_role: 1,
+                    status_account: true,
+                },
+            });
+
             //insert data to database
 
             const insertData = await prisma.dosen.create({
                 data: {
-                    id_account: Number(body.id_account),
+                    id_account: account.id_account,
                     NIP: body.NIP,
                     nama: body.nama,
                     email: body.email,

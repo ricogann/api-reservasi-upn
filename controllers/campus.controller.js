@@ -17,4 +17,10 @@ campusController.get("/prodi", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+campusController.get("/tahun-ajaran", async (req, res) => {
+    const result = await m$campus.getTahunAjaran();
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = campusController;
