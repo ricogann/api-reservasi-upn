@@ -88,18 +88,18 @@ class _harga {
 
     gethargaById = async (id) => {
         try {
-            const Harga = await prisma.harga.findUnique({
+            const Harga = await prisma.harga.findMany({
                 where: {
-                    id_harga: Number(id),
+                    id_fasilitas: Number(id),
                 },
             });
 
-            if (harga) {
+            if (Harga) {
                 return {
                     status: true,
                     code: 200,
                     message: "Get Harga success",
-                    data: harga,
+                    data: Harga,
                 };
             }
         } catch (error) {

@@ -288,7 +288,7 @@ class _auth {
             const account = await prisma.account.create({
                 data: {
                     id_role: 2,
-                    status_account: true,
+                    status_account: false,
                 },
             });
 
@@ -307,7 +307,7 @@ class _auth {
                     id_fakultas: Number(body.id_fakultas),
                     id_prodi: Number(body.id_prodi),
                     no_telp: body.no_telp,
-                    status: Boolean(body.status),
+                    status: false,
                     bukti_identitas: bukti_identitas,
                 },
             });
@@ -374,7 +374,7 @@ class _auth {
             const account = await prisma.account.create({
                 data: {
                     id_role: 3,
-                    status_account: true,
+                    status_account: false,
                 },
             });
 
@@ -461,7 +461,7 @@ class _auth {
             const account = await prisma.account.create({
                 data: {
                     id_role: 1,
-                    status_account: true,
+                    status_account: false,
                 },
             });
 

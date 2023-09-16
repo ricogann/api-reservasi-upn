@@ -20,24 +20,20 @@ hargaController.get("/", async (req, res) => {
 
 hargaController.get("/:id", async (req, res) => {
     console.log(req.params.id);
-    const result = await m$harga.getHargaById(req.params.id);
+    const result = await m$harga.gethargaById(req.params.id);
 
     return response.sendResponse(res, result);
 });
 
-hargaController.put(
-    "/:id",
-    upload.array("foto_harga", 3),
-    async (req, res) => {
-        const result = await m$harga.updateHarga(
-            req.params.id,
-            req.body,
-            req.files
-        );
+hargaController.put("/:id", upload.array("foto_harga", 3), async (req, res) => {
+    const result = await m$harga.updateHarga(
+        req.params.id,
+        req.body,
+        req.files
+    );
 
-        return response.sendResponse(res, result);
-    }
-);
+    return response.sendResponse(res, result);
+});
 
 hargaController.delete("/delete/:id", async (req, res) => {
     const result = await m$harga.deleteHarga(req.params.id);
