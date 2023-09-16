@@ -11,6 +11,12 @@ usersController.get("/account", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+usersController.get("/umum", async (req, res) => {
+    const result = await m$users.getUmum();
+
+    return response.sendResponse(res, result);
+});
+
 usersController.get("/mahasiswa", async (req, res) => {
     const result = await m$users.getMahasiswa();
 
