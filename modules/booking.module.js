@@ -41,13 +41,12 @@ class _booking {
                 },
             });
 
-            console.log(Booking);
-
             if (Booking) {
                 return {
                     status: true,
                     code: 201,
                     message: "Add Fasilitas success",
+                    data: Booking,
                 };
             }
         } catch (error) {
@@ -86,13 +85,44 @@ class _booking {
                 where: {
                     id_pemesanan: Number(id),
                 },
+                include: {
+                    Account: {
+                        include: {
+                            Mahasiswa: {
+                                select: {
+                                    nama: true,
+                                },
+                            },
+                            Dosen: {
+                                select: {
+                                    nama: true,
+                                },
+                            },
+                            Umum: {
+                                select: {
+                                    nama: true,
+                                },
+                            },
+                        },
+                    },
+                    Harga: {
+                        select: {
+                            harga: true,
+                        },
+                    },
+                    Fasilitas: {
+                        select: {
+                            nama: true,
+                        },
+                    },
+                },
             });
 
             if (Booking) {
                 return {
                     status: true,
                     code: 200,
-                    message: "Get Fasilitas success",
+                    message: "Get Pemesanan success",
                     data: Booking,
                 };
             }
@@ -124,6 +154,66 @@ class _booking {
             }
         } catch (error) {
             console.error("delete fasilitas module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    uploadBukti = async (id, file) => {
+        try {
+            const Booking = await prisma.pemesanan.update({
+                where: {
+                    id_pemesanan: Number(id),
+                },
+                data: {
+                    bukti_pembayaran: file.filename,
+                    status: "Menunggu Konfirmasi",
+                },
+            });
+
+            if (Booking) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Upload Bukti Pembayaran success",
+                };
+            }
+        } catch (error) {
+            console.error("upload bukti pembayaran module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    getBookingByIdUser = async (id) => {
+        try {
+            const Booking = await prisma.pemesanan.findMany({
+                where: {
+                    id_account: Number(id),
+                },
+                include: {
+                    Fasilitas: {
+                        select: {
+                            nama: true,
+                        },
+                    },
+                },
+            });
+
+            if (Booking) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Pemesanan success",
+                    data: Booking,
+                };
+            }
+        } catch (error) {
+            console.error("get fasilitas module Error: ", error);
             return {
                 status: false,
                 error,
