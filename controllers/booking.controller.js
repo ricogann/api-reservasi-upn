@@ -23,7 +23,6 @@ bookingController.get("/", async (req, res) => {
 });
 
 bookingController.get("/:id", async (req, res) => {
-    console.log(req.params.id);
     const result = await m$booking.getBookingById(req.params.id);
 
     return response.sendResponse(res, result);
@@ -45,6 +44,23 @@ bookingController.put(
 
 bookingController.delete("/delete/:id", async (req, res) => {
     const result = await m$booking.deleteBooking(req.params.id);
+
+    return response.sendResponse(res, result);
+});
+
+bookingController.put(
+    "/upload-bukti/:id",
+    upload.single("bukti_pembayaran"),
+    async (req, res) => {
+        console.log(req.file);
+        const result = await m$booking.uploadBukti(req.params.id, req.file);
+
+        return response.sendResponse(res, result);
+    }
+);
+
+bookingController.get("/user/:id", async (req, res) => {
+    const result = await m$booking.getBookingByIdUser(req.params.id);
 
     return response.sendResponse(res, result);
 });
