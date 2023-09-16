@@ -31,10 +31,8 @@ class _users {
 
     getDosen = async () => {
         try {
-            const dosen = await prisma.account.findMany({
-                where: {
-                    id_role: 1,
-                },
+            const dosen = await prisma.dosen.findMany({
+
             });
 
             if (dosen) {
@@ -57,11 +55,6 @@ class _users {
     getMahasiswa = async () => {
         try {
             const mahasiswa = await prisma.mahasiswa.findMany({
-                include: {
-                    Prodi: true,
-                    tahun_ajaran_mahasiswa: true,
-                    Fakultas: true,
-                },
             });
 
             if (mahasiswa) {
@@ -74,6 +67,29 @@ class _users {
             }
         } catch (error) {
             console.error("get mahasiswa module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    getUmum = async () => {
+        try {
+            const umum = await prisma.umum.findMany({
+
+            });
+
+            if (umum) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get umum success",
+                    data: umum,
+                };
+            }
+        } catch (error) {
+            console.error("get umum module Error: ", error);
             return {
                 status: false,
                 error,
