@@ -5,6 +5,7 @@ const kamarController = require("./controllers/kamar.controller");
 const usersController = require("./controllers/users.controller");
 const bookingController = require("./controllers/booking.controller");
 const campusController = require("./controllers/campus.controller");
+const hargaController = require("./controllers/harga.controller");
 
 const _routes = [
     ["auth", authController],
@@ -14,6 +15,7 @@ const _routes = [
     ["users", usersController],
     ["booking", bookingController],
     ["campus", campusController],
+    ["harga", hargaController],
 ];
 
 const routes = (app) => {

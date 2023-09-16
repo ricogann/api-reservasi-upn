@@ -4,9 +4,6 @@ class _users {
     getAccount = async () => {
         try {
             const account = await prisma.account.findMany({
-                where: {
-                    id_role: 3,
-                },
                 include: {
                     Role: true,
                 },
@@ -156,7 +153,7 @@ class _users {
                     id_mahasiswa: parseInt(id),
                 },
                 data: {
-                    status_mahasiswa: body.status_mahasiswa,
+                    status: body.status,
                 },
             });
 
