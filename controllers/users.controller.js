@@ -59,4 +59,10 @@ usersController.delete("/mahasiswa/delete/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+usersController.put("/account/verifikasi/:id", async (req, res) => {
+    const result = await m$users.updateStatusAccount(req.params.id, req.body);
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = usersController;

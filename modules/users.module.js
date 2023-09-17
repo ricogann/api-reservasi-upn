@@ -29,6 +29,62 @@ class _users {
         }
     };
 
+    updateStatusAccount = async (id, body) => {
+        try {
+            const account = await prisma.account.update({
+                where: {
+                    id: parseInt(id),
+                },
+                data: {
+                    status_account: body.status_account,
+                },
+            });
+
+            if (account) {
+                if (account.id_role == 1) {
+                    const dosen = await prisma.dosen.update({
+                        where: {
+                            id: parseInt(body.id),
+                        },
+                        data: {
+                            status: body.status_account,
+                        },
+                    });
+                } else if (account.id_role == 2) {
+                    const mahasiswa = await prisma.mahasiswa.update({
+                        where: {
+                            id: parseInt(body.id),
+                        },
+                        data: {
+                            status: body.status_account,
+                        },
+                    });
+                } else if (account.id_role == 3) {
+                    const umum = await prisma.umum.update({
+                        where: {
+                            id: parseInt(body.id),
+                        },
+                        data: {
+                            status: body.status_account,
+                        },
+                    });
+                }
+
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Update status_account success",
+                };
+            }
+        } catch (error) {
+            console.error("update account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
     getDosen = async () => {
         try {
             const dosen = await prisma.dosen.findMany({});
