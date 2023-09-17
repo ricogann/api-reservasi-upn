@@ -273,14 +273,14 @@ class _booking {
         }
     };
 
-    updateStatus = async (id, status) => {
+    updateStatus = async (id, body) => {
         try {
             const Booking = await prisma.pemesanan.update({
                 where: {
                     id_pemesanan: Number(id),
                 },
                 data: {
-                    status: status,
+                    status: body.status,
                 },
             });
 
