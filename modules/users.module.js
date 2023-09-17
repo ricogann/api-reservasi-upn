@@ -33,7 +33,7 @@ class _users {
         try {
             const account = await prisma.account.update({
                 where: {
-                    id: parseInt(id),
+                    id_account: parseInt(id),
                 },
                 data: {
                     status_account: body.status_account,
