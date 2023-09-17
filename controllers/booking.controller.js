@@ -65,4 +65,10 @@ bookingController.get("/user/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+bookingController.get("/fasilitas/:id", async (req, res) => {
+    const result = await m$booking.getBookingByIdFasilitas(req.params.id);
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = bookingController;

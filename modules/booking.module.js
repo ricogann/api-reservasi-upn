@@ -135,6 +135,31 @@ class _booking {
         }
     };
 
+    getBookingByIdFasilitas = async (id) => {
+        try {
+            const Booking = await prisma.pemesanan.findMany({
+                where: {
+                    id_fasilitas: Number(id),
+                },
+            });
+
+            if (Booking) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Pemesanan success",
+                    data: Booking,
+                };
+            }
+        } catch (error) {
+            console.error("get fasilitas module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
     updateBooking = async (body, files) => {};
 
     deleteBooking = async (id) => {
