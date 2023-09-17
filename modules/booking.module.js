@@ -60,7 +60,34 @@ class _booking {
 
     getBooking = async () => {
         try {
-            const Booking = await prisma.pemesanan.findMany({});
+            const Booking = await prisma.pemesanan.findMany({
+                include: {
+                    Account: {
+                        include: {
+                            Mahasiswa: {
+                                select: {
+                                    nama: true,
+                                },
+                            },
+                            Dosen: {
+                                select: {
+                                    nama: true,
+                                },
+                            },
+                            Umum: {
+                                select: {
+                                    nama: true,
+                                },
+                            },
+                        },
+                    },
+                    Fasilitas: {
+                        select: {
+                            nama: true,
+                        },
+                    },
+                },
+            });
 
             if (Booking) {
                 return {
