@@ -6,6 +6,9 @@ class _users {
             const account = await prisma.account.findMany({
                 include: {
                     Role: true,
+                    Mahasiswa: true,
+                    Dosen: true,
+                    Umum: true,
                 },
             });
 
@@ -28,9 +31,7 @@ class _users {
 
     getDosen = async () => {
         try {
-            const dosen = await prisma.dosen.findMany({
-
-            });
+            const dosen = await prisma.dosen.findMany({});
 
             if (dosen) {
                 return {
@@ -51,8 +52,7 @@ class _users {
 
     getMahasiswa = async () => {
         try {
-            const mahasiswa = await prisma.mahasiswa.findMany({
-            });
+            const mahasiswa = await prisma.mahasiswa.findMany({});
 
             if (mahasiswa) {
                 return {
@@ -73,9 +73,7 @@ class _users {
 
     getUmum = async () => {
         try {
-            const umum = await prisma.umum.findMany({
-
-            });
+            const umum = await prisma.umum.findMany({});
 
             if (umum) {
                 return {
