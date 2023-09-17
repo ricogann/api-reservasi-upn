@@ -71,4 +71,10 @@ bookingController.get("/fasilitas/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+bookingController.put("/verifikasi/:id", async (req, res) => {
+    const result = await m$booking.updateStatus(req.params.id, req.body);
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = bookingController;

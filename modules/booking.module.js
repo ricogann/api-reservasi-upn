@@ -272,6 +272,33 @@ class _booking {
             };
         }
     };
+
+    updateStatus = async (id, status) => {
+        try {
+            const Booking = await prisma.pemesanan.update({
+                where: {
+                    id_pemesanan: Number(id),
+                },
+                data: {
+                    status: status,
+                },
+            });
+
+            if (Booking) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Update Status success",
+                };
+            }
+        } catch (error) {
+            console.error("update status module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
 }
 
 module.exports = new _booking();
