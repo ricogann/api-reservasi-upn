@@ -47,8 +47,14 @@ usersController.put("/mahasiswa/updateStatus/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
-usersController.delete("/account/delete/:id", async (req, res) => {
-    const result = await m$users.deleteAccount(req.params.id);
+usersController.delete("/umum/delete/:id", async (req, res) => {
+    const result = await m$users.deleteUmum(req.params.id);
+
+    return response.sendResponse(res, result);
+});
+
+usersController.delete("/dosen/delete/:id", async (req, res) => {
+    const result = await m$users.deleteDosen(req.params.id);
 
     return response.sendResponse(res, result);
 });

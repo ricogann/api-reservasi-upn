@@ -227,9 +227,33 @@ class _users {
         }
     };
 
-    deleteAccount = async (id) => {
+    deleteDosen = async (id) => {
         try {
-            const account = await prisma.account.delete({
+            const account = await prisma.dosen.delete({
+                where: {
+                    id: parseInt(id),
+                },
+            });
+
+            if (account) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Delete Account success",
+                };
+            }
+        } catch (error) {
+            console.error("delete account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    deleteUmum = async (id) => {
+        try {
+            const umum = await prisma.umum.delete({
                 where: {
                     id: parseInt(id),
                 },
@@ -255,7 +279,7 @@ class _users {
         try {
             const account = await prisma.mahasiswa.delete({
                 where: {
-                    id_mahasiswa: parseInt(id),
+                    id: parseInt(id),
                 },
             });
 
