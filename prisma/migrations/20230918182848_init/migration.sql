@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `Account` (
+CREATE TABLE `account` (
     `id_account` INTEGER NOT NULL AUTO_INCREMENT,
     `id_role` INTEGER NOT NULL,
     `status_account` BOOLEAN NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE `Account` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Mahasiswa` (
+CREATE TABLE `mahasiswa` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `id_account` INTEGER NOT NULL,
     `nama` VARCHAR(191) NOT NULL,
@@ -26,13 +26,13 @@ CREATE TABLE `Mahasiswa` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `Mahasiswa_npm_key`(`npm`),
-    UNIQUE INDEX `Mahasiswa_email_key`(`email`),
+    UNIQUE INDEX `mahasiswa_npm_key`(`npm`),
+    UNIQUE INDEX `mahasiswa_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Umum` (
+CREATE TABLE `umum` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `id_account` INTEGER NOT NULL,
     `NIK` VARCHAR(191) NOT NULL,
@@ -43,13 +43,13 @@ CREATE TABLE `Umum` (
     `bukti_identitas` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL,
 
-    UNIQUE INDEX `Umum_NIK_key`(`NIK`),
-    UNIQUE INDEX `Umum_email_key`(`email`),
+    UNIQUE INDEX `umum_NIK_key`(`NIK`),
+    UNIQUE INDEX `umum_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Dosen` (
+CREATE TABLE `dosen` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `id_account` INTEGER NOT NULL,
     `NIP` VARCHAR(191) NOT NULL,
@@ -60,14 +60,14 @@ CREATE TABLE `Dosen` (
     `bukti_identitas` VARCHAR(191) NOT NULL,
     `status` BOOLEAN NOT NULL,
 
-    UNIQUE INDEX `Dosen_id_account_key`(`id_account`),
-    UNIQUE INDEX `Dosen_NIP_key`(`NIP`),
-    UNIQUE INDEX `Dosen_email_key`(`email`),
+    UNIQUE INDEX `dosen_id_account_key`(`id_account`),
+    UNIQUE INDEX `dosen_NIP_key`(`NIP`),
+    UNIQUE INDEX `dosen_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Fakultas` (
+CREATE TABLE `fakultas` (
     `id_fakultas` INTEGER NOT NULL AUTO_INCREMENT,
     `nama_fakultas` VARCHAR(191) NOT NULL,
 
@@ -75,7 +75,7 @@ CREATE TABLE `Fakultas` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Prodi` (
+CREATE TABLE `prodi` (
     `id_prodi` INTEGER NOT NULL AUTO_INCREMENT,
     `nama_prodi` VARCHAR(191) NOT NULL,
     `id_fakultas` INTEGER NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE `tahun_ajaran` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Role` (
+CREATE TABLE `role` (
     `id_role` INTEGER NOT NULL AUTO_INCREMENT,
     `nama_role` VARCHAR(191) NOT NULL,
 
@@ -100,7 +100,7 @@ CREATE TABLE `Role` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Admin` (
+CREATE TABLE `admin` (
     `id_admin` INTEGER NOT NULL AUTO_INCREMENT,
     `username_admin` VARCHAR(191) NOT NULL,
     `password_admin` VARCHAR(191) NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE `Admin` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Fasilitas` (
+CREATE TABLE `fasilitas` (
     `id_fasilitas` INTEGER NOT NULL AUTO_INCREMENT,
     `nama` VARCHAR(191) NOT NULL,
     `alamat` VARCHAR(191) NOT NULL,
@@ -119,12 +119,13 @@ CREATE TABLE `Fasilitas` (
     `jam_tutup` VARCHAR(191) NOT NULL,
     `buka_hari` VARCHAR(191) NOT NULL,
     `durasi` INTEGER NOT NULL,
+    `no_va` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id_fasilitas`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Harga` (
+CREATE TABLE `harga` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `id_fasilitas` INTEGER NOT NULL,
     `nama` VARCHAR(191) NOT NULL,
@@ -147,7 +148,7 @@ CREATE TABLE `kamar_asrama` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Pemesanan` (
+CREATE TABLE `pemesanan` (
     `id_pemesanan` INTEGER NOT NULL AUTO_INCREMENT,
     `id_fasilitas` INTEGER NOT NULL,
     `id_harga` INTEGER NOT NULL,
@@ -158,6 +159,8 @@ CREATE TABLE `Pemesanan` (
     `durasi` INTEGER NULL,
     `total_harga` INTEGER NOT NULL,
     `status` VARCHAR(191) NOT NULL,
+    `keterangan` VARCHAR(191) NOT NULL,
+    `SIK` VARCHAR(191) NULL,
     `bukti_pembayaran` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -166,40 +169,40 @@ CREATE TABLE `Pemesanan` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Account` ADD CONSTRAINT `Account_id_role_fkey` FOREIGN KEY (`id_role`) REFERENCES `Role`(`id_role`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `account` ADD CONSTRAINT `account_id_role_fkey` FOREIGN KEY (`id_role`) REFERENCES `role`(`id_role`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Mahasiswa` ADD CONSTRAINT `Mahasiswa_id_prodi_fkey` FOREIGN KEY (`id_prodi`) REFERENCES `Prodi`(`id_prodi`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `mahasiswa` ADD CONSTRAINT `mahasiswa_id_prodi_fkey` FOREIGN KEY (`id_prodi`) REFERENCES `prodi`(`id_prodi`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Mahasiswa` ADD CONSTRAINT `Mahasiswa_id_tahun_ajaran_fkey` FOREIGN KEY (`id_tahun_ajaran`) REFERENCES `tahun_ajaran`(`id_tahun_ajaran`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `mahasiswa` ADD CONSTRAINT `mahasiswa_id_tahun_ajaran_fkey` FOREIGN KEY (`id_tahun_ajaran`) REFERENCES `tahun_ajaran`(`id_tahun_ajaran`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Mahasiswa` ADD CONSTRAINT `Mahasiswa_id_fakultas_fkey` FOREIGN KEY (`id_fakultas`) REFERENCES `Fakultas`(`id_fakultas`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `mahasiswa` ADD CONSTRAINT `mahasiswa_id_fakultas_fkey` FOREIGN KEY (`id_fakultas`) REFERENCES `fakultas`(`id_fakultas`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Mahasiswa` ADD CONSTRAINT `Mahasiswa_id_account_fkey` FOREIGN KEY (`id_account`) REFERENCES `Account`(`id_account`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `mahasiswa` ADD CONSTRAINT `mahasiswa_id_account_fkey` FOREIGN KEY (`id_account`) REFERENCES `account`(`id_account`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Umum` ADD CONSTRAINT `Umum_id_account_fkey` FOREIGN KEY (`id_account`) REFERENCES `Account`(`id_account`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `umum` ADD CONSTRAINT `umum_id_account_fkey` FOREIGN KEY (`id_account`) REFERENCES `account`(`id_account`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Dosen` ADD CONSTRAINT `Dosen_id_account_fkey` FOREIGN KEY (`id_account`) REFERENCES `Account`(`id_account`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `dosen` ADD CONSTRAINT `dosen_id_account_fkey` FOREIGN KEY (`id_account`) REFERENCES `account`(`id_account`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Prodi` ADD CONSTRAINT `Prodi_id_fakultas_fkey` FOREIGN KEY (`id_fakultas`) REFERENCES `Fakultas`(`id_fakultas`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `prodi` ADD CONSTRAINT `prodi_id_fakultas_fkey` FOREIGN KEY (`id_fakultas`) REFERENCES `fakultas`(`id_fakultas`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Harga` ADD CONSTRAINT `Harga_id_fasilitas_fkey` FOREIGN KEY (`id_fasilitas`) REFERENCES `Fasilitas`(`id_fasilitas`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `harga` ADD CONSTRAINT `harga_id_fasilitas_fkey` FOREIGN KEY (`id_fasilitas`) REFERENCES `fasilitas`(`id_fasilitas`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `kamar_asrama` ADD CONSTRAINT `kamar_asrama_id_fkey` FOREIGN KEY (`id`) REFERENCES `Harga`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `kamar_asrama` ADD CONSTRAINT `kamar_asrama_id_fkey` FOREIGN KEY (`id`) REFERENCES `harga`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Pemesanan` ADD CONSTRAINT `Pemesanan_id_account_fkey` FOREIGN KEY (`id_account`) REFERENCES `Account`(`id_account`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `pemesanan` ADD CONSTRAINT `pemesanan_id_account_fkey` FOREIGN KEY (`id_account`) REFERENCES `account`(`id_account`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Pemesanan` ADD CONSTRAINT `Pemesanan_id_fasilitas_fkey` FOREIGN KEY (`id_fasilitas`) REFERENCES `Fasilitas`(`id_fasilitas`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `pemesanan` ADD CONSTRAINT `pemesanan_id_fasilitas_fkey` FOREIGN KEY (`id_fasilitas`) REFERENCES `fasilitas`(`id_fasilitas`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Pemesanan` ADD CONSTRAINT `Pemesanan_id_harga_fkey` FOREIGN KEY (`id_harga`) REFERENCES `Harga`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `pemesanan` ADD CONSTRAINT `pemesanan_id_harga_fkey` FOREIGN KEY (`id_harga`) REFERENCES `harga`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

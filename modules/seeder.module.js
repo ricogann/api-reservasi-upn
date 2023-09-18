@@ -708,6 +708,7 @@ class _seeder {
                         jam_buka: "09:00",
                         jam_tutup: "22:00",
                         buka_hari: "Senin-Sabtu",
+                        no_va: "1234567891011",
                         durasi: 60,
                     },
                     {
@@ -718,6 +719,7 @@ class _seeder {
                         jam_buka: "09:00",
                         jam_tutup: "22:00",
                         buka_hari: "Senin-Sabtu",
+                        no_va: "1234567891011",
                         durasi: 1,
                     },
                     {
@@ -728,6 +730,7 @@ class _seeder {
                         jam_buka: "09:00",
                         jam_tutup: "22:00",
                         buka_hari: "Setiap Hari",
+                        no_va: "1234567891011",
                         durasi: 1,
                     },
                     {
@@ -738,6 +741,7 @@ class _seeder {
                         jam_buka: "09:00",
                         jam_tutup: "22:00",
                         buka_hari: "Senin-Sabtu",
+                        no_va: "1234567891011",
                         durasi: 1,
                     },
                     {
@@ -748,6 +752,7 @@ class _seeder {
                         jam_buka: "09:00",
                         jam_tutup: "22:00",
                         buka_hari: "Senin-Sabtu",
+                        no_va: "1234567891011",
                         durasi: 1,
                     },
                     {
@@ -758,6 +763,7 @@ class _seeder {
                         jam_buka: "09:00",
                         jam_tutup: "22:00",
                         buka_hari: "Senin-Sabtu",
+                        no_va: "1234567891011",
                         durasi: 1,
                     },
                     {
@@ -768,6 +774,7 @@ class _seeder {
                         jam_buka: "09:00",
                         jam_tutup: "22:00",
                         buka_hari: "Senin-Sabtu",
+                        no_va: "1234567891011",
                         durasi: 1,
                     },
                     {
@@ -778,6 +785,7 @@ class _seeder {
                         jam_buka: "09:00",
                         jam_tutup: "22:00",
                         buka_hari: "Senin-Sabtu",
+                        no_va: "1234567891011",
                         durasi: 1,
                     },
                     {
@@ -788,6 +796,7 @@ class _seeder {
                         jam_buka: "09:00",
                         jam_tutup: "22:00",
                         buka_hari: "Senin-Sabtu",
+                        no_va: "1234567891011",
                         durasi: 1,
                     },
                 ],

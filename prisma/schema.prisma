@@ -10,22 +10,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
+model account {
   id_account              Int      @id @default(autoincrement())
   id_role                 Int
   status_account          Boolean
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
 
-  Role                    Role     @relation(fields: [id_role], references: [id_role])
+  Role                    role     @relation(fields: [id_role], references: [id_role])
 
-  Mahasiswa               Mahasiswa[]
-  Umum                    Umum[]
-  Dosen                   Dosen[]
-  Pemesanan               Pemesanan[]
+  Mahasiswa               mahasiswa[]
+  Umum                    umum[]
+  Dosen                   dosen[]
+  Pemesanan               pemesanan[]
 }
 
-model Mahasiswa {
+model mahasiswa {
   id                      Int      @id @default(autoincrement())
   id_account              Int
   nama                    String
@@ -41,13 +41,13 @@ model Mahasiswa {
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
 
-  Prodi                   Prodi    @relation(fields: [id_prodi], references: [id_prodi])
+  Prodi                   prodi    @relation(fields: [id_prodi], references: [id_prodi])
   tahun_ajaran            tahun_ajaran @relation(fields: [id_tahun_ajaran], references: [id_tahun_ajaran])
-  Fakultas                Fakultas @relation(fields: [id_fakultas], references: [id_fakultas])
-  Account                 Account  @relation(fields: [id_account], references: [id_account])
+  Fakultas                fakultas @relation(fields: [id_fakultas], references: [id_fakultas])
+  Account                 account  @relation(fields: [id_account], references: [id_account])
 }
 
-model Umum {
+model umum {
   id                     Int      @id @default(autoincrement())
   id_account             Int
   NIK                    String   @unique
@@ -58,10 +58,10 @@ model Umum {
   bukti_identitas        String
   status                 Boolean
 
-  Account                Account  @relation(fields: [id_account], references: [id_account])
+  Account                account  @relation(fields: [id_account], references: [id_account])
 }
 
-model Dosen {
+model dosen {
   id                     Int      @id @default(autoincrement())
   id_account             Int      @unique
   NIP                    String   @unique
@@ -72,48 +72,48 @@ model Dosen {
   bukti_identitas        String
   status                 Boolean
 
-  Account                Account  @relation(fields: [id_account], references: [id_account])
+  Account                account  @relation(fields: [id_account], references: [id_account])
 }
 
-model Fakultas {
+model fakultas {
   id_fakultas             Int      @id @default(autoincrement())
   nama_fakultas           String
 
-  Prodi                   Prodi[]
-  Mahasiswa               Mahasiswa[]
+  Prodi                   prodi[]
+  Mahasiswa               mahasiswa[]
 }
 
-model Prodi {
+model prodi {
   id_prodi                Int      @id @default(autoincrement())
   nama_prodi              String
   id_fakultas             Int
 
-  Fakultas                Fakultas @relation(fields: [id_fakultas], references: [id_fakultas])
+  Fakultas                fakultas @relation(fields: [id_fakultas], references: [id_fakultas])
 
-  Mahasiswa               Mahasiswa[]
+  Mahasiswa               mahasiswa[]
 }
 
 model tahun_ajaran {
   id_tahun_ajaran         Int      @id @default(autoincrement())
   tahun_ajaran            String
 
-  Mahasiswa               Mahasiswa[]
+  Mahasiswa               mahasiswa[]
 }
 
-model Role {
+model role {
   id_role                 Int      @id @default(autoincrement())
   nama_role               String
 
-  account                 Account[]
+  account                 account[]
 }
 
-model Admin {
+model admin {
   id_admin                Int      @id @default(autoincrement())
   username_admin          String
   password_admin          String
 }
 
-model Fasilitas {
+model fasilitas {
   id_fasilitas            Int      @id @default(autoincrement())
   nama                    String
   alamat                  String
@@ -122,21 +122,22 @@ model Fasilitas {
   jam_buka                String
   jam_tutup               String
   buka_hari               String
-  durasi                  Int 
+  durasi                  Int
+  no_va                   String 
 
-  Harga                   Harga[]
-  Pemesanan               Pemesanan[]
+  Harga                   harga[]
+  Pemesanan               pemesanan[]
 }
 
-model Harga {
+model harga {
   id                      Int     @id @default(autoincrement())
   id_fasilitas            Int
   nama                    String
   harga                   Int
 
-  Fasilitas               Fasilitas @relation(fields: [id_fasilitas], references: [id_fasilitas])
+  Fasilitas               fasilitas @relation(fields: [id_fasilitas], references: [id_fasilitas])
   kamar_asrama            kamar_asrama[]
-  Pemesanan               Pemesanan[]
+  Pemesanan               pemesanan[]
 }
 
 model kamar_asrama {
@@ -148,10 +149,10 @@ model kamar_asrama {
   npm_bed3_c              String?
   status_kamar            Boolean
 
-  Harga                   Harga    @relation(fields: [id], references: [id])
+  Harga                   harga    @relation(fields: [id], references: [id])
 }
 
-model Pemesanan {
+model pemesanan {
   id_pemesanan            Int      @id @default(autoincrement())
   id_fasilitas            Int
   id_harga                Int
@@ -168,7 +169,7 @@ model Pemesanan {
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
 
-  Account                 Account  @relation(fields: [id_account], references: [id_account])
-  Fasilitas               Fasilitas @relation(fields: [id_fasilitas], references: [id_fasilitas])
-  Harga                   Harga     @relation(fields: [id_harga], references: [id])
+  Account                 account  @relation(fields: [id_account], references: [id_account])
+  Fasilitas               fasilitas @relation(fields: [id_fasilitas], references: [id_fasilitas])
+  Harga                   harga     @relation(fields: [id_harga], references: [id])
 }
