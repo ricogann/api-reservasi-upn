@@ -15,6 +15,7 @@ class _booking {
                 durasi: Joi.number().required(),
                 total_harga: Joi.number().required(),
                 status: Joi.string().required(),
+                keterangan: Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
@@ -36,6 +37,7 @@ class _booking {
                     jam_checkout: body.jam_checkout,
                     durasi: body.durasi,
                     total_harga: body.total_harga,
+                    keterangan: body.keterangan,
                     status: body.status,
                     id_fasilitas: body.id_fasilitas,
                 },
