@@ -13,6 +13,7 @@ class _fasilitas {
                 jam_buka: Joi.string().required(),
                 jam_tutup: Joi.string().required(),
                 durasi: Joi.number().required(),
+                no_va: Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
@@ -41,6 +42,7 @@ class _fasilitas {
                     jam_buka: body.jam_buka,
                     jam_tutup: body.jam_tutup,
                     durasi: Number(body.durasi),
+                    no_va: body.no_va,
                 },
             });
 
