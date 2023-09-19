@@ -122,9 +122,8 @@ model Fasilitas {
   jam_buka                String
   jam_tutup               String
   buka_hari               String
-  no_validasi             String?
   durasi                  Int 
-  no_va			  String
+  no_va			              String
 
   Harga                   Harga[]
   Pemesanan               Pemesanan[]

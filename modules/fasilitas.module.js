@@ -32,6 +32,8 @@ class _fasilitas {
 
             const foto = files.map((file) => file.filename);
 
+            console.log(body);
+
             const fasilitas = await prisma.fasilitas.create({
                 data: {
                     nama: body.nama,
@@ -45,8 +47,6 @@ class _fasilitas {
                     no_va: body.no_va,
                 },
             });
-
-            console.log(fasilitas);
 
             if (fasilitas) {
                 return {
