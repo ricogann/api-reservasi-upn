@@ -57,7 +57,6 @@ class _auth {
 
             const payload = {
                 id_account: checkNpm.id_account,
-                npm: checkNpm.npm,
                 nama: checkNpm.nama,
                 no_telp: checkNpm.no_telp,
                 role: checkNpm.Account.Role.nama_role,

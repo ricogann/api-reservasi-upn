@@ -155,13 +155,13 @@ model kamar_asrama {
 model Pemesanan {
   id_pemesanan            Int      @id @default(autoincrement())
   id_fasilitas            Int
-  id_harga                Int
+  id_harga                Int?
   id_account              Int
   tanggal_pemesanan       DateTime
   jam_checkin             String?
   jam_checkout            String?
   durasi                  Int?
-  total_harga             Int
+  total_harga             Int?
   status                  String
   keterangan              String
   SIK                     String?
@@ -171,5 +171,5 @@ model Pemesanan {
 
   Account                 Account  @relation(fields: [id_account], references: [id_account])
   Fasilitas               Fasilitas @relation(fields: [id_fasilitas], references: [id_fasilitas])
-  Harga                   Harga     @relation(fields: [id_harga], references: [id])
+  Harga                   Harga?     @relation(fields: [id_harga], references: [id])
 }

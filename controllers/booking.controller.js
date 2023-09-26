@@ -59,6 +59,17 @@ bookingController.put(
     }
 );
 
+bookingController.put(
+    "/upload-sik/:id",
+    upload.single("SIK"),
+    async (req, res) => {
+        console.log(req.file);
+        const result = await m$booking.uploadSIK(req.params.id, req.file);
+
+        return response.sendResponse(res, result);
+    }
+);
+
 bookingController.get("/user/:id", async (req, res) => {
     const result = await m$booking.getBookingByIdUser(req.params.id);
 

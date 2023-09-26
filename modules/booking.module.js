@@ -7,13 +7,13 @@ class _booking {
         try {
             const schema = Joi.object({
                 id_fasilitas: Joi.number().required(),
-                id_harga: Joi.number().required(),
+                id_harga: Joi.number(),
                 id_account: Joi.number().required(),
                 tanggal_pemesanan: Joi.date().required(),
                 jam_checkin: Joi.string().required(),
                 jam_checkout: Joi.string().required(),
-                durasi: Joi.number().required(),
-                total_harga: Joi.number().required(),
+                durasi: Joi.number(),
+                total_harga: Joi.number(),
                 status: Joi.string().required(),
                 keterangan: Joi.string().required(),
             }).options({ abortEarly: false });
@@ -47,12 +47,12 @@ class _booking {
                 return {
                     status: true,
                     code: 201,
-                    message: "Add Fasilitas success",
+                    message: "create pemesanan success",
                     data: Booking,
                 };
             }
         } catch (error) {
-            console.error("add fasilitas module Error: ", error);
+            console.error("create pemesanan module Error: ", error);
             return {
                 status: false,
                 error,
@@ -236,6 +236,34 @@ class _booking {
             }
         } catch (error) {
             console.error("upload bukti pembayaran module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    uploadSIK = async (id, file) => {
+        try {
+            const Booking = await prisma.pemesanan.update({
+                where: {
+                    id_pemesanan: Number(id),
+                },
+                data: {
+                    SIK: file.filename,
+                    status: "Menunggu Konfirmasi",
+                },
+            });
+
+            if (Booking) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Upload SIK success",
+                };
+            }
+        } catch (error) {
+            console.error("upload SIK module Error: ", error);
             return {
                 status: false,
                 error,
