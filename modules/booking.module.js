@@ -9,7 +9,7 @@ class _booking {
                 id_fasilitas: Joi.number().required(),
                 id_harga: Joi.number(),
                 id_account: Joi.number().required(),
-                tanggal_pemesanan: Joi.date().required(),
+                tanggal_pemesanan: Joi.date(),
                 jam_checkin: Joi.string().required(),
                 jam_checkout: Joi.string().required(),
                 durasi: Joi.number(),
