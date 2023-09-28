@@ -157,7 +157,7 @@ model Pemesanan {
   id_fasilitas            Int
   id_harga                Int?
   id_account              Int
-  tanggal_pemesanan       DateTime
+  tanggal_pemesanan       DateTime?
   jam_checkin             String?
   jam_checkout            String?
   durasi                  Int?
