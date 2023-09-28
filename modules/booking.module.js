@@ -338,7 +338,7 @@ class _booking {
                 },
             });
 
-            const mahasiswa = await prisma.mahasiswa.findUnique({
+            const mahasiswa = await prisma.mahasiswa.findFirst({
                 where: {
                     id_account: Number(body.idAccount),
                 },
