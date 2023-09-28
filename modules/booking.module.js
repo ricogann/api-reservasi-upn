@@ -348,19 +348,16 @@ class _booking {
                 if (item.npm_bed1_a === mahasiswa.npm) {
                     return {
                         status: false,
-                        code: 400,
                         message: "Mahasiswa Sudah Ada",
                     };
                 } else if (item.npm_bed2_b === mahasiswa.npm) {
                     return {
                         status: false,
-                        code: 400,
                         message: "Mahasiswa Sudah Ada",
                     };
                 } else if (item.npm_bed3_c === mahasiswa.npm) {
                     return {
                         status: false,
-                        code: 400,
                         message: "Mahasiswa Sudah Ada",
                     };
                 }
