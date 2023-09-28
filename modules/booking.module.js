@@ -377,6 +377,15 @@ class _booking {
                         },
                     });
 
+                    const updateStatusKamar = await prisma.kamar_asrama.update({
+                        where: {
+                            id_asrama: item.id_asrama,
+                        },
+                        data: {
+                            status_kamar: false,
+                        },
+                    });
+
                     break;
                 }
             }
