@@ -88,7 +88,7 @@ bookingController.put("/verifikasi/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
-bookingController.post("/kamarAsrama/:id", async (req, res) => {
+bookingController.put("/kamarAsrama/:id", async (req, res) => {
     const result = await m$booking.addMahasiswaToKamar(req.params.id, req.body);
 
     return response.sendResponse(res, result);
