@@ -88,4 +88,10 @@ bookingController.put("/verifikasi/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+bookingController.post("/kamarAsrama", async (req, res) => {
+    const result = await m$booking.addMahasiswaToKamar(req.body);
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = bookingController;

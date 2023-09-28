@@ -329,6 +329,65 @@ class _booking {
             };
         }
     };
+
+    addMahasiswaToKamar = async (id, body) => {
+        try {
+            const kamar = await prisma.kamar_asrama.findMany({
+                where: {
+                    id: id,
+                },
+            });
+
+            for (const item of kamar) {
+                if (item.npm_bed1_a === null) {
+                    const addMahasiswa = await prisma.kamar_asrama.update({
+                        where: {
+                            id_asrama: item.id_asrama,
+                        },
+                        data: {
+                            npm_bed1_a: body.npm,
+                        },
+                    });
+
+                    break;
+                } else if (item.npm_bed2_b === null) {
+                    const addMahasiswa = await prisma.kamar_asrama.update({
+                        where: {
+                            id_asrama: item.id_asrama,
+                        },
+                        data: {
+                            npm_bed2_b: body.npm,
+                        },
+                    });
+
+                    break;
+                } else if (item.npm_bed3_c === null) {
+                    const addMahasiswa = await prisma.kamar_asrama.update({
+                        where: {
+                            id_asrama: item.id_asrama,
+                        },
+                        data: {
+                            npm_bed3_c: body.npm,
+                        },
+                    });
+
+                    break;
+                }
+            }
+
+            return {
+                status: true,
+                code: 200,
+                message: "add mahasiswa to kamar success",
+            };
+        } catch (error) {
+            console.error("add mahasiswa to kamar module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
 }
 
 module.exports = new _booking();

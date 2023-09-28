@@ -142,7 +142,7 @@ model Harga {
 
 model kamar_asrama {
   id_asrama               Int      @id @default(autoincrement())
-  id                      Int
+  id                      Int      @unique
   no_kamar                Int
   npm_bed1_a              String?
   npm_bed2_b              String?
