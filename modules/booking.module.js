@@ -334,13 +334,13 @@ class _booking {
         try {
             const kamar = await prisma.kamar_asrama.findMany({
                 where: {
-                    id: id,
+                    id: Number(id),
                 },
             });
 
             const mahasiswa = await prisma.mahasiswa.findUnique({
                 where: {
-                    id_account: body.idAccount,
+                    id_account: Number(body.idAccount),
                 },
             });
 
