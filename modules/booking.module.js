@@ -338,6 +338,12 @@ class _booking {
                 },
             });
 
+            const mahasiswa = await prisma.mahasiswa.findUnique({
+                where: {
+                    id_account: body.idAccount,
+                },
+            });
+
             for (const item of kamar) {
                 if (item.npm_bed1_a === null) {
                     const addMahasiswa = await prisma.kamar_asrama.update({
@@ -345,7 +351,7 @@ class _booking {
                             id_asrama: item.id_asrama,
                         },
                         data: {
-                            npm_bed1_a: body.npm,
+                            npm_bed1_a: mahasiswa.npm,
                         },
                     });
 
@@ -356,7 +362,7 @@ class _booking {
                             id_asrama: item.id_asrama,
                         },
                         data: {
-                            npm_bed2_b: body.npm,
+                            npm_bed2_b: mahasiswa.npm,
                         },
                     });
 
@@ -367,7 +373,7 @@ class _booking {
                             id_asrama: item.id_asrama,
                         },
                         data: {
-                            npm_bed3_c: body.npm,
+                            npm_bed3_c: mahasiswa.npm,
                         },
                     });
 
