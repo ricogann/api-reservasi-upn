@@ -88,8 +88,8 @@ bookingController.put("/verifikasi/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
-bookingController.post("/kamarAsrama", async (req, res) => {
-    const result = await m$booking.addMahasiswaToKamar(req.body);
+bookingController.post("/kamarAsrama/:id", async (req, res) => {
+    const result = await m$booking.addMahasiswaToKamar(req.params.id, req.body);
 
     return response.sendResponse(res, result);
 });
