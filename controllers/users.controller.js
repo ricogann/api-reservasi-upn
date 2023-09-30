@@ -71,4 +71,10 @@ usersController.put("/account/verifikasi/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+usersController.post("/mahasiswa/check/:id", async (req, res) => {
+    const result = await m$users.checkExpiredMahasiswa(req.params.id);
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = usersController;

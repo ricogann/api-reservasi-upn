@@ -298,6 +298,42 @@ class _users {
             };
         }
     };
+
+    checkExpiredMahasiswa = async (id) => {
+        try {
+            const mahasiswa = await prisma.mahasiswa.findUnique({
+                where: {
+                    id: parseInt(id),
+                },
+            });
+
+            const tahun_ajaran = await prisma.tahun_ajaran.findUnique({
+                where: {
+                    id_tahun_ajaran: parseInt(mahasiswa.id_tahun_ajaran),
+                },
+            });
+
+            if (
+                Number(tahun_ajaran.tahun_ajaran.split("/")[0]) + 1 >=
+                new Date().getFullYear()
+            ) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "anda masih dapat booking asrama",
+                };
+            } else {
+                return {
+                    status: false,
+                    code: 200,
+                    message: "anda tidak dapat booking asrama",
+                };
+            }
+        } catch (error) {
+            console.error("delete expired account module Error: ", error);
+            throw error;
+        }
+    };
 }
 
 module.exports = new _users();
