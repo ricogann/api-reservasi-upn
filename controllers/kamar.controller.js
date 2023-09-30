@@ -36,4 +36,10 @@ kamarController.delete("/delete/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+kamarController.put("/mahasiswa/delete-expired/:id", async (req, res) => {
+    const result = await m$kamar.deleteExpiredMahasiswa(req.params.id);
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = kamarController;

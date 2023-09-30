@@ -154,6 +154,11 @@ class _users {
                 where: {
                     id: parseInt(id),
                 },
+                include: {
+                    Mahasiswa: true,
+                    Dosen: true,
+                    Umum: true,
+                },
             });
 
             if (account) {

@@ -31,15 +31,15 @@ class _kamar {
                 where: {
                     no_kamar: body.no_kamar,
                 },
-            });  
+            });
 
             if (existingKamar) {
                 return {
-                  status: false,
-                  code: 400, // You can choose an appropriate HTTP status code
-                  message: "Kamar with this no_kamar already exists",
+                    status: false,
+                    code: 400, // You can choose an appropriate HTTP status code
+                    message: "Kamar with this no_kamar already exists",
                 };
-              }
+            }
 
             const kamar = await prisma.kamar_asrama.create({
                 data: {
@@ -183,6 +183,75 @@ class _kamar {
             }
         } catch (error) {
             console.error("delete kamar module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    deleteExpiredMahasiswa = async (id) => {
+        try {
+            const mahasiswa = await prisma.mahasiswa.findFirst({
+                where: {
+                    id_account: Number(id),
+                },
+            });
+
+            const kamar = await prisma.kamar_asrama.findMany();
+
+            const kamar1 = kamar.filter(
+                (kamar) => kamar.npm_bed1_a === mahasiswa.npm
+            );
+
+            const kamar2 = kamar.filter(
+                (kamar) => kamar.npm_bed2_b === mahasiswa.npm
+            );
+
+            const kamar3 = kamar.filter(
+                (kamar) => kamar.npm_bed3_3 === mahasiswa.npm
+            );
+
+            if (kamar1.length > 0) {
+                const kamar = await prisma.kamar_asrama.update({
+                    where: {
+                        id_asrama: kamar1[0].id_asrama,
+                    },
+                    data: {
+                        npm_bed1_a: null,
+                    },
+                });
+            }
+
+            if (kamar2.length > 0) {
+                const kamar = await prisma.kamar_asrama.update({
+                    where: {
+                        id_asrama: kamar2[0].id_asrama,
+                    },
+                    data: {
+                        npm_bed2_b: null,
+                    },
+                });
+            }
+
+            if (kamar3.length > 0) {
+                const kamar = await prisma.kamar_asrama.update({
+                    where: {
+                        id_asrama: kamar3[0].id_asrama,
+                    },
+                    data: {
+                        npm_bed3_3: null,
+                    },
+                });
+            }
+
+            return {
+                status: true,
+                code: 200,
+                message: "Delete Mahasiswa success",
+            };
+        } catch (error) {
+            console.error("delete mahasiswa in kamar module Error: ", error);
             return {
                 status: false,
                 error,
