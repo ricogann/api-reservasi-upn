@@ -219,6 +219,7 @@ class _kamar {
                     },
                     data: {
                         npm_bed1_a: null,
+                        status_kamar: true,
                     },
                 });
             }
@@ -230,6 +231,7 @@ class _kamar {
                     },
                     data: {
                         npm_bed2_b: null,
+                        status_kamar: true,
                     },
                 });
             }
@@ -241,6 +243,7 @@ class _kamar {
                     },
                     data: {
                         npm_bed3_3: null,
+                        status_kamar: true,
                     },
                 });
             }
