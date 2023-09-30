@@ -303,7 +303,7 @@ class _users {
         try {
             const mahasiswa = await prisma.mahasiswa.findUnique({
                 where: {
-                    id: parseInt(id),
+                    id_account: parseInt(id),
                 },
             });
 
