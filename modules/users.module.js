@@ -152,7 +152,7 @@ class _users {
         try {
             const account = await prisma.account.findUnique({
                 where: {
-                    id: parseInt(id),
+                    id_account: Number(id),
                 },
                 include: {
                     Mahasiswa: true,
