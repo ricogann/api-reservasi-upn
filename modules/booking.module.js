@@ -332,11 +332,7 @@ class _booking {
 
     addMahasiswaToKamar = async (id, body) => {
         try {
-            const kamar = await prisma.kamar_asrama.findMany({
-                where: {
-                    id: Number(id),
-                },
-            });
+            const kamar = await prisma.kamar_asrama.findMany();
 
             const mahasiswa = await prisma.mahasiswa.findFirst({
                 where: {
