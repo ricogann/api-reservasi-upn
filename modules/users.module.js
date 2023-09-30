@@ -301,7 +301,7 @@ class _users {
 
     checkExpiredMahasiswa = async (id) => {
         try {
-            const mahasiswa = await prisma.mahasiswa.findUnique({
+            const mahasiswa = await prisma.mahasiswa.findFirst({
                 where: {
                     id_account: parseInt(id),
                 },
