@@ -1,6 +1,7 @@
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
 
@@ -269,6 +270,8 @@ class _auth {
 
             const bukti_identitas = file ? file.filename : null;
 
+            const secret = process.env.SECRET_KEY;
+
             //check if npm already registered or not
             const checkNpm = await prisma.mahasiswa.findUnique({
                 where: {
@@ -292,7 +295,10 @@ class _auth {
             });
 
             //hash password
-            const hash_password = bcrypt.hashSync(body.password, 10);
+            const hash_password = crypto.AES.encrypt(
+                body.password,
+                secret
+            ).toString();
 
             //insert data to database
             const insertData = await prisma.mahasiswa.create({
@@ -378,7 +384,11 @@ class _auth {
             });
 
             //hash password
-            const hash_password = bcrypt.hashSync(body.password, 10);
+            // const hash_password = bcrypt.hashSync(body.password, 10);
+            const hash_password = crypto.AES.encrypt(
+                body.password,
+                secret
+            ).toString();
 
             //insert data to database
 
@@ -455,7 +465,11 @@ class _auth {
             }
 
             //hash password
-            const hash_password = bcrypt.hashSync(body.password, 10);
+            // const hash_password = bcrypt.hashSync(body.password, 10);
+            const hash_password = crypto.AES.encrypt(
+                body.password,
+                secret
+            ).toString();
 
             const account = await prisma.account.create({
                 data: {
