@@ -173,3 +173,18 @@ model Pemesanan {
   Fasilitas               Fasilitas @relation(fields: [id_fasilitas], references: [id_fasilitas])
   Harga                   Harga?     @relation(fields: [id_harga], references: [id])
 }
+
+model Misc {
+  id_misc                 Int      @id @default(autoincrement())
+  nama_instansi           String
+  logo_instansi           String
+  no_hp                   String
+  email                   String
+  instagram               String
+  laman_web               String
+  nama_pic                String
+  nip_pic                 String
+  tanda_tangan            String
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+}
