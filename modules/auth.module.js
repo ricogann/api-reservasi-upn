@@ -44,10 +44,19 @@ class _auth {
                 };
             }
 
-            const checkPassword = bcrypt.compareSync(
-                body.password,
-                checkNpm.password
+            // const checkPassword = bcrypt.compareSync(
+            //     body.password,
+            //     checkNpm.password
+            // );
+
+            const bytes = crypto.AES.decrypt(
+                checkNpm.password,
+                process.env.SECRET_KEY
             );
+
+            const originalPassword = bytes.toString(crypto.enc.Utf8);
+
+            const checkPassword = originalPassword === body.password;
 
             if (!checkPassword) {
                 return {
@@ -122,10 +131,19 @@ class _auth {
                 };
             }
 
-            const checkPassword = bcrypt.compareSync(
-                body.password,
-                checkEmail.password
+            // const checkPassword = bcrypt.compareSync(
+            //     body.password,
+            //     checkEmail.password
+            // );
+
+            const bytes = crypto.AES.decrypt(
+                checkEmail.password,
+                process.env.SECRET_KEY
             );
+
+            const originalPassword = bytes.toString(crypto.enc.Utf8);
+
+            const checkPassword = originalPassword === body.password;
 
             if (!checkPassword) {
                 return {
@@ -201,10 +219,19 @@ class _auth {
                 };
             }
 
-            const checkPassword = bcrypt.compareSync(
-                body.password,
-                checkEmail.password
+            // const checkPassword = bcrypt.compareSync(
+            //     body.password,
+            //     checkEmail.password
+            // );
+
+            const bytes = crypto.AES.decrypt(
+                checkEmail.password,
+                process.env.SECRET_KEY
             );
+
+            const originalPassword = bytes.toString(crypto.enc.Utf8);
+
+            const checkPassword = originalPassword === body.password;
 
             if (!checkPassword) {
                 return {
@@ -270,8 +297,6 @@ class _auth {
 
             const bukti_identitas = file ? file.filename : null;
 
-            const secret = process.env.SECRET_KEY;
-
             //check if npm already registered or not
             const checkNpm = await prisma.mahasiswa.findUnique({
                 where: {
@@ -297,7 +322,7 @@ class _auth {
             //hash password
             const hash_password = crypto.AES.encrypt(
                 body.password,
-                secret
+                process.env.SECRET_KEY
             ).toString();
 
             //insert data to database
@@ -387,7 +412,7 @@ class _auth {
             // const hash_password = bcrypt.hashSync(body.password, 10);
             const hash_password = crypto.AES.encrypt(
                 body.password,
-                secret
+                process.env.SECRET_KEY
             ).toString();
 
             //insert data to database
@@ -468,7 +493,7 @@ class _auth {
             // const hash_password = bcrypt.hashSync(body.password, 10);
             const hash_password = crypto.AES.encrypt(
                 body.password,
-                secret
+                process.env.SECRET_KEY
             ).toString();
 
             const account = await prisma.account.create({
