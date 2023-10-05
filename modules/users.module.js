@@ -108,7 +108,12 @@ class _users {
 
     getMahasiswa = async () => {
         try {
-            const mahasiswa = await prisma.mahasiswa.findMany({});
+            const mahasiswa = await prisma.mahasiswa.findMany({
+                include: {
+                    Fakultas: true,
+                    Jurusan: true,
+                },
+            });
 
             if (mahasiswa) {
                 return {
