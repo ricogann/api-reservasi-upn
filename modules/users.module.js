@@ -111,7 +111,7 @@ class _users {
             const mahasiswa = await prisma.mahasiswa.findMany({
                 include: {
                     Fakultas: true,
-                    Jurusan: true,
+                    Prodi: true,
                 },
             });
 
