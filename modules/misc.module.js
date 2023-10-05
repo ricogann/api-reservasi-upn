@@ -1,4 +1,5 @@
 const prisma = require("../helpers/database");
+const fs = require("fs");
 
 class _misc {
     async getMisc() {
@@ -22,14 +23,32 @@ class _misc {
         }
     }
 
-    async updateMisc(id, body) {
+    async updateMisc(id, body, files) {
         try {
+            if (files.logo_instansi) {
+                fs.unlinkSync(`./public/${body.logo_instansi_old}`);
+                body.logo_instansi = files.logo_instansi[0].filename;
+            }
+
+            if (files.tanda_tangan) {
+                fs.unlinkSync(`./public/${body.tanda_tangan_old}`);
+                body.tanda_tangan = files.tanda_tangan[0].filename;
+            }
+
             const misc = await prisma.misc.update({
                 where: {
-                    id: Number(id),
+                    id_misc: Number(id),
                 },
                 data: {
-                    ...body,
+                    nama_instansi: body.nama_instansi,
+                    logo_instansi: body.logo_instansi,
+                    no_hp: body.no_hp,
+                    email: body.email,
+                    instagram: body.instagram,
+                    laman_web: body.laman_web,
+                    nama_pic: body.nama_pic,
+                    nip_pic: body.nip_pic,
+                    tanda_tangan: body.tanda_tangan,
                 },
             });
 
@@ -41,7 +60,8 @@ class _misc {
                     data: misc,
                 };
             }
-        } catch {
+        } catch (error) {
+            fs.unlinkSync(`./public/${files.logo_instansi[0].filename}`);
             console.error("update misc module Error: ", error);
             return {
                 status: false,
