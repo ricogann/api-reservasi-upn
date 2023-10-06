@@ -40,4 +40,4 @@ server.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
 });
 
-export { socket, io };
+module.exports = { socket, io };
