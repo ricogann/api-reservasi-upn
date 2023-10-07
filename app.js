@@ -3,10 +3,15 @@ const cors = require("cors");
 const app = express();
 const routes = require("./routes");
 const bodyParser = require("body-parser");
-const http = require("http");
+const https = require("https");
 const fs = require("fs");
 
-const server = http.createServer(app);
+const sslOptions = {
+    key: fs.readFileSync("privkey.pem"),
+    cert: fs.readFileSync("cert.pem"),
+};
+
+const server = https.createServer(sslOptions, app);
 
 const port = process.env.PORT || 5000;
 
