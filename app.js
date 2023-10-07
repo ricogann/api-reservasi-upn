@@ -4,6 +4,8 @@ const app = express();
 const routes = require("./routes");
 const bodyParser = require("body-parser");
 const http = require("http");
+const fs = require("fs");
+
 const server = http.createServer(app);
 
 const port = process.env.PORT || 5000;
