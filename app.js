@@ -15,8 +15,9 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 const io = require("socket.io")(server, {
     cors: {
         origin: "*",
+        method: ["GET", "POST"],
     },
-    transports: ["websocket", "polling"],
+    transports: ["websocket", "polling", "flashsocket"],
 });
 
 const socket = io.on("connection", (socket) => {
@@ -40,5 +41,3 @@ app.use("/assets", express.static(`./public`));
 server.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
 });
-
-module.exports = { socket, io };
