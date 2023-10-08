@@ -118,10 +118,10 @@ class _fasilitas {
             if (files.length > 0) {
                 console.log(files);
                 const foto = files.map((file) => file.filename);
-                // const old_foto = JSON.parse(body.name_foto_old);
-                // old_foto.map((foto) => {
-                //     fs.unlinkSync(`./public/${foto}`);
-                // });
+                const old_foto = JSON.parse(body.name_foto_old);
+                old_foto.map((foto) => {
+                    fs.unlinkSync(`./public/${foto}`);
+                });
 
                 const fasilitas = await prisma.fasilitas.update({
                     where: {
