@@ -67,7 +67,11 @@ class _kamar {
 
     getKamar = async () => {
         try {
-            const kamar = await prisma.kamar_asrama.findMany();
+            const kamar = await prisma.kamar_asrama.findMany({
+                include: {
+                    Harga: true,
+                },
+            });
 
             if (kamar) {
                 return {
