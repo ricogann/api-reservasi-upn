@@ -115,9 +115,14 @@ class _fasilitas {
 
     updateFasilitas = async (id, body, files) => {
         try {
-            console.log(body.name_foto_old);
-
             if (files.length > 0) {
+                console.log(files);
+                const foto = files.map((file) => file.filename);
+                // const old_foto = JSON.parse(body.name_foto_old);
+                // old_foto.map((foto) => {
+                //     fs.unlinkSync(`./public/${foto}`);
+                // });
+
                 const fasilitas = await prisma.fasilitas.update({
                     where: {
                         id_fasilitas: Number(id),
@@ -126,9 +131,7 @@ class _fasilitas {
                         nama: body.nama,
                         alamat: body.alamat,
                         deskripsi: body.deskripsi,
-                        foto: JSON.stringify(
-                            files.map((file) => file.filename)
-                        ),
+                        foto: JSON.stringify(foto),
                         buka_hari: body.buka_hari,
                         jam_buka: body.jam_buka,
                         jam_tutup: body.jam_tutup,
