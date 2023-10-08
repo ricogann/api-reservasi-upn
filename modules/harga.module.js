@@ -82,7 +82,33 @@ class _harga {
         }
     };
 
-    updateHarga = async (body, files) => {};
+    updateHarga = async (id, body) => {
+        try {
+            const harga = await prisma.harga.update({
+                where: {
+                    id: Number(id),
+                },
+                data: {
+                    nama: body.nama,
+                    harga: Number(body.harga),
+                },
+            });
+
+            if (harga) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Update Harga success",
+                };
+            }
+        } catch (error) {
+            console.error("update Harga module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
 
     deleteHarga = async (id) => {
         try {

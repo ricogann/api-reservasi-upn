@@ -25,12 +25,8 @@ hargaController.get("/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
-hargaController.put("/:id", upload.array("foto_harga", 3), async (req, res) => {
-    const result = await m$harga.updateHarga(
-        req.params.id,
-        req.body,
-        req.files
-    );
+hargaController.put("/:id", async (req, res) => {
+    const result = await m$harga.updateHarga(req.params.id, req.body);
 
     return response.sendResponse(res, result);
 });
