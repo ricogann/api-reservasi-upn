@@ -29,6 +29,7 @@ fasilitasController.put(
     "/:id",
     upload.array("foto_fasilitas", 3),
     async (req, res) => {
+console.log(req.body, req.files);
         const result = await m$fasilitas.updateFasilitas(
             req.params.id,
             req.body,
