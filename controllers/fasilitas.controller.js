@@ -46,7 +46,7 @@ fasilitasController.delete("/delete/:id", async (req, res) => {
 });
 
 fasilitasController.put(
-    "update/:id",
+    "/update/:id",
     upload.array("foto_fasilitas", 3),
     async (req, res) => {
         const result = await m$fasilitas.updateFasilitas(
