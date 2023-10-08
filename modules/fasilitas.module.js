@@ -113,7 +113,34 @@ class _fasilitas {
         }
     };
 
-    updateFasilitas = async (body, files) => {};
+    updateFasilitas = async (id, body, files) => {
+        try {
+            console.log(id);
+            console.log(body);
+            console.log(files);
+            // const fasilitas = await prisma.fasilitas.update({
+            //     where: {
+            //         id_fasilitas: Number(body.id_fasilitas),
+            //     },
+            //     data: {
+            //         nama: body.nama,
+            //         alamat: body.alamat,
+            //         deskripsi: body.deskripsi,
+            //         buka_hari: body.buka_hari,
+            //         jam_buka: body.jam_buka,
+            //         jam_tutup: body.jam_tutup,
+            //         durasi: 1,
+            //         no_va: body.no_va,
+            //     },
+            // });
+        } catch (error) {
+            console.error("update fasilitas module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
 
     deleteFasilitas = async (id) => {
         try {

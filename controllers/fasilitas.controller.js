@@ -45,4 +45,18 @@ fasilitasController.delete("/delete/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+fasilitasController.put(
+    "update/:id",
+    upload.array("foto_fasilitas", 3),
+    async (req, res) => {
+        const result = await m$fasilitas.updateFasilitas(
+            req.params.id,
+            req.body,
+            req.files
+        );
+
+        return response.sendResponse(res, result);
+    }
+);
+
 module.exports = fasilitasController;
