@@ -31,7 +31,11 @@ class _harga {
 
     getHarga = async () => {
         try {
-            const Harga = await prisma.harga.findMany({});
+            const Harga = await prisma.harga.findMany({
+                include: {
+                    Fasilitas: true,
+                },
+            });
 
             if (Harga) {
                 return {
