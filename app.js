@@ -3,7 +3,7 @@ const cors = require("cors");
 const app = express();
 const routes = require("./routes");
 const bodyParser = require("body-parser");
-const https = require("https");
+const http = require("http");
 const fs = require("fs");
 
 const sslOptions = {
@@ -11,7 +11,7 @@ const sslOptions = {
     cert: fs.readFileSync("cert.pem"),
 };
 
-const server = https.createServer(sslOptions, app);
+const server = http.createServer(app);
 
 const port = process.env.PORT || 5000;
 
@@ -21,10 +21,10 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 const io = require("socket.io")(server, {
     cors: {
-        origin: "*",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"],
     },
-    transports: ["websocket", "polling", "flashsocket"],
+//    transports: ["websocket","polling"],
 });
 
 const socket = io.on("connection", (socket) => {
@@ -33,6 +33,8 @@ const socket = io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("server disconnect");
     });
+
+    socket.emit("join", "data dari server");
     return socket;
 });
 
