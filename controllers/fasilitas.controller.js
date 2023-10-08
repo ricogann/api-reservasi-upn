@@ -29,12 +29,12 @@ fasilitasController.put(
     "/:id",
     upload.array("foto_fasilitas", 3),
     async (req, res) => {
-console.log(req.body, req.files);
         const result = await m$fasilitas.updateFasilitas(
             req.params.id,
             req.body,
             req.files
         );
+	console.log("halo");
 
         return response.sendResponse(res, result);
     }
@@ -55,7 +55,7 @@ fasilitasController.put(
             req.body,
             req.files
         );
-
+	console.log(req.files);
         return response.sendResponse(res, result);
     }
 );
