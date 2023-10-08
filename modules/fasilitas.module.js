@@ -120,7 +120,7 @@ class _fasilitas {
             if (files.length > 0) {
                 const fasilitas = await prisma.fasilitas.update({
                     where: {
-                        id_fasilitas: Number(body.id_fasilitas),
+                        id_fasilitas: Number(id),
                     },
                     data: {
                         nama: body.nama,
@@ -146,7 +146,7 @@ class _fasilitas {
             } else {
                 const fasilitas = await prisma.fasilitas.update({
                     where: {
-                        id_fasilitas: Number(body.id_fasilitas),
+                        id_fasilitas: Number(id),
                     },
                     data: {
                         nama: body.nama,
