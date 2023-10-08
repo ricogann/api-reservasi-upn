@@ -115,25 +115,60 @@ class _fasilitas {
 
     updateFasilitas = async (id, body, files) => {
         try {
-            console.log(id);
-            console.log(body);
-            console.log(files);
-            // const fasilitas = await prisma.fasilitas.update({
-            //     where: {
-            //         id_fasilitas: Number(body.id_fasilitas),
-            //     },
-            //     data: {
-            //         nama: body.nama,
-            //         alamat: body.alamat,
-            //         deskripsi: body.deskripsi,
-            //         buka_hari: body.buka_hari,
-            //         jam_buka: body.jam_buka,
-            //         jam_tutup: body.jam_tutup,
-            //         durasi: 1,
-            //         no_va: body.no_va,
-            //     },
-            // });
+            if (files.length > 0) {
+                const fasilitas = await prisma.fasilitas.update({
+                    where: {
+                        id_fasilitas: Number(body.id_fasilitas),
+                    },
+                    data: {
+                        nama: body.nama,
+                        alamat: body.alamat,
+                        deskripsi: body.deskripsi,
+                        foto: JSON.stringify(
+                            files.map((file) => file.filename)
+                        ),
+                        buka_hari: body.buka_hari,
+                        jam_buka: body.jam_buka,
+                        jam_tutup: body.jam_tutup,
+                        durasi: 1,
+                        no_va: body.no_va,
+                    },
+                });
+                if (fasilitas) {
+                    return {
+                        status: true,
+                        code: 200,
+                        message: "Update Fasilitas success",
+                    };
+                }
+            } else {
+                const fasilitas = await prisma.fasilitas.update({
+                    where: {
+                        id_fasilitas: Number(body.id_fasilitas),
+                    },
+                    data: {
+                        nama: body.nama,
+                        alamat: body.alamat,
+                        deskripsi: body.deskripsi,
+                        buka_hari: body.buka_hari,
+                        jam_buka: body.jam_buka,
+                        jam_tutup: body.jam_tutup,
+                        durasi: 1,
+                        no_va: body.no_va,
+                    },
+                });
+                if (fasilitas) {
+                    return {
+                        status: true,
+                        code: 200,
+                        message: "Update Fasilitas success",
+                    };
+                }
+            }
         } catch (error) {
+            files.map((file) => {
+                fs.unlinkSync(`./public/${file.filename}`);
+            });
             console.error("update fasilitas module Error: ", error);
             return {
                 status: false,
