@@ -25,7 +25,7 @@ hargaController.get("/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
-hargaController.put("/:id", async (req, res) => {
+hargaController.put("/update/:id", async (req, res) => {
     const result = await m$harga.updateHarga(req.params.id, req.body);
 
     return response.sendResponse(res, result);
