@@ -85,11 +85,11 @@ class _harga {
         try {
             const Harga = await prisma.harga.delete({
                 where: {
-                    id_harga: Number(id),
+                    id: Number(id),
                 },
             });
 
-            if (harga) {
+            if (Harga) {
                 return {
                     status: true,
                     code: 200,
