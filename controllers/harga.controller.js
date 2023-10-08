@@ -6,8 +6,8 @@ const { Router } = require("express");
 
 const hargaController = Router();
 
-hargaController.post("/add", upload.array("foto", 7), async (req, res) => {
-    const result = await m$harga.addHarga(req.body, req.files);
+hargaController.post("/add", async (req, res) => {
+    const result = await m$harga.addHarga(req.body);
 
     return response.sendResponse(res, result);
 });
