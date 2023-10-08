@@ -115,6 +115,8 @@ class _fasilitas {
 
     updateFasilitas = async (id, body, files) => {
         try {
+            console.log(JSON.parse(body.name_foto_old));
+
             if (files.length > 0) {
                 const fasilitas = await prisma.fasilitas.update({
                     where: {
