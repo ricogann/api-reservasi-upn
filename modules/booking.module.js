@@ -61,18 +61,6 @@ class _booking {
             });
 
             if (Booking) {
-                console.log("Before conditional check");
-                try {
-                    if (io) {
-                        console.log("ada pemesanan baru");
-                        io.emit("newBooking", "new booking");
-                    } else {
-                        console.error("Socket.io is not initialized yet.");
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                }
-
                 return {
                     status: true,
                     code: 201,
