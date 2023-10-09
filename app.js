@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 const io = require("socket.io")(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "*",
         methods: ["GET", "POST"],
     },
 //    transports: ["websocket","polling"],
