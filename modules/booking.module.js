@@ -46,6 +46,7 @@ class _booking {
 
             if (Booking) {
                 if (socket) {
+                    console.log("ada pemesanan baru");
                     socket.emit("newBooking", "ada pemesanan baru");
                 }
 
