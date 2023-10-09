@@ -46,11 +46,17 @@ class _booking {
 
             if (Booking) {
                 console.log("Before conditional check");
-                if (io) {
-                    console.log("ada pemesanan baru");
-                    io.emit("newBooking", {
-                        message: "ada pemesanan baru",
-                    });
+                try {
+                    if (io) {
+                        console.log("ada pemesanan baru");
+                        io.emit("newBooking", {
+                            message: "ada pemesanan baru",
+                        });
+                    } else {
+                        console.error("Socket.io is not initialized yet.");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
                 }
 
                 return {

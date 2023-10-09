@@ -37,6 +37,10 @@ const socket = io.on("connection", (sock) => {
     return sock;
 });
 
+io.emit("newBooking", {
+    message: "ada pemesanan baru",
+});
+
 app.get("/", (req, res) => {
     res.status(200).json({
         message: "yep, this works. you can use it now!",
