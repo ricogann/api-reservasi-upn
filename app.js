@@ -19,7 +19,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
-export const io = require("socket.io")(server, {
+const io = require("socket.io")(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"],
@@ -27,7 +27,7 @@ export const io = require("socket.io")(server, {
     //    transports: ["websocket","polling"],
 });
 
-export const socket = io.on("connection", (socket) => {
+const socket = io.on("connection", (socket) => {
     console.log("connect");
 
     socket.on("disconnect", () => {
@@ -50,3 +50,5 @@ app.use("/assets", express.static(`./public`));
 server.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
 });
+
+export { socket, io };
