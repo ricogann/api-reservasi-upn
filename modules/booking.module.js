@@ -1,7 +1,25 @@
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
-const io = require("../app").io;
+
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+    },
+    //    transports: ["websocket","polling"],
+});
+
+const socket = io.on("connection", (socket) => {
+    console.log("connect");
+
+    socket.on("disconnect", () => {
+        console.log("server disconnect");
+    });
+
+    socket.emit("join", "data dari server");
+    return socket;
+});
 
 class _booking {
     addBooking = async (body, files) => {
