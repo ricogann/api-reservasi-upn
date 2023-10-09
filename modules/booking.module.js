@@ -1,9 +1,10 @@
-import { io } from "../app.js";
+const { io } = require("../app");
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
 // const io = require("socket.io");
 
+console.log(prisma);
 console.log("yey", io);
 // console.log(io);
 class _booking {

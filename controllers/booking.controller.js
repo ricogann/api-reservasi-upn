@@ -1,4 +1,4 @@
-const m$booking = require("../modules/booking.module");
+const m$booking = require("../modules/booking.module").default;
 const upload = require("../middlewares/multer");
 const response = require("../helpers/response");
 
