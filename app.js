@@ -19,6 +19,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
+console.log("Initializing Socket.io...");
 const io = require("socket.io")(server, {
     cors: {
         origin: "*",
@@ -51,4 +52,5 @@ server.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
 });
 
+console.log("Socket.io initialized");
 module.exports = { io };
