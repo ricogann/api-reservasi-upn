@@ -19,15 +19,15 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
-const io = require("socket.io")(server, {
+export const io = require("socket.io")(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"],
     },
-//    transports: ["websocket","polling"],
+    //    transports: ["websocket","polling"],
 });
 
-const socket = io.on("connection", (socket) => {
+export const socket = io.on("connection", (socket) => {
     console.log("connect");
 
     socket.on("disconnect", () => {
