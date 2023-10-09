@@ -82,6 +82,34 @@ class _harga {
         }
     };
 
+    gethargaByIdFasilitas = async (id) => {
+        try {
+            const Harga = await prisma.harga.findFirst({
+                where: {
+                    id_fasilitas: Number(id),
+                },
+                include: {
+                    Fasilitas: true,
+                },
+            });
+
+            if (Harga) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Harga success",
+                    data: Harga,
+                };
+            }
+        } catch (error) {
+            console.error("get Harga module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
     updateHarga = async (id, body) => {
         try {
             const harga = await prisma.harga.update({

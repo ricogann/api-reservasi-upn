@@ -25,6 +25,13 @@ hargaController.get("/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+hargaController.get("/fasilitas/:id", async (req, res) => {
+    console.log(req.params.id);
+    const result = await m$harga.gethargaByIdFasilitas(req.params.id);
+
+    return response.sendResponse(res, result);
+});
+
 hargaController.put("/update/:id", async (req, res) => {
     const result = await m$harga.updateHarga(req.params.id, req.body);
 
