@@ -49,9 +49,7 @@ class _booking {
                 try {
                     if (io) {
                         console.log("ada pemesanan baru");
-                        io.emit("newBooking", {
-                            message: "ada pemesanan baru",
-                        });
+                        io.emit("newBooking", "ada pemesanan baru");
                     } else {
                         console.error("Socket.io is not initialized yet.");
                     }
