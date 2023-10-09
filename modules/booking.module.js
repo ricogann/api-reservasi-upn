@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
-const { io } = require("../app");
+const { socket } = require("../app");
 
 class _booking {
     addBooking = async (body, files) => {
@@ -45,10 +45,8 @@ class _booking {
             });
 
             if (Booking) {
-                const socket = io.on("connection", (socket) => {
-                    socket.emit("newBooking", "ada pemesanan baru");
-                    return socket;
-                });
+                socket.emit("newBooking", "ada pemesanan baru");
+
                 return {
                     status: true,
                     code: 201,

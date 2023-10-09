@@ -27,15 +27,14 @@ const io = require("socket.io")(server, {
     //    transports: ["websocket","polling"],
 });
 
-const socket = io.on("connection", (socket) => {
+const socket = io.on("connection", (sock) => {
     console.log("connect");
 
-    socket.on("disconnect", () => {
+    sock.on("disconnect", () => {
         console.log("server disconnect");
     });
 
-    socket.emit("join", "data dari server");
-    return socket;
+    return sock;
 });
 
 app.get("/", (req, res) => {
