@@ -45,6 +45,7 @@ class _booking {
             });
 
             if (Booking) {
+                console.log("Before conditional check");
                 if (io) {
                     console.log("ada pemesanan baru");
                     io.emit("newBooking", {
