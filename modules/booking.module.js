@@ -1,4 +1,4 @@
-const { io } = require("../app");
+import { io } from "../app.js";
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
