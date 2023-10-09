@@ -34,10 +34,9 @@ const socket = io.on("connection", (sock) => {
         console.log("server disconnect");
     });
 
+    sock.emit("newBooking", "new booking");
     return sock;
 });
-
-io.emit("newBooking", "new booking");
 
 app.get("/", (req, res) => {
     res.status(200).json({
