@@ -45,9 +45,7 @@ class _booking {
             });
 
             if (Booking) {
-                socket.emit("newBooking", {
-                    message: "ada pemesanan baru",
-                });
+                io.emit("newBooking", "ada booking baru");
                 return {
                     status: true,
                     code: 201,
