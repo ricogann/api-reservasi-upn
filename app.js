@@ -52,4 +52,4 @@ server.listen(port, () => {
 });
 
 console.log("Socket.io initialized");
-module.exports = { io };
+module.exports = { server };
