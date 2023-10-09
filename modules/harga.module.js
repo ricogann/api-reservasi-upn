@@ -84,7 +84,7 @@ class _harga {
 
     gethargaByIdFasilitas = async (id) => {
         try {
-            const Harga = await prisma.harga.findFirst({
+            const Harga = await prisma.harga.findMany({
                 where: {
                     id_fasilitas: Number(id),
                 },
