@@ -53,4 +53,4 @@ server.listen(port, () => {
 
 console.log("Socket.io initialized");
 const test = "halo";
-exports = { test };
+export { test };
