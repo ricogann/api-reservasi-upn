@@ -51,4 +51,4 @@ const socket = io.on("connection", (sock) => {
     return sock;
 });
 
-module.exports = { io };
+exports = { io };
