@@ -4,7 +4,7 @@ const fs = require("fs");
 // const io = require("socket.io");
 const { test } = require("../app");
 
-console.log(test);
+console.log("yey", test);
 // console.log(io);
 class _booking {
     addBooking = async (body, files) => {
