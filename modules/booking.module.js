@@ -1,8 +1,23 @@
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
-const { io } = require("../app");
-console.log(io);
+const { initIo } = require("../app");
+
+const testing = async () => {
+    try {
+        const io = await initIo();
+        if (io) {
+            console.log("ada pemesanan baru");
+            io.emit("newBooking", "new booking");
+        } else {
+            console.error("Socket.io is not initialized yet.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+};
+
+testing();
 
 class _booking {
     addBooking = async (body, files) => {
