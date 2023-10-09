@@ -19,7 +19,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
-const initIo = async () => {
+async function initIo() {
     const io = require("socket.io")(server, {
         cors: {
             origin: "*",
@@ -40,7 +40,7 @@ const initIo = async () => {
     });
 
     return io;
-};
+}
 
 app.get("/", (req, res) => {
     res.status(200).json({
