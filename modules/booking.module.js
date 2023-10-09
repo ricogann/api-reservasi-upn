@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
-const { socket } = require("../app");
+const { io } = require("../app");
 
 class _booking {
     addBooking = async (body, files) => {
@@ -45,9 +45,11 @@ class _booking {
             });
 
             if (Booking) {
-                if (socket) {
+                if (io) {
                     console.log("ada pemesanan baru");
-                    socket.emit("newBooking", "ada pemesanan baru");
+                    io.emit("newBooking", {
+                        message: "ada pemesanan baru",
+                    });
                 }
 
                 return {
