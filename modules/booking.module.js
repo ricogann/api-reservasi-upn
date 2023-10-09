@@ -1,8 +1,8 @@
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
-const { io } = require("../app");
-console.log(io);
+const { initIo } = require("../app");
+console.log(initIo());
 
 class _booking {
     addBooking = async (body, files) => {

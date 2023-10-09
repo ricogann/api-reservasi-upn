@@ -52,4 +52,16 @@ server.listen(port, () => {
 });
 
 console.log("Socket.io initialized");
-module.exports = { io };
+
+async function initIo() {
+    const io = require("socket.io")(server, {
+        cors: {
+            origin: "*",
+            methods: ["GET", "POST"],
+        },
+        //    transports: ["websocket","polling"],
+    });
+
+    return io;
+}
+module.exports = { initIo };
