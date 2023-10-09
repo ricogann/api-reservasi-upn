@@ -2,9 +2,9 @@ const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
 // const io = require("socket.io");
-const { server } = require("../app");
+const { test } = require("../app");
 
-console.log(server);
+console.log(test);
 // console.log(io);
 class _booking {
     addBooking = async (body, files) => {

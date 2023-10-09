@@ -52,4 +52,5 @@ server.listen(port, () => {
 });
 
 console.log("Socket.io initialized");
-module.exports = { server };
+const test = "halo";
+module.exports = { test };
