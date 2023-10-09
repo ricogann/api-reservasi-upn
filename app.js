@@ -28,19 +28,19 @@ const initIo = async () => {
         //    transports: ["websocket","polling"],
     });
 
-    return io;
-};
+    const socket = io.on("connection", (sock) => {
+        console.log("connect");
 
-const socket = io.on("connection", (sock) => {
-    console.log("connect");
+        sock.on("disconnect", () => {
+            console.log("server disconnect");
+        });
 
-    sock.on("disconnect", () => {
-        console.log("server disconnect");
+        sock.emit("newBooking", "new booking");
+        return sock;
     });
 
-    sock.emit("newBooking", "new booking");
-    return sock;
-});
+    return io;
+};
 
 app.get("/", (req, res) => {
     res.status(200).json({
