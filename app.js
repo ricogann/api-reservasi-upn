@@ -19,6 +19,19 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
+app.get("/", (req, res) => {
+    res.status(200).json({
+        message: "yep, this works. you can use it now!",
+    });
+});
+
+routes(app);
+
+app.use("/assets", express.static(`./public`));
+server.listen(port, () => {
+    console.log(`Server is running on port http://localhost:${port}`);
+});
+
 const io = require("socket.io")(server, {
     cors: {
         origin: "*",
@@ -38,19 +51,4 @@ const socket = io.on("connection", (sock) => {
     return sock;
 });
 
-app.get("/", (req, res) => {
-    res.status(200).json({
-        message: "yep, this works. you can use it now!",
-    });
-});
-
-routes(app);
-
-app.use("/assets", express.static(`./public`));
-server.listen(port, () => {
-    console.log(`Server is running on port http://localhost:${port}`);
-});
-
-console.log("Socket.io initialized");
-const test = "halo";
-module.exports = { test };
+module.exports = { io };
