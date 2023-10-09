@@ -1,7 +1,8 @@
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
-const initIo = require("../app");
+const { io } = require("../app");
+console.log(io);
 
 class _booking {
     addBooking = async (body, files) => {
@@ -45,7 +46,6 @@ class _booking {
             });
 
             if (Booking) {
-                const io = await initIo();
                 if (io) {
                     console.log("halo test");
                 }

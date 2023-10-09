@@ -19,28 +19,24 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
-async function initIo() {
-    const io = require("socket.io")(server, {
-        cors: {
-            origin: "*",
-            methods: ["GET", "POST"],
-        },
-        //    transports: ["websocket","polling"],
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+    },
+    //    transports: ["websocket","polling"],
+});
+
+const socket = io.on("connection", (sock) => {
+    console.log("connect");
+
+    sock.on("disconnect", () => {
+        console.log("server disconnect");
     });
 
-    const socket = io.on("connection", (sock) => {
-        console.log("connect");
-
-        sock.on("disconnect", () => {
-            console.log("server disconnect");
-        });
-
-        sock.emit("newBooking", "new booking");
-        return sock;
-    });
-
-    return io;
-}
+    sock.emit("newBooking", "new booking");
+    return sock;
+});
 
 app.get("/", (req, res) => {
     res.status(200).json({
@@ -56,4 +52,4 @@ server.listen(port, () => {
 });
 
 console.log("Socket.io initialized");
-module.exports = initIo();
+module.exports = { io };
