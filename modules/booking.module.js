@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
-const { io, socket } = require("../app");
+const io = require("../app").io;
 
 class _booking {
     addBooking = async (body, files) => {
