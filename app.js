@@ -6,7 +6,7 @@ const http = require("http");
 
 class App {
     constructor() {
-        this.app = express();
+        this.app = app;
         this.server = http.createServer(this.app);
         this.plugins();
         this.init();
@@ -29,4 +29,4 @@ class App {
     }
 }
 
-module.exports = App;
+module.exports = new App();
