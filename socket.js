@@ -10,6 +10,8 @@ const io = new Server(server, {
 });
 
 let socket = io.on("connection", (socket) => {
+    console.log("Socket Connect");
+
     socket.on("disconnect", () => {
         console.log("Socket Disconnect");
     });

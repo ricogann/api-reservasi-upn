@@ -45,7 +45,6 @@ class _booking {
             });
 
             if (Booking) {
-                main.socket.emit("newBooking", "new booking");
                 return {
                     status: true,
                     code: 201,
@@ -230,6 +229,7 @@ class _booking {
             });
 
             if (Booking) {
+                main.socket.emit("newBooking", Booking);
                 return {
                     status: true,
                     code: 200,
@@ -258,6 +258,7 @@ class _booking {
             });
 
             if (Booking) {
+                main.socket.emit("newBooking", Booking);
                 return {
                     status: true,
                     code: 200,
