@@ -1,9 +1,11 @@
-const bodyParser = require("body-parser");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+const express = require("express");
 const { app, server, PORT } = require("./app");
 
-const routes = require("./routes")(app);
+const routes = require("./routes");
 
+routes(app);
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
@@ -14,6 +16,7 @@ app.get("/", (req, res) => {
     });
 });
 
+app.use("/assets", express.static("./public"));
 server.listen(PORT, async () => {
     console.log(`Server is running on port http://localhost:${PORT}`);
 });
