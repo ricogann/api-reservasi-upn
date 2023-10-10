@@ -1,6 +1,6 @@
 const { Server } = require("socket.io");
 const App = require("./app");
-const server = App;
+const server = new App();
 
 const io = new Server(server.server, {
     cors: {

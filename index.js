@@ -1,5 +1,5 @@
 const App = require("./app");
-const server = App;
+const server = new App();
 const routes = require("./routes")(server.app);
 
 server.server.listen(server.PORT, async () => {
