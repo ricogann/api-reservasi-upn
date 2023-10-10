@@ -3,8 +3,6 @@ const prisma = require("../helpers/database");
 const fs = require("fs");
 const main = require("../index");
 
-console.log(main.socket);
-
 class _booking {
     addBooking = async (body, files) => {
         try {
@@ -47,9 +45,7 @@ class _booking {
             });
 
             if (Booking) {
-                if (io) {
-                    console.log("halo test");
-                }
+                main.socket.emit("newBooking", "new booking");
                 return {
                     status: true,
                     code: 201,
