@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
+const main = require("../socket");
 
 class _auth {
     loginMahasiswa = async (body) => {
@@ -343,6 +344,7 @@ class _auth {
             });
 
             if (insertData) {
+                main.socket.emit("newUser", insertData);
                 return {
                     status: true,
                     code: 201,
@@ -431,6 +433,7 @@ class _auth {
             });
 
             if (insertData) {
+                main.socket.emit("newUser", insertData);
                 return {
                     status: true,
                     code: 201,
@@ -520,6 +523,7 @@ class _auth {
             });
 
             if (insertData) {
+                main.socket.emit("newUser", insertData);
                 return {
                     status: true,
                     code: 201,

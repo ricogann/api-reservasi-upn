@@ -45,6 +45,7 @@ class _booking {
             });
 
             if (Booking) {
+                main.socket.emit("newPreBooking", Booking);
                 return {
                     status: true,
                     code: 201,
