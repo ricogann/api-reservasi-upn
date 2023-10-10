@@ -1,54 +1,60 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const routes = require("./routes");
 const bodyParser = require("body-parser");
 const http = require("http");
-const fs = require("fs");
+const routes = require("./routes")(app);
 
-const sslOptions = {
-    key: fs.readFileSync("privkey.pem"),
-    cert: fs.readFileSync("cert.pem"),
-};
+class App {
+    constructor() {
+        this.app = express();
+        this.server = http.createServer(this.app);
+        this.plugins();
+        this.PORT = process.env.PORT || 5000;
+    }
 
-const server = http.createServer(app);
+    plugins() {
+        this.app.use(cors());
+        routes;
+    }
+}
 
-const port = process.env.PORT || 5000;
+// const server = http.createServer(app);
 
-app.use(cors());
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+// const port = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
-    res.status(200).json({
-        message: "yep, this works. you can use it now!",
-    });
-});
+// const io = require("socket.io")(server, {
+//     cors: {
+//         origin: "*",
+//         methods: ["GET", "POST"],
+//     },
+//     //    transports: ["websocket","polling"],
+// });
 
-routes(app);
+// const socket = io.on("connection", (sock) => {
+//     console.log("connect");
 
-app.use("/assets", express.static(`./public`));
-server.listen(port, () => {
-    console.log(`Server is running on port http://localhost:${port}`);
-});
+//     sock.on("disconnect", () => {
+//         console.log("server disconnect");
+//     });
 
-const io = require("socket.io")(server, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
-    },
-    //    transports: ["websocket","polling"],
-});
+//     sock.emit("newBooking", "new booking");
+//     return sock;
+// });
 
-const socket = io.on("connection", (sock) => {
-    console.log("connect");
+// app.use(cors());
+// app.use(bodyParser.json({ limit: "50mb" }));
+// app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
-    sock.on("disconnect", () => {
-        console.log("server disconnect");
-    });
+// app.get("/", (req, res) => {
+//     res.status(200).json({
+//         message: "yep, this works. you can use it now!",
+//     });
+// });
 
-    sock.emit("newBooking", "new booking");
-    return sock;
-});
+// app.use("/assets", express.static(`./public`));
+// server.listen(port, () => {
+//     console.log(`Server is running on port http://localhost:${port}`);
+// });
 
-module.exports = { io };
+module.exports = App;

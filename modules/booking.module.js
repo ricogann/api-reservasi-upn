@@ -1,12 +1,10 @@
-const { io } = require("../app");
 const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
-// const io = require("socket.io");
+const main = require("../index");
 
-console.log(prisma);
-console.log("yey", io);
-// console.log(io);
+console.log(main.socket);
+
 class _booking {
     addBooking = async (body, files) => {
         try {
