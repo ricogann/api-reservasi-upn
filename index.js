@@ -5,11 +5,11 @@ const { app, server, PORT } = require("./app");
 
 const routes = require("./routes");
 
-routes(app);
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
+routes(app);
 app.get("/", (req, res) => {
     res.status(200).json({
         message: "yep, this works. you can use it now!",
