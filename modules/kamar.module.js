@@ -117,32 +117,11 @@ class _kamar {
 
     updateKamar = async (id, body) => {
         try {
-            const schema = Joi.object({
-                no_kamar: Joi.number().required(),
-                id_lantai: Joi.number().required(),
-                npm_bed1_a: Joi.string().allow(null),
-                npm_bed2_b: Joi.string().allow(null),
-                npm_bed3_3: Joi.string().allow(null),
-                status_kamar: Joi.boolean().required(),
-            }).options({ abortEarly: false });
-
-            const validation = schema.validate(body);
-
-            if (validation.error) {
-                const errorDetails = validation.error.details.map(
-                    (detail) => detail.message
-                );
-
-                return { status: false, error: errorDetails.join(", ") };
-            }
-
             const kamar = await prisma.kamar_asrama.update({
                 where: {
                     id_asrama: Number(id),
                 },
                 data: {
-                    no_kamar: body.no_kamar,
-                    id_lantai: Number(body.id_lantai),
                     npm_bed1_a: body.npm_bed1_a,
                     npm_bed2_b: body.npm_bed2_b,
                     npm_bed3_3: body.npm_bed3_3,
