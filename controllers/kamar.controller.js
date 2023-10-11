@@ -42,7 +42,7 @@ kamarController.put("/mahasiswa/delete-expired/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
-kamarController.put("/mahasiswa/delete-expired-cronjob/", async (req, res) => {
+kamarController.put("/mahasiswa/delete-expired-cronjob", async (req, res) => {
     const result = await m$kamar.deleteExpiredMahasiswaCronJob();
 
     return response.sendResponse(res, result);
