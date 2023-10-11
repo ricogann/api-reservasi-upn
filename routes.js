@@ -8,7 +8,6 @@ const campusController = require("./controllers/campus.controller");
 const hargaController = require("./controllers/harga.controller");
 const miscController = require("./controllers/misc.controller");
 
-
 const authorization = require('./middlewares/authorization')
 
 const _routes = [
