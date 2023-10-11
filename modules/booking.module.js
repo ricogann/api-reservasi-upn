@@ -64,6 +64,7 @@ class _booking {
 
     getBooking = async () => {
         try {
+            
             const Booking = await prisma.pemesanan.findMany({
                 include: {
                     Account: {
@@ -198,6 +199,35 @@ class _booking {
             const Booking = await prisma.pemesanan.delete({
                 where: {
                     id_pemesanan: Number(id),
+                },
+            });
+
+            if (Booking) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Delete Fasilitas success",
+                };
+            }
+        } catch (error) {
+            console.error("delete fasilitas module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    deleteBookingCronJob = async () => {
+        try {
+            const currentDate = new Date(); // Tanggal saat ini
+            currentDate.setDate(currentDate.getDate() - 1);
+            const Booking = await prisma.pemesanan.delete({
+                where: {
+                    status: "Menunggu Pembayaran",
+                    tanggal_pemesanan: {
+                        lt: currentDate,
+                    }
                 },
             });
 
