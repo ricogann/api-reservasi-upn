@@ -25,7 +25,7 @@ authorization = async (req, res, next) => {
 
                 // Periksa peran pengguna dan izinkan atau tolak akses berdasarkan itu
                 if (checkRoleAccess(req, res, next)) {
-                    next(); // Izinkan akses
+                    console.log(error);
                 } else {
                     res.status(403).json({
                         status: false,
