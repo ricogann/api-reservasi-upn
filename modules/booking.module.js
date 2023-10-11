@@ -221,8 +221,10 @@ class _booking {
     deleteBookingCronJob = async () => {
         try {
             const currentDate = new Date(); // Tanggal saat ini
+             console.log(currentDate);
             currentDate.setDate(currentDate.getDate() - 1);
-            const Booking = await prisma.pemesanan.delete({
+            console.log(currentDate);
+            const Booking = await prisma.pemesanan.deleteMany({
                 where: {
                     status: "Menunggu Pembayaran",
                     tanggal_pemesanan: {
