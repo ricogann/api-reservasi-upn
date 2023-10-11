@@ -220,7 +220,7 @@ class _booking {
 
     deleteBookingCronJob = async () => {
         try {
-            const currentDate = new Date(); // Tanggal saat ini
+            const currentDate = new Date(Date.now() - 86400000);// Tanggal Kemarin
              console.log(currentDate);
             currentDate.setDate(currentDate.getDate() - 1);
             console.log(currentDate);
