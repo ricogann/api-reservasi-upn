@@ -3,6 +3,7 @@ const m$booking = require("../api-reservasi-upn/modules/booking.module");
 
 // Definisikan tugas cron
 const tugasCron = () => {
+
   console.log('Cron job dijalankan pada: ', new Date());
     m$booking.deleteBookingCronJob();
 };
