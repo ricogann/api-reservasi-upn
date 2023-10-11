@@ -8,6 +8,9 @@ const campusController = require("./controllers/campus.controller");
 const hargaController = require("./controllers/harga.controller");
 const miscController = require("./controllers/misc.controller");
 
+
+const authorization = require('./middlewares/authorization')
+
 const _routes = [
     ["auth", authController],
     ["seeder", seederController],
@@ -24,7 +27,13 @@ const routes = (app) => {
     _routes.forEach((route) => {
         const [url, controller] = route;
 
-        app.use(`/api/${url}`, controller);
+        const isAuthorizationRequired = ['fasilitas','campus','kamar', 'booking', 'harga'].includes(url);
+        
+        if (isAuthorizationRequired) {
+            app.use(`/api/${url}`, authorization, controller);
+        } else {
+            app.use(`/api/${url}`, controller);
+        }
     });
 };
 

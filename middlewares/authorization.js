@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const prisma = require("../helpers/database");
 
-auth = async (req, res, next) => {
+authorization = async (req, res, next) => {
     let token;
     if (
         req.headers.authorization &&
@@ -11,30 +11,38 @@ auth = async (req, res, next) => {
             token = req.headers.authorization.split(" ")[1];
             const decoded = jwt.verify(token, "jwt-secret-code");
 
-            const auth = await prisma.member.findUnique({
+            const auth = await prisma.account.findUnique({
                 where: {
-                    id_member: decoded.id_member,
+                    id_account: decoded.id_account,
                 },
             });
 
             if (auth) {
                 req.auth = {
-                    id_member: decoded.id_member,
-                    email_member: decoded.email_member,
-                    name_member: decoded.name_member,
+                    id_account: decoded.id_account,
+                    id_role: auth.id_role, // Mengasumsikan peran disimpan dalam objek "auth"
                 };
-                next();
+
+                // Periksa peran pengguna dan izinkan atau tolak akses berdasarkan itu
+                if (checkRoleAccess(req, res, next)) {
+                    next(); // Izinkan akses
+                } else {
+                    res.status(403).json({
+                        status: false,
+                        error: "Akses ditolak. Izin tidak mencukupi.",
+                    });
+                }
             } else {
                 res.status(401).json({
                     status: false,
-                    error: "Unauthorized",
+                    error: "Tidak diotorisasi",
                 });
             }
         } catch (error) {
-            console.log("auth middleware error: ", error);
+            console.log("error middleware otentikasi: ", error);
             res.status(401).json({
                 status: false,
-                error: "Unauthorized",
+                error: "Tidak diotorisasi",
             });
         }
     }
@@ -42,9 +50,34 @@ auth = async (req, res, next) => {
     if (!token) {
         res.status(401).json({
             status: false,
-            error: "Unauthorized",
+            error: "Tidak diotorisasi",
         });
     }
 };
 
-module.exports = auth;
+// Fungsi untuk memeriksa akses berdasarkan peran
+function checkRoleAccess(req, res, next) {
+    const { id_role } = req.auth;
+
+    // Tentukan ID peran dan izin yang sesuai
+    const rolePermissions = {
+        1: ["write", "read", "edit"], // Mengasumsikan 1 adalah ID peran untuk 'Dosen'
+        2: ["write", "read", "edit"], // Mengasumsikan 2 adalah ID peran untuk 'Mahasiswa'
+        3: ["write", "read", "edit"], // Mengasumsikan 3 adalah ID peran untuk 'Umum'
+        // Tentukan ID peran lainnya dan izin mereka sesuai kebutuhan
+    };
+
+    const requiredPermissions = rolePermissions[id_role];
+
+    if (requiredPermissions) {
+        const { method } = req; // Mengasumsikan Anda menggunakan Express.js atau kerangka kerja serupa
+
+        if (requiredPermissions.includes(method)) {
+            return true; // Pengguna memiliki izin yang diperlukan
+        }
+    }
+
+    return false; // Pengguna tidak memiliki izin yang diperlukan
+}
+
+module.exports = authorization;
