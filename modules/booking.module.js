@@ -234,11 +234,11 @@ class _booking {
                 return {
                     status: true,
                     code: 200,
-                    message: "Delete Fasilitas success",
+                    message: "Delete CronJob Booking success",
                 };
             }
         } catch (error) {
-            console.error("delete fasilitas module Error: ", error);
+            console.error("delete Booking Cronjob module Error: ", error);
             return {
                 status: false,
                 error,
