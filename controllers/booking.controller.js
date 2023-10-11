@@ -48,6 +48,12 @@ bookingController.delete("/delete/:id", async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+bookingController.delete("/delete/cronjob", async (req, res) => {
+    const result = await m$booking.deleteBookingCronJob();
+
+    return response.sendResponse(res, result);
+});
+
 bookingController.put(
     "/upload-bukti/:id",
     upload.single("bukti_pembayaran"),
