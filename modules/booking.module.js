@@ -223,7 +223,7 @@ class _booking {
             const Booking = await prisma.pemesanan.deleteMany({
                 where: {
                     status: "Menunggu Pembayaran",
-                    tanggal_pemesanan: {
+                    createdAt: {
                         lt: currentDate,
                     },
                 },
