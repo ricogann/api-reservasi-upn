@@ -64,7 +64,6 @@ class _booking {
 
     getBooking = async () => {
         try {
-            
             const Booking = await prisma.pemesanan.findMany({
                 include: {
                     Account: {
@@ -220,13 +219,13 @@ class _booking {
 
     deleteBookingCronJob = async () => {
         try {
-            const currentDate = new Date(Date.now() - 86400000);// Tanggal Kemarin
+            const currentDate = new Date(Date.now() - 86400000); // Tanggal Kemarin
             const Booking = await prisma.pemesanan.deleteMany({
                 where: {
                     status: "Menunggu Pembayaran",
                     tanggal_pemesanan: {
                         lt: currentDate,
-                    }
+                    },
                 },
             });
 
