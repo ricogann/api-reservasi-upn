@@ -229,6 +229,7 @@ class _booking {
                     }
                 },
             });
+	   console.log(currentDate);
 
             if (Booking) {
                 return {
