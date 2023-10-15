@@ -1,16 +1,22 @@
 const m$fasilitas = require("../modules/fasilitas.module");
 const upload = require("../middlewares/multer");
+const authorization = require("../middlewares/authorization");
 const response = require("../helpers/response");
 
 const { Router } = require("express");
 
 const fasilitasController = Router();
 
-fasilitasController.post("/add", upload.array("foto", 7), async (req, res) => {
-    const result = await m$fasilitas.addFasilitas(req.body, req.files);
+fasilitasController.post(
+    "/add",
+    authorization,
+    upload.array("foto", 7),
+    async (req, res) => {
+        const result = await m$fasilitas.addFasilitas(req.body, req.files);
 
-    return response.sendResponse(res, result);
-});
+        return response.sendResponse(res, result);
+    }
+);
 
 fasilitasController.get("/", async (req, res) => {
     const result = await m$fasilitas.getFasilitas();
@@ -34,13 +40,13 @@ fasilitasController.put(
             req.body,
             req.files
         );
-	console.log("halo");
+        console.log("halo");
 
         return response.sendResponse(res, result);
     }
 );
 
-fasilitasController.delete("/delete/:id", async (req, res) => {
+fasilitasController.delete("/delete/:id", authorization, async (req, res) => {
     const result = await m$fasilitas.deleteFasilitas(req.params.id);
 
     return response.sendResponse(res, result);
@@ -55,7 +61,7 @@ fasilitasController.put(
             req.body,
             req.files
         );
-	console.log(req.files);
+        console.log(req.files);
         return response.sendResponse(res, result);
     }
 );
