@@ -9,8 +9,7 @@ const bookingController = Router();
 
 bookingController.post(
     "/add",
-    authorization,
-    upload.array("foto_booking", 7),
+    [authorization, upload.array("foto_booking", 7)],
     async (req, res) => {
         const result = await m$booking.addBooking(req.body, req.files);
 
@@ -32,8 +31,7 @@ bookingController.get("/:id", authorization, async (req, res) => {
 
 bookingController.put(
     "/:id",
-    authorization,
-    upload.array("foto_booking", 3),
+    [authorization, upload.array("foto_booking", 3)],
     async (req, res) => {
         const result = await m$booking.updateBooking(
             req.params.id,
@@ -59,8 +57,7 @@ bookingController.delete("/cronjob", async (req, res) => {
 
 bookingController.put(
     "/upload-bukti/:id",
-    authorization,
-    upload.single("bukti_pembayaran"),
+    [authorization, upload.single("bukti_pembayaran")],
     async (req, res) => {
         console.log(req.file);
         const result = await m$booking.uploadBukti(req.params.id, req.file);
@@ -71,8 +68,7 @@ bookingController.put(
 
 bookingController.put(
     "/upload-sik/:id",
-    authorization,
-    upload.single("SIK"),
+    [authorization, upload.single("SIK")],
     async (req, res) => {
         console.log(req.file);
         const result = await m$booking.uploadSIK(req.params.id, req.file);
