@@ -244,9 +244,8 @@ class _kamar {
     deleteExpiredMahasiswaCronJob = async () => {
         try {
             const year = new Date().getFullYear().toString().split("");
-            const npm = year[2] + year[3] + "081010001";
+            const npm = year[2] + year[3] - 1 + "081010001";
 
-            console.log(npm);
             const kamar1 = await prisma.kamar_asrama.deleteMany({
                 where: {
                     npm_bed1_a: {
