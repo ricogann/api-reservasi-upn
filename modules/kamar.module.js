@@ -246,83 +246,30 @@ class _kamar {
             const year = new Date().getFullYear().toString().split("");
             const npm = year[2] + year[3] + "081010001";
 
-            const mahasiswas = await prisma.mahasiswa.findMany({
+            console.log(npm);
+            const kamar1 = await prisma.kamar_asrama.deleteMany({
                 where: {
-                    npm: {
+                    npm_bed1_a: {
                         lt: npm,
                     },
                 },
             });
 
-            for (const mahasiswa of mahasiswas) {
-                const kamar = await prisma.kamar_asrama.findMany();
+            const kamar2 = await prisma.kamar_asrama.deleteMany({
+                where: {
+                    npm_bed2_b: {
+                        lt: npm,
+                    },
+                },
+            });
 
-                const kamar1 = kamar.filter(
-                    (kamar) => kamar.npm_bed1_a === mahasiswa.npm
-                );
-
-                const kamar2 = kamar.filter(
-                    (kamar) => kamar.npm_bed2_b === mahasiswa.npm
-                );
-
-                const kamar3 = kamar.filter(
-                    (kamar) => kamar.npm_bed3_3 === mahasiswa.npm
-                );
-
-                console.log(kamar1, kamar2, kamar3);
-            }
-
-            // for (const mahasiswa of mahasiswas) {
-            //     const kamar = await prisma.kamar_asrama.findMany();
-
-            //     const kamar1 = kamar.filter(
-            //         (kamar) => kamar.npm_bed1_a === mahasiswa.npm
-            //     );
-
-            //     const kamar2 = kamar.filter(
-            //         (kamar) => kamar.npm_bed2_b === mahasiswa.npm
-            //     );
-
-            //     const kamar3 = kamar.filter(
-            //         (kamar) => kamar.npm_bed3_3 === mahasiswa.npm
-            //     );
-
-            //     if (kamar1.length > 0) {
-            //         const kamar = await prisma.kamar_asrama.update({
-            //             where: {
-            //                 id_asrama: kamar1[0].id_asrama,
-            //             },
-            //             data: {
-            //                 npm_bed1_a: null,
-            //                 status_kamar: true,
-            //             },
-            //         });
-            //     }
-
-            //     if (kamar2.length > 0) {
-            //         const kamar = await prisma.kamar_asrama.update({
-            //             where: {
-            //                 id_asrama: kamar2[0].id_asrama,
-            //             },
-            //             data: {
-            //                 npm_bed2_b: null,
-            //                 status_kamar: true,
-            //             },
-            //         });
-            //     }
-
-            //     if (kamar3.length > 0) {
-            //         const kamar = await prisma.kamar_asrama.update({
-            //             where: {
-            //                 id_asrama: kamar3[0].id_asrama,
-            //             },
-            //             data: {
-            //                 npm_bed3_3: null,
-            //                 status_kamar: true,
-            //             },
-            //         });
-            //     }
-            // }
+            const kamar3 = await prisma.kamar_asrama.deleteMany({
+                where: {
+                    npm_bed3_3: {
+                        lt: npm,
+                    },
+                },
+            });
 
             return {
                 status: true,
