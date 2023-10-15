@@ -17,32 +17,37 @@ authorization = async (req, res, next) => {
                 },
             });
 
+            const authAdmin = await prisma.admin.findUnique({
+                where: {
+                    id_admin: decoded.id_account,
+                },
+            });
+
             if (auth) {
                 req.auth = {
                     id_account: decoded.id_account,
-                    id_role: auth.id_role, // Mengasumsikan peran disimpan dalam objek "auth"
+                    id_role: auth.id_role,
+                    nama: decoded.nama,
+                    status: decoded.status,
                 };
-
-                // Periksa peran pengguna dan izinkan atau tolak akses berdasarkan itu
-                if (checkRoleAccess(req, res, next)) {
-                    console.log(error);
-                } else {
-                    res.status(403).json({
-                        status: false,
-                        error: "Akses ditolak. Izin tidak mencukupi.",
-                    });
-                }
+                next();
+            } else if (authAdmin) {
+                req.auth = {
+                    id_admin: decoded.id_admin,
+                    username_admin: decoded.username_admin,
+                };
+                next();
             } else {
                 res.status(401).json({
                     status: false,
-                    error: "Tidak diotorisasi",
+                    error: "Unauthorized",
                 });
             }
         } catch (error) {
             console.log("error middleware otentikasi: ", error);
             res.status(401).json({
                 status: false,
-                error: "Tidak diotorisasi",
+                error: "Unauthorized",
             });
         }
     }
@@ -50,34 +55,9 @@ authorization = async (req, res, next) => {
     if (!token) {
         res.status(401).json({
             status: false,
-            error: "Tidak diotorisasi",
+            error: "Unauthorized",
         });
     }
 };
-
-// Fungsi untuk memeriksa akses berdasarkan peran
-function checkRoleAccess(req, res, next) {
-    const { id_role } = req.auth;
-    console.log(req);
-    // Tentukan ID peran dan izin yang sesuai
-    const rolePermissions = {
-        1: ["write", "read", "edit"], // Mengasumsikan 1 adalah ID peran untuk 'Dosen'
-        2: ["write", "read", "edit"], // Mengasumsikan 2 adalah ID peran untuk 'Mahasiswa'
-        3: ["write", "read", "edit"], // Mengasumsikan 3 adalah ID peran untuk 'Umum'
-        // Tentukan ID peran lainnya dan izin mereka sesuai kebutuhan
-    };
-
-    const requiredPermissions = rolePermissions[id_role];
-
-    if (requiredPermissions) {
-        const { method } = req; // Mengasumsikan Anda menggunakan Express.js atau kerangka kerja serupa
-
-        if (requiredPermissions.includes(method)) {
-            return true; // Pengguna memiliki izin yang diperlukan
-        }
-    }
-
-    return false; // Pengguna tidak memiliki izin yang diperlukan
-}
 
 module.exports = authorization;
