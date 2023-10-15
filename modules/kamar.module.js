@@ -254,7 +254,9 @@ class _kamar {
                 },
             });
 
-            console.log(mahasiswas);
+            for (const mahasiswa of mahasiswas) {
+                console.log("halo", mahasiswa.npm);
+            }
 
             // for (const mahasiswa of mahasiswas) {
             //     const kamar = await prisma.kamar_asrama.findMany();
