@@ -11,39 +11,46 @@ authorization = async (req, res, next) => {
             token = req.headers.authorization.split(" ")[1];
             const decoded = jwt.verify(token, "jwt-secret-code");
 
-            const auth = await prisma.account.findUnique({
-                where: {
-                    id_account: decoded.id_account,
-                },
-            });
-
-            const authAdmin = await prisma.admin.findUnique({
-                where: {
-                    id_admin: decoded.id_admin,
-                },
-            });
-
-            console.log(authAdmin);
-
-            if (auth) {
-                req.auth = {
-                    id_account: decoded.id_account,
-                    id_role: auth.id_role,
-                    nama: decoded.nama,
-                    status: decoded.status,
-                };
-                next();
-            } else if (authAdmin) {
-                req.auth = {
-                    id_admin: decoded.id_admin,
-                    username_admin: decoded.username_admin,
-                };
-                next();
-            } else {
-                res.status(401).json({
-                    status: false,
-                    error: "Unauthorized",
+            if (decoded.id_account) {
+                const auth = await prisma.account.findUnique({
+                    where: {
+                        id_account: decoded.id_account,
+                    },
                 });
+
+                if (auth) {
+                    req.auth = {
+                        id_account: decoded.id_account,
+                        id_role: auth.id_role,
+                        nama: decoded.nama,
+                        status: decoded.status,
+                    };
+                    next();
+                } else {
+                    res.status(401).json({
+                        status: false,
+                        error: "Unauthorized",
+                    });
+                }
+            } else if (decoded.id_admin) {
+                const authAdmin = await prisma.admin.findUnique({
+                    where: {
+                        id_admin: decoded.id_admin,
+                    },
+                });
+
+                if (authAdmin) {
+                    req.auth = {
+                        id_admin: decoded.id_admin,
+                        username_admin: decoded.username_admin,
+                    };
+                    next();
+                } else {
+                    res.status(401).json({
+                        status: false,
+                        error: "Unauthorized",
+                    });
+                }
             }
         } catch (error) {
             console.log("error middleware otentikasi: ", error);
