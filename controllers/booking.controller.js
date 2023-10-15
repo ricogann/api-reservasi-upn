@@ -17,7 +17,7 @@ bookingController.post(
     }
 );
 
-bookingController.get("/", authorization, async (req, res) => {
+bookingController.get("/", async (req, res) => {
     const result = await m$booking.getBooking();
 
     return response.sendResponse(res, result);
