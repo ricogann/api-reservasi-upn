@@ -124,7 +124,7 @@ class _kamar {
                 data: {
                     npm_bed1_a: body.npm_bed1_a,
                     npm_bed2_b: body.npm_bed2_b,
-                    npm_bed3_3: body.npm_bed3_c,
+                    npm_bed3_c: body.npm_bed3_c,
                     status_kamar: Boolean(body.status_kamar),
                 },
             });
