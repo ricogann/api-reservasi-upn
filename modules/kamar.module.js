@@ -253,57 +253,60 @@ class _kamar {
                     },
                 },
             });
-            for (const mahasiswa of mahasiswas) {
-                const kamar = await prisma.kamar_asrama.findMany();
 
-                const kamar1 = kamar.filter(
-                    (kamar) => kamar.npm_bed1_a === mahasiswa.npm
-                );
+            console.log(mahasiswas);
 
-                const kamar2 = kamar.filter(
-                    (kamar) => kamar.npm_bed2_b === mahasiswa.npm
-                );
+            // for (const mahasiswa of mahasiswas) {
+            //     const kamar = await prisma.kamar_asrama.findMany();
 
-                const kamar3 = kamar.filter(
-                    (kamar) => kamar.npm_bed3_3 === mahasiswa.npm
-                );
+            //     const kamar1 = kamar.filter(
+            //         (kamar) => kamar.npm_bed1_a === mahasiswa.npm
+            //     );
 
-                if (kamar1.length > 0) {
-                    const kamar = await prisma.kamar_asrama.update({
-                        where: {
-                            id_asrama: kamar1[0].id_asrama,
-                        },
-                        data: {
-                            npm_bed1_a: null,
-                            status_kamar: true,
-                        },
-                    });
-                }
+            //     const kamar2 = kamar.filter(
+            //         (kamar) => kamar.npm_bed2_b === mahasiswa.npm
+            //     );
 
-                if (kamar2.length > 0) {
-                    const kamar = await prisma.kamar_asrama.update({
-                        where: {
-                            id_asrama: kamar2[0].id_asrama,
-                        },
-                        data: {
-                            npm_bed2_b: null,
-                            status_kamar: true,
-                        },
-                    });
-                }
+            //     const kamar3 = kamar.filter(
+            //         (kamar) => kamar.npm_bed3_3 === mahasiswa.npm
+            //     );
 
-                if (kamar3.length > 0) {
-                    const kamar = await prisma.kamar_asrama.update({
-                        where: {
-                            id_asrama: kamar3[0].id_asrama,
-                        },
-                        data: {
-                            npm_bed3_3: null,
-                            status_kamar: true,
-                        },
-                    });
-                }
-            }
+            //     if (kamar1.length > 0) {
+            //         const kamar = await prisma.kamar_asrama.update({
+            //             where: {
+            //                 id_asrama: kamar1[0].id_asrama,
+            //             },
+            //             data: {
+            //                 npm_bed1_a: null,
+            //                 status_kamar: true,
+            //             },
+            //         });
+            //     }
+
+            //     if (kamar2.length > 0) {
+            //         const kamar = await prisma.kamar_asrama.update({
+            //             where: {
+            //                 id_asrama: kamar2[0].id_asrama,
+            //             },
+            //             data: {
+            //                 npm_bed2_b: null,
+            //                 status_kamar: true,
+            //             },
+            //         });
+            //     }
+
+            //     if (kamar3.length > 0) {
+            //         const kamar = await prisma.kamar_asrama.update({
+            //             where: {
+            //                 id_asrama: kamar3[0].id_asrama,
+            //             },
+            //             data: {
+            //                 npm_bed3_3: null,
+            //                 status_kamar: true,
+            //             },
+            //         });
+            //     }
+            // }
 
             return {
                 status: true,
