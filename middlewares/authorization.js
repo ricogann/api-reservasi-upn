@@ -58,7 +58,7 @@ authorization = async (req, res, next) => {
 // Fungsi untuk memeriksa akses berdasarkan peran
 function checkRoleAccess(req, res, next) {
     const { id_role } = req.auth;
-
+    console.log(req.auth);
     // Tentukan ID peran dan izin yang sesuai
     const rolePermissions = {
         1: ["write", "read", "edit"], // Mengasumsikan 1 adalah ID peran untuk 'Dosen'
