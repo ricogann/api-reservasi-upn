@@ -265,7 +265,7 @@ class _kamar {
 
             const kamar3 = await prisma.kamar_asrama.deleteMany({
                 where: {
-                    npm_bed3_3: {
+                    npm_bed3_c: {
                         lt: npm,
                     },
                 },
