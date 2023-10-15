@@ -19,9 +19,11 @@ authorization = async (req, res, next) => {
 
             const authAdmin = await prisma.admin.findUnique({
                 where: {
-                    id_admin: decoded.id_account,
+                    id_admin: decoded.id_admin,
                 },
             });
+
+            console.log(authAdmin);
 
             if (auth) {
                 req.auth = {
