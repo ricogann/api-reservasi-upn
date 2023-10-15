@@ -174,27 +174,36 @@ class _kamar {
             const year = new Date().getFullYear().toString().split("");
             const npm = year[2] + year[3] - 1 + "081010001";
 
-            const kamar1 = await prisma.kamar_asrama.deleteMany({
+            const kamar1 = await prisma.kamar_asrama.updateMany({
                 where: {
                     npm_bed1_a: {
                         lt: npm,
                     },
                 },
+                data: {
+                    npm_bed1_a: null,
+                },
             });
 
-            const kamar2 = await prisma.kamar_asrama.deleteMany({
+            const kamar2 = await prisma.kamar_asrama.updateMany({
                 where: {
                     npm_bed2_b: {
                         lt: npm,
                     },
                 },
+                data: {
+                    npm_bed2_b: null,
+                },
             });
 
-            const kamar3 = await prisma.kamar_asrama.deleteMany({
+            const kamar3 = await prisma.kamar_asrama.updateMany({
                 where: {
                     npm_bed3_c: {
                         lt: npm,
                     },
+                },
+                data: {
+                    npm_bed3_c: null,
                 },
             });
 
