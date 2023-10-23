@@ -1,10 +1,14 @@
 const multer = require("multer");
 
 const fileFilter = function (req, file, cb) {
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    if (
+        file.mimetype === "image/jpeg" ||
+        file.mimetype === "image/png" ||
+        file.mimetype === "application/pdf"
+    ) {
         cb(null, true);
     } else {
-        cb(new Error("Sorry, only JPEG and PNG files are allowed"), false);
+        cb(new Error("Sorry, only JPEG, PNG, PDF files are allowed"), false);
     }
 };
 

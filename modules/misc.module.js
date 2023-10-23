@@ -35,6 +35,11 @@ class _misc {
                 body.tanda_tangan = files.tanda_tangan[0].filename;
             }
 
+            if (files.terms_service) {
+                fs.unlinkSync(`./public/${body.terms_service_old}`);
+                body.tanda_tangan = files.terms_service[0].filename;
+            }
+
             const misc = await prisma.misc.update({
                 where: {
                     id_misc: Number(id),
@@ -49,6 +54,7 @@ class _misc {
                     nama_pic: body.nama_pic,
                     nip_pic: body.nip_pic,
                     tanda_tangan: body.tanda_tangan,
+                    terms_service: body.terms_service,
                 },
             });
 

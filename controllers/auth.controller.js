@@ -36,6 +36,26 @@ authController.post(
     }
 );
 
+authController.post(
+    "/register/ukm",
+    upload.single("bukti_identitas"),
+    async (req, res) => {
+        const result = await m$auth.registerUkm(req.body, req.file);
+
+        return response.sendResponse(res, result);
+    }
+);
+
+authController.post(
+    "/register/organisasi",
+    upload.single("bukti_identitas"),
+    async (req, res) => {
+        const result = await m$auth.registerOrganisasi(req.body, req.file);
+
+        return response.sendResponse(res, result);
+    }
+);
+
 authController.post("/login/mahasiswa", async (req, res) => {
     const result = await m$auth.loginMahasiswa(req.body);
 

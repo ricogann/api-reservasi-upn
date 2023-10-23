@@ -23,6 +23,8 @@ model Account {
   Umum                    Umum[]
   Dosen                   Dosen[]
   Pemesanan               Pemesanan[]
+  UKM                     Ukm[]
+  Organisasi              Organisasi[]
 }
 
 model Mahasiswa {
@@ -73,6 +75,38 @@ model Dosen {
   status                 Boolean
 
   Account                Account  @relation(fields: [id_account], references: [id_account])
+}
+
+model Ukm {
+  id                      Int      @id @default(autoincrement())
+  id_account              Int      @unique
+  nama_ukm                String
+  email                   String   @unique
+  password                String
+  bukti_identitas         String
+  nama_pj                 String
+  no_telp                 String
+  status                  Boolean
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  Account                Account  @relation(fields: [id_account], references: [id_account])
+}
+
+model Organisasi {
+  id                      Int      @id @default(autoincrement())
+  id_account              Int      @unique
+  nama_organisasi         String
+  email                   String
+  password                String
+  bukti_identitas         String
+  nama_pj                 String
+  no_telp                 String
+  status                  Boolean
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  Account                 Account  @relation(fields: [id_account], references: [id_account])
 }
 
 model Fakultas {

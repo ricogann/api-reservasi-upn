@@ -270,6 +270,77 @@ class _auth {
         }
     };
 
+    loginUkm = async (body) => {};
+
+    loginOrganisasi = async (body) => {};
+
+    loginAdmin = async (body) => {
+        try {
+            const schema = Joi.object({
+                username_admin: Joi.string().required(),
+                password_admin: Joi.string().required(),
+            }).options({ abortEarly: false });
+
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const checkUsername = await prisma.admin.findFirst({
+                where: {
+                    username_admin: body.username_admin,
+                },
+            });
+
+            if (!checkUsername) {
+                return {
+                    status: false,
+                    error: "Username not registered",
+                };
+            }
+
+            const checkPassword = bcrypt.compareSync(
+                body.password_admin,
+                checkUsername.password_admin
+            );
+
+            if (!checkPassword) {
+                return {
+                    status: false,
+                    error: "Wrong password",
+                };
+            }
+
+            const payload = {
+                id_admin: checkUsername.id_admin,
+                username_admin: checkUsername.username_admin,
+            };
+
+            const token = jwt.sign(payload, "jwt-secret-code", {
+                expiresIn: "1d",
+            });
+
+            return {
+                status: true,
+                data: {
+                    message: "Login success, here's your token",
+                    token: token,
+                },
+            };
+        } catch (error) {
+            console.error("login auth module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
     registerMahasiswa = async (body, file) => {
         try {
             //check type and not null of the variable
@@ -542,16 +613,22 @@ class _auth {
         }
     };
 
-    loginAdmin = async (body) => {
+    registerUkm = async (body, file) => {
         try {
+            //check type and not null of the variable
             const schema = Joi.object({
-                username_admin: Joi.string().required(),
-                password_admin: Joi.string().required(),
+                nama_ukm: Joi.string().required(),
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
+                bukti_identitas: Joi.string().required(),
+                nama_pj: Joi.string().required(),
+                no_telp: Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
 
             if (validation.error) {
+                fs.unlinkSync(`./public/${file.filename}`);
                 const errorDetails = validation.error.details.map(
                     (detail) => detail.message
                 );
@@ -559,49 +636,151 @@ class _auth {
                 return { status: false, error: errorDetails.join(", ") };
             }
 
-            const checkUsername = await prisma.admin.findFirst({
+            const bukti_identitas = file ? file.filename : null;
+
+            //check if email already registered or not
+            const checkEmail = await prisma.ukm.findUnique({
                 where: {
-                    username_admin: body.username_admin,
+                    email: body.email,
                 },
             });
 
-            if (!checkUsername) {
+            if (checkEmail) {
+                fs.unlinkSync(`./public/${file.filename}`);
                 return {
                     status: false,
-                    error: "Username not registered",
+                    error: "Email already registered",
                 };
             }
 
-            const checkPassword = bcrypt.compareSync(
-                body.password_admin,
-                checkUsername.password_admin
-            );
+            //hash password
+            // const hash_password = bcrypt.hashSync(body.password, 10);
+            const hash_password = crypto.AES.encrypt(
+                body.password,
+                process.env.SECRET_KEY
+            ).toString();
 
-            if (!checkPassword) {
-                return {
-                    status: false,
-                    error: "Wrong password",
-                };
-            }
-
-            const payload = {
-                id_admin: checkUsername.id_admin,
-                username_admin: checkUsername.username_admin,
-            };
-
-            const token = jwt.sign(payload, "jwt-secret-code", {
-                expiresIn: "1d",
-            });
-
-            return {
-                status: true,
+            const account = await prisma.account.create({
                 data: {
-                    message: "Login success, here's your token",
-                    token: token,
+                    id_role: 4,
+                    status_account: false,
                 },
-            };
+            });
+
+            //insert data to database
+            const insertData = await prisma.ukm.create({
+                data: {
+                    id_account: account.id_account,
+                    nama_ukm: body.nama_ukm,
+                    email: body.email,
+                    password: hash_password,
+                    bukti_identitas: bukti_identitas,
+                    nama_pj: body.nama_pj,
+                    no_telp: body.no_telp,
+                    status: false,
+                },
+            });
+
+            if (insertData) {
+                main.socket.emit("newUser", insertData);
+                return {
+                    status: true,
+                    code: 201,
+                    message: "Register success",
+                };
+            }
         } catch (error) {
-            console.error("login auth module Error: ", error);
+            if (file) {
+                fs.unlinkSync(`./public/${file.filename}`);
+            }
+            console.error("register auth module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    registerOrganisasi = async (body, file) => {
+        try {
+            //check type and not null of the variable
+            const schema = Joi.object({
+                nama_organisasi: Joi.string().required(),
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
+                bukti_identitas: Joi.string().required(),
+                nama_pj: Joi.string().required(),
+                no_telp: Joi.string().required(),
+            }).options({ abortEarly: false });
+
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                fs.unlinkSync(`./public/${file.filename}`);
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const bukti_identitas = file ? file.filename : null;
+
+            //check if email already registered or not
+            const checkEmail = await prisma.organisasi.findUnique({
+                where: {
+                    email: body.email,
+                },
+            });
+
+            if (checkEmail) {
+                fs.unlinkSync(`./public/${file.filename}`);
+                return {
+                    status: false,
+                    error: "Email already registered",
+                };
+            }
+
+            //hash password
+            const hash_password = crypto.AES.encrypt(
+                body.password,
+                process.env.SECRET_KEY
+            ).toString();
+
+            const account = await prisma.account.create({
+                data: {
+                    id_role: 4,
+                    status_account: false,
+                },
+            });
+
+            //insert data to database
+            const insertData = await prisma.organisasi.create({
+                data: {
+                    id_account: account.id_account,
+                    nama_organisasi: body.nama_organisasi,
+                    email: body.email,
+                    password: hash_password,
+                    bukti_identitas: bukti_identitas,
+                    nama_pj: body.nama_pj,
+                    no_telp: body.no_telp,
+                    status: false,
+                },
+            });
+
+            if (insertData) {
+                main.socket.emit("newUser", insertData);
+                return {
+                    status: true,
+                    code: 201,
+                    message: "Register success",
+                };
+            }
+        } catch (error) {
+            if (file) {
+                fs.unlinkSync(`./public/${file.filename}`);
+            }
+            console.error("register auth module Error: ", error);
             return {
                 status: false,
                 error,

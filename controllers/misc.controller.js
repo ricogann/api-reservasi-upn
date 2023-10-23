@@ -17,6 +17,7 @@ miscController.put(
     upload.fields([
         { name: "logo_instansi", maxCount: 1 },
         { name: "tanda_tangan", maxCount: 1 },
+        { name: "terms_service", maxCount: 1 },
     ]),
     async (req, res) => {
         const { id } = req.params;
