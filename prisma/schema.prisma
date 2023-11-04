@@ -97,7 +97,7 @@ model Organisasi {
   id                      Int      @id @default(autoincrement())
   id_account              Int      @unique
   nama_organisasi         String
-  email                   String
+  email                   String   @unique
   password                String
   bukti_identitas         String
   nama_pj                 String

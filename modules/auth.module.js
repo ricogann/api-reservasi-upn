@@ -270,9 +270,183 @@ class _auth {
         }
     };
 
-    loginUkm = async (body) => {};
+    loginUkm = async (body) => {
+        try {
+            const schema = Joi.object({
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
+            }).options({ abortEarly: false });
 
-    loginOrganisasi = async (body) => {};
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const checkEmail = await prisma.ukm.findUnique({
+                where: {
+                    email: body.email,
+                },
+                include: {
+                    Account: {
+                        select: {
+                            Role: true,
+                            status_account: true,
+                        },
+                    },
+                },
+            });
+
+            if (!checkEmail) {
+                return {
+                    status: false,
+                    error: "Email not registered",
+                };
+            }
+
+            // const checkPassword = bcrypt.compareSync(
+            //     body.password,
+            //     checkEmail.password
+            // );
+
+            const bytes = crypto.AES.decrypt(
+                checkEmail.password,
+                process.env.SECRET_KEY
+            );
+
+            const originalPassword = bytes.toString(crypto.enc.Utf8);
+
+            const checkPassword = originalPassword === body.password;
+
+            if (!checkPassword) {
+                return {
+                    status: false,
+                    error: "Wrong password",
+                };
+            }
+
+            const payload = {
+                id_account: checkEmail.id_account,
+                email: checkEmail.email,
+                nama: checkEmail.nama_ukm,
+                nama_pj: checkEmail.nama_pj,
+                no_telp: checkEmail.no_telp,
+                role: checkEmail.Account.Role.nama_role,
+                status: checkEmail.Account.status_account,
+            };
+
+            const token = jwt.sign(payload, "jwt-secret-code", {
+                expiresIn: "1d",
+            });
+
+            return {
+                status: true,
+                data: {
+                    message: "Login success, here's your token",
+                    token: token,
+                },
+            };
+        } catch (error) {
+            console.error("login auth module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    loginOrganisasi = async (body) => {
+        try {
+            const schema = Joi.object({
+                email: Joi.string().email().required(),
+                password: Joi.string().required(),
+            }).options({ abortEarly: false });
+
+            const validation = schema.validate(body);
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(
+                    (detail) => detail.message
+                );
+
+                return { status: false, error: errorDetails.join(", ") };
+            }
+
+            const checkEmail = await prisma.organisasi.findUnique({
+                where: {
+                    email: body.email,
+                },
+                include: {
+                    Account: {
+                        select: {
+                            Role: true,
+                            status_account: true,
+                        },
+                    },
+                },
+            });
+
+            if (!checkEmail) {
+                return {
+                    status: false,
+                    error: "Email not registered",
+                };
+            }
+
+            // const checkPassword = bcrypt.compareSync(
+            //     body.password,
+            //     checkEmail.password
+            // );
+
+            const bytes = crypto.AES.decrypt(
+                checkEmail.password,
+                process.env.SECRET_KEY
+            );
+
+            const originalPassword = bytes.toString(crypto.enc.Utf8);
+
+            const checkPassword = originalPassword === body.password;
+
+            if (!checkPassword) {
+                return {
+                    status: false,
+                    error: "Wrong password",
+                };
+            }
+
+            const payload = {
+                id_account: checkEmail.id_account,
+                email: checkEmail.email,
+                nama: checkEmail.nama_organisasi,
+                nama_pj: checkEmail.nama_pj,
+                no_telp: checkEmail.no_telp,
+                role: checkEmail.Account.Role.nama_role,
+                status: checkEmail.Account.status_account,
+            };
+
+            const token = jwt.sign(payload, "jwt-secret-code", {
+                expiresIn: "1d",
+            });
+
+            return {
+                status: true,
+                data: {
+                    message: "Login success, here's your token",
+                    token: token,
+                },
+            };
+        } catch (error) {
+            console.error("login auth module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
 
     loginAdmin = async (body) => {
         try {
@@ -620,7 +794,6 @@ class _auth {
                 nama_ukm: Joi.string().required(),
                 email: Joi.string().email().required(),
                 password: Joi.string().required(),
-                bukti_identitas: Joi.string().required(),
                 nama_pj: Joi.string().required(),
                 no_telp: Joi.string().required(),
             }).options({ abortEarly: false });
@@ -708,7 +881,6 @@ class _auth {
                 nama_organisasi: Joi.string().required(),
                 email: Joi.string().email().required(),
                 password: Joi.string().required(),
-                bukti_identitas: Joi.string().required(),
                 nama_pj: Joi.string().required(),
                 no_telp: Joi.string().required(),
             }).options({ abortEarly: false });

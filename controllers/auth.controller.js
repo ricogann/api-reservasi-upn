@@ -40,6 +40,7 @@ authController.post(
     "/register/ukm",
     upload.single("bukti_identitas"),
     async (req, res) => {
+        console.log(req.body, req.file);
         const result = await m$auth.registerUkm(req.body, req.file);
 
         return response.sendResponse(res, result);
@@ -76,6 +77,18 @@ authController.post("/login/dosen", async (req, res) => {
 
 authController.post("/login/admin", async (req, res) => {
     const result = await m$auth.loginAdmin(req.body);
+
+    return response.sendResponse(res, result);
+});
+
+authController.post("/login/ukm", async (req, res) => {
+    const result = await m$auth.loginUkm(req.body);
+
+    return response.sendResponse(res, result);
+});
+
+authController.post("/login/organisasi", async (req, res) => {
+    const result = await m$auth.loginOrganisasi(req.body);
 
     return response.sendResponse(res, result);
 });

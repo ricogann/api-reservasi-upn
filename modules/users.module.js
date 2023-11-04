@@ -351,11 +351,19 @@ class _users {
             const [mahasiswa, umum, ukm, organisasi] = await Promise.all([
                 prisma.mahasiswa.findFirst({ where: email }),
                 prisma.umum.findFirst({ where: email }),
-                // prisma.ukm.findFirst({ where: email }),
-                // prisma.organisasi.findFirst({ where: email }),
+                prisma.ukm.findFirst({ where: email }),
+                prisma.organisasi.findFirst({ where: email }),
             ]);
 
-            const isEmailRegistered = mahasiswa ? true : umum ? true : false;
+            const isEmailRegistered = mahasiswa
+                ? true
+                : umum
+                ? true
+                : ukm
+                ? true
+                : organisasi
+                ? true
+                : false;
 
             return {
                 status: isEmailRegistered,
@@ -383,11 +391,27 @@ class _users {
                         email: email,
                     },
                 }),
-                // prisma.ukm.findFirst({ where: email }),
-                // prisma.organisasi.findFirst({ where: email }),
+                prisma.ukm.findFirst({
+                    where: {
+                        email: email,
+                    },
+                }),
+                prisma.organisasi.findFirst({
+                    where: {
+                        email: email,
+                    },
+                }),
             ]);
 
-            const isEmailRegistered = mahasiswa ? true : umum ? true : false;
+            const isEmailRegistered = mahasiswa
+                ? true
+                : umum
+                ? true
+                : ukm
+                ? true
+                : organisasi
+                ? true
+                : false;
 
             if (isEmailRegistered) {
                 const hash_password = crypto.AES.encrypt(
