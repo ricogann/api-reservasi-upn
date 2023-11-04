@@ -10,6 +10,8 @@ class _users {
                     Mahasiswa: true,
                     Dosen: true,
                     Umum: true,
+                    UKM: true,
+                    Organisasi: true,
                 },
             });
 
@@ -62,6 +64,24 @@ class _users {
                     });
                 } else if (account.id_role == 3) {
                     const umum = await prisma.umum.update({
+                        where: {
+                            id: parseInt(body.id),
+                        },
+                        data: {
+                            status: body.status_account,
+                        },
+                    });
+                } else if (account.id_role == 4) {
+                    const ukm = await prisma.ukm.update({
+                        where: {
+                            id: parseInt(body.id),
+                        },
+                        data: {
+                            status: body.status_account,
+                        },
+                    });
+                } else if (account.id_role == 5) {
+                    const organisasi = await prisma.organisasi.update({
                         where: {
                             id: parseInt(body.id),
                         },
