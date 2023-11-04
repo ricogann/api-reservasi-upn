@@ -1,4 +1,5 @@
 const prisma = require("../helpers/database");
+const crypto = require("crypto-js");
 
 class _users {
     getAccount = async () => {
@@ -341,6 +342,92 @@ class _users {
             }
         } catch (error) {
             console.error("delete expired account module Error: ", error);
+            throw error;
+        }
+    };
+
+    checkEmail = async (email) => {
+        try {
+            const [mahasiswa, umum, ukm, organisasi] = await Promise.all([
+                prisma.mahasiswa.findFirst({ where: email }),
+                prisma.umum.findFirst({ where: email }),
+                // prisma.ukm.findFirst({ where: email }),
+                // prisma.organisasi.findFirst({ where: email }),
+            ]);
+
+            const isEmailRegistered = mahasiswa ? true : umum ? true : false;
+
+            return {
+                status: isEmailRegistered,
+                code: 200,
+                message: isEmailRegistered
+                    ? "Email sudah terdaftar"
+                    : "Email belum terdaftar",
+            };
+        } catch (error) {
+            console.error("check email module Error: ", error);
+            throw error;
+        }
+    };
+
+    resetPassword = async (email, password) => {
+        try {
+            const [mahasiswa, umum, ukm, organisasi] = await Promise.all([
+                prisma.mahasiswa.findFirst({
+                    where: {
+                        email: email,
+                    },
+                }),
+                prisma.umum.findFirst({
+                    where: {
+                        email: email,
+                    },
+                }),
+                // prisma.ukm.findFirst({ where: email }),
+                // prisma.organisasi.findFirst({ where: email }),
+            ]);
+
+            const isEmailRegistered = mahasiswa ? true : umum ? true : false;
+
+            if (isEmailRegistered) {
+                const hash_password = crypto.AES.encrypt(
+                    password,
+                    process.env.SECRET_KEY
+                ).toString();
+                if (mahasiswa) {
+                    const putMahasiswa = await prisma.mahasiswa.update({
+                        where: {
+                            email: email,
+                        },
+                        data: {
+                            password: hash_password,
+                        },
+                    });
+                } else if (umum) {
+                    const putUmum = await prisma.umum.update({
+                        where: {
+                            email: email,
+                        },
+                        data: {
+                            password: hash_password,
+                        },
+                    });
+                }
+
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Reset password berhasil",
+                };
+            } else {
+                return {
+                    status: false,
+                    code: 200,
+                    message: "Reset password gagal",
+                };
+            }
+        } catch (error) {
+            console.error("reset password module Error: ", error);
             throw error;
         }
     };

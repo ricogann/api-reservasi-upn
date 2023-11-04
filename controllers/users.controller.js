@@ -104,4 +104,19 @@ usersController.post(
     }
 );
 
+usersController.post("/checkemail", async (req, res) => {
+    const result = await m$users.checkEmail(req.body);
+
+    return response.sendResponse(res, result);
+});
+
+usersController.put("/resetpassword", async (req, res) => {
+    const result = await m$users.resetPassword(
+        req.body.email,
+        req.body.password
+    );
+
+    return response.sendResponse(res, result);
+});
+
 module.exports = usersController;
