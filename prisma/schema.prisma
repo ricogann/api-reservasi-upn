@@ -198,6 +198,7 @@ model Pemesanan {
   total_harga             Int?
   status                  String
   keterangan              String
+  keterangan_tolak        String?
   SIK                     String?
   bukti_pembayaran        String?
   createdAt               DateTime @default(now())

@@ -83,6 +83,16 @@ class _booking {
                                     nama: true,
                                 },
                             },
+                            UKM: {
+                                select: {
+                                    nama_ukm: true,
+                                },
+                            },
+                            Organisasi: {
+                                select: {
+                                    nama_organisasi: true,
+                                },
+                            },
                         },
                     },
                     Fasilitas: {
@@ -228,7 +238,7 @@ class _booking {
                     },
                 },
             });
-	   console.log(currentDate);
+            console.log(currentDate);
 
             if (Booking) {
                 return {
@@ -254,7 +264,7 @@ class _booking {
                 },
                 data: {
                     bukti_pembayaran: file.filename,
-                    status: "Menunggu Konfirmasi",
+                    status: "Review Berkas",
                 },
             });
 
@@ -283,7 +293,7 @@ class _booking {
                 },
                 data: {
                     SIK: file.filename,
-                    status: "Menunggu Konfirmasi",
+                    status: "Review Berkas",
                 },
             });
 
@@ -338,12 +348,17 @@ class _booking {
 
     updateStatus = async (id, body) => {
         try {
+            let keterangan_tolak = null;
+            if (body.keterangan_tolak) {
+                keterangan_tolak = body.keterangan_tolak;
+            }
             const Booking = await prisma.pemesanan.update({
                 where: {
                     id_pemesanan: Number(id),
                 },
                 data: {
                     status: body.status,
+                    keterangan_tolak: keterangan_tolak,
                 },
             });
 
