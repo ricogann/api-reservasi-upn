@@ -10,7 +10,11 @@ const fasilitasController = Router();
 fasilitasController.post(
     "/add",
     authorization,
-    upload.array("foto", 7),
+    upload.fields([{
+    name: 'foto', maxCount: 7
+    }, {
+    name: 'termservice', maxCount: 1
+    }]),
     async (req, res) => {
         const result = await m$fasilitas.addFasilitas(req.body, req.files);
 

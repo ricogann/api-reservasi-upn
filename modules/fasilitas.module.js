@@ -14,7 +14,7 @@ class _fasilitas {
                 jam_tutup: Joi.string().required(),
                 durasi: Joi.number().required(),
                 no_va: Joi.string().required(),
-                termservice : Joi.string().required(),
+                //termservice : Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
@@ -31,23 +31,19 @@ class _fasilitas {
 
                 return { status: false, error: errorDetails.join(", ") };
             }
+
+            const foto = files.foto.map((file) => file.filename);
+            const termservice = files.termservice ? files.termservice[0].filename : null;
+
             
-            const foto = files
-            .filter((file) => file.fieldname === 'foto')
-            .map((file) => file.filename);
+            // const foto = files
+            // .filter((file) => file.fieldname === 'foto')
+            // .map((file) => file.filename);
 
+            // const termservice = files
+            // .filter((file) => file.fieldname === 'termservice')
+            // .map((file) => file.filename);
         
-
-        // if (!termserviceFile) {
-        //     return {
-        //         status: false,
-        //         error: 'File Terms of Service (termservice) is required.',
-        //     };
-        // }
-
-        // Simpan file PDF Terms of Service ke server
-        // const termservicePath = `./public/${termserviceFile.filename}`;
-        // fs.writeFileSync(termservicePath, termserviceFile.buffer);
 
             const fasilitas = await prisma.fasilitas.create({
                 data: {
@@ -60,7 +56,7 @@ class _fasilitas {
                     jam_tutup: body.jam_tutup,
                     durasi: Number(body.durasi),
                     no_va: body.no_va,
-                    termservice : body.termservice
+                    termservice: termservice ? JSON.stringify(termservice) : null,
                 },
             });
 

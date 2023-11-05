@@ -1,5 +1,5 @@
 const m$harga = require("../modules/harga.module");
-const upload = require("../middlewares/multer").default;
+const upload = require("../middlewares/multer");
 const response = require("../helpers/response");
 
 const { Router } = require("express");
