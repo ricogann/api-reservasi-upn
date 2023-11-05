@@ -388,6 +388,8 @@ class _booking {
                 },
             });
 
+            console.log(mahasiswa);
+
             for (const item of kamar) {
                 if (item.npm_bed1_a === mahasiswa.npm) {
                     return {
