@@ -220,6 +220,40 @@ class _kamar {
             };
         }
     };
+
+    July25ChangeStatusKamarCronJob = async () => {
+        try {
+            const kamar1 = await prisma.kamar_asrama.updateMany({
+                data: {
+                    status_kamar: false,
+                },
+            });
+
+            const kamar2 = await prisma.kamar_asrama.updateMany({
+                data: {
+                    status_kamar: false,
+                },
+            });
+
+            const kamar3 = await prisma.kamar_asrama.updateMany({
+                data: {
+                    status_kamar: false,
+                },
+            });
+
+            return {
+                status: true,
+                code: 200,
+                message: "Change Status Kamar success",
+            };
+        } catch (error) {
+            console.error("Change Status kamar module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
 }
 
 module.exports = new _kamar();

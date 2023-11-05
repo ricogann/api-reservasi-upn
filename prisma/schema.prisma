@@ -158,6 +158,7 @@ model Fasilitas {
   buka_hari               String
   durasi                  Int 
   no_va			              String
+  termservice			        String
 
   Harga                   Harga[]
   Pemesanan               Pemesanan[]

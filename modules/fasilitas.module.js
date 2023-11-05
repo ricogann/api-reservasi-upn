@@ -14,9 +14,11 @@ class _fasilitas {
                 jam_tutup: Joi.string().required(),
                 durasi: Joi.number().required(),
                 no_va: Joi.string().required(),
+                termservice : Joi.string().required(),
             }).options({ abortEarly: false });
 
             const validation = schema.validate(body);
+            // const termserviceFile = files.find((file) => file.fieldname === 'termservice');
 
             if (validation.error) {
                 files.map((file) => {
@@ -29,10 +31,23 @@ class _fasilitas {
 
                 return { status: false, error: errorDetails.join(", ") };
             }
+            
+            const foto = files
+            .filter((file) => file.fieldname === 'foto')
+            .map((file) => file.filename);
 
-            const foto = files.map((file) => file.filename);
+        
 
-            console.log(body);
+        // if (!termserviceFile) {
+        //     return {
+        //         status: false,
+        //         error: 'File Terms of Service (termservice) is required.',
+        //     };
+        // }
+
+        // Simpan file PDF Terms of Service ke server
+        // const termservicePath = `./public/${termserviceFile.filename}`;
+        // fs.writeFileSync(termservicePath, termserviceFile.buffer);
 
             const fasilitas = await prisma.fasilitas.create({
                 data: {
@@ -45,6 +60,7 @@ class _fasilitas {
                     jam_tutup: body.jam_tutup,
                     durasi: Number(body.durasi),
                     no_va: body.no_va,
+                    termservice : body.termservice
                 },
             });
 
