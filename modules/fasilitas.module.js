@@ -133,12 +133,10 @@ class _fasilitas {
                 const termservice = files.termservice ? files.termservice[0].filename : null;
                 const old_foto = JSON.parse(body.name_foto_old);
                 const old_termservice = JSON.parse(body.name_termservice_old)
-                old_foto.map((foto) => {
-                    fs.unlinkSync(`./public/${foto}`);
-                });
-                if (old_termservice) {
-                fs.unlinkSync(`./public/${old_termservice}`);
-                }
+                // old_foto.map((foto) => {
+                //     fs.unlinkSync(`./public/${foto}`);
+                // });
+                // fs.unlinkSync(`./public/${old_termservice}`);
 
                 const fasilitas = await prisma.fasilitas.update({
                     where: {

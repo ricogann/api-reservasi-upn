@@ -187,6 +187,16 @@ model kamar_asrama {
   Harga                   Harga    @relation(fields: [id], references: [id])
 }
 
+model history_kamar_asrama {
+  id_asrama               Int      
+  id                      Int      @id @default(autoincrement())
+  no_kamar                Int
+  npm_bed1_a              String?
+  npm_bed2_b              String?
+  npm_bed3_c              String?
+  year                    Int
+}
+
 model Pemesanan {
   id_pemesanan            Int      @id @default(autoincrement())
   id_fasilitas            Int

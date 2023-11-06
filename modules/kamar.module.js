@@ -223,24 +223,43 @@ class _kamar {
 
     July25ChangeStatusKamarCronJob = async () => {
         try {
-            const getKamar = this.getKamar();
-            console.log(getKamar);
+            const oneYearBefore = new Date().getFullYear() - 1; // Get the current year
+
+            const kamar = await prisma.kamar_asrama.findMany({
+                include: {
+                    Harga: true,
+                },
+            });
+
+            // Iterate through the kamar array and insert each item into history_kamar_asrama
+            for (const kamarItem of kamar) {
+                await prisma.history_kamar_asrama.create({
+                    data: {
+                        id_asrama: kamarItem.id_asrama,
+                        no_kamar: kamarItem.no_kamar,
+                        npm_bed1_a: kamarItem.npm_bed1_a,
+                        npm_bed2_b: kamarItem.npm_bed2_b,
+                        npm_bed3_c: kamarItem.npm_bed3_c,
+                        year: oneYearBefore, // Set the year to the current year
+                    },
+                });
+            }
 
             const kamar1 = await prisma.kamar_asrama.updateMany({
                 data: {
-                    status_kamar: false,
+                    npm_bed1_a: null,
                 },
             });
 
             const kamar2 = await prisma.kamar_asrama.updateMany({
                 data: {
-                    status_kamar: false,
+                    npm_bed2_b: null,
                 },
             });
 
             const kamar3 = await prisma.kamar_asrama.updateMany({
                 data: {
-                    status_kamar: false,
+                    npm_bed3_c: null,
                 },
             });
 
