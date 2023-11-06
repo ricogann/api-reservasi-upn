@@ -127,7 +127,7 @@ class _fasilitas {
 
     updateFasilitas = async (id, body, files) => {
         try {
-            if (files.length > 0) {
+            if (files.foto.length > 0 || files.termservice.length > 0) {
                 console.log(files);
                 const foto = files.foto.map((file) => file.filename);
                 const termservice = files.termservice ? files.termservice[0].filename : null;
@@ -136,9 +136,9 @@ class _fasilitas {
                 old_foto.map((foto) => {
                     fs.unlinkSync(`./public/${foto}`);
                 });
-                old_termservice.map((termservice) => {
-                    fs.unlinkSync(`./public/${termservice}`);
-                });
+                if (old_termservice) {
+                fs.unlinkSync(`./public/${old_termservice}`);
+                }
 
                 const fasilitas = await prisma.fasilitas.update({
                     where: {
