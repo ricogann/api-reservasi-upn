@@ -37,7 +37,12 @@ fasilitasController.get("/:id", async (req, res) => {
 
 fasilitasController.put(
     "/:id",
-    upload.array("foto_fasilitas", 3),
+    // upload.array("foto_fasilitas", 3),
+    upload.fields([{
+    name: 'foto', maxCount: 7
+    }, {
+    name: 'termservice', maxCount: 1
+    }]),
     async (req, res) => {
         const result = await m$fasilitas.updateFasilitas(
             req.params.id,

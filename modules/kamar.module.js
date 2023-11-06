@@ -223,6 +223,9 @@ class _kamar {
 
     July25ChangeStatusKamarCronJob = async () => {
         try {
+            const getKamar = this.getKamar();
+            console.log(getKamar);
+
             const kamar1 = await prisma.kamar_asrama.updateMany({
                 data: {
                     status_kamar: false,
