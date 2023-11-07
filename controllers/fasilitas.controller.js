@@ -10,11 +10,16 @@ const fasilitasController = Router();
 fasilitasController.post(
     "/add",
     authorization,
-    upload.fields([{
-    name: 'foto', maxCount: 7
-    }, {
-    name: 'termservice', maxCount: 1
-    }]),
+    upload.fields([
+        {
+            name: "foto",
+            maxCount: 7,
+        },
+        {
+            name: "termservice",
+            maxCount: 1,
+        },
+    ]),
     async (req, res) => {
         const result = await m$fasilitas.addFasilitas(req.body, req.files);
 
@@ -38,18 +43,23 @@ fasilitasController.get("/:id", async (req, res) => {
 fasilitasController.put(
     "/:id",
     // upload.array("foto_fasilitas", 3),
-    upload.fields([{
-    name: 'foto', maxCount: 7
-    }, {
-    name: 'termservice', maxCount: 1
-    }]),
+    upload.fields([
+        {
+            name: "foto",
+            maxCount: 7,
+        },
+        {
+            name: "termservice",
+            maxCount: 1,
+        },
+    ]),
     async (req, res) => {
         const result = await m$fasilitas.updateFasilitas(
             req.params.id,
             req.body,
             req.files
         );
-        console.log("halo");
+        console.log(req.files);
 
         return response.sendResponse(res, result);
     }
@@ -61,18 +71,18 @@ fasilitasController.delete("/delete/:id", authorization, async (req, res) => {
     return response.sendResponse(res, result);
 });
 
-fasilitasController.put(
-    "/update/:id",
-    upload.array("foto_fasilitas", 3),
-    async (req, res) => {
-        const result = await m$fasilitas.updateFasilitas(
-            req.params.id,
-            req.body,
-            req.files
-        );
-        console.log(req.files);
-        return response.sendResponse(res, result);
-    }
-);
+// fasilitasController.put(
+//     "/update/:id",
+//     upload.array("foto_fasilitas", 3),
+//     async (req, res) => {
+//         const result = await m$fasilitas.updateFasilitas(
+//             req.params.id,
+//             req.body,
+//             req.files
+//         );
+//         console.log(req.files);
+//         return response.sendResponse(res, result);
+//     }
+// );
 
 module.exports = fasilitasController;

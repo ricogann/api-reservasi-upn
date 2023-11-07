@@ -33,9 +33,10 @@ class _fasilitas {
             }
 
             const foto = files.foto.map((file) => file.filename);
-            const termservice = files.termservice ? files.termservice[0].filename : null;
+            const termservice = files.termservice
+                ? files.termservice[0].filename
+                : null;
 
-            
             // const foto = files
             // .filter((file) => file.fieldname === 'foto')
             // .map((file) => file.filename);
@@ -43,7 +44,6 @@ class _fasilitas {
             // const termservice = files
             // .filter((file) => file.fieldname === 'termservice')
             // .map((file) => file.filename);
-        
 
             const fasilitas = await prisma.fasilitas.create({
                 data: {
@@ -56,7 +56,9 @@ class _fasilitas {
                     jam_tutup: body.jam_tutup,
                     durasi: Number(body.durasi),
                     no_va: body.no_va,
-                    termservice: termservice ? JSON.stringify(termservice) : null,
+                    termservice: termservice
+                        ? JSON.stringify(termservice)
+                        : null,
                 },
             });
 
@@ -128,15 +130,18 @@ class _fasilitas {
     updateFasilitas = async (id, body, files) => {
         try {
             if (files.foto.length > 0 || files.termservice.length > 0) {
-                console.log(files);
                 const foto = files.foto.map((file) => file.filename);
-                const termservice = files.termservice ? files.termservice[0].filename : null;
+                const termservice = files.termservice
+                    ? files.termservice[0].filename
+                    : null;
                 const old_foto = JSON.parse(body.name_foto_old);
-                const old_termservice = JSON.parse(body.name_termservice_old)
+                // const old_termservice = JSON.parse(body.name_termservice_old);
                 // old_foto.map((foto) => {
                 //     fs.unlinkSync(`./public/${foto}`);
                 // });
                 // fs.unlinkSync(`./public/${old_termservice}`);
+                console.log(foto);
+                console.log(termservice);
 
                 const fasilitas = await prisma.fasilitas.update({
                     where: {
@@ -152,11 +157,10 @@ class _fasilitas {
                         jam_tutup: body.jam_tutup,
                         durasi: 1,
                         no_va: body.no_va,
-                        termservice: termservice ? JSON.stringify(termservice) : null,
+                        termservice: JSON.stringify(termservice),
                     },
                 });
 
-                
                 if (fasilitas) {
                     return {
                         status: true,
@@ -189,9 +193,9 @@ class _fasilitas {
                 }
             }
         } catch (error) {
-            files.map((file) => {
-                fs.unlinkSync(`./public/${file.filename}`);
-            });
+            // files.map((file) => {
+            //     fs.unlinkSync(`./public/${file.filename}`);
+            // });
             console.error("update fasilitas module Error: ", error);
             return {
                 status: false,
