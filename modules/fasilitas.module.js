@@ -135,7 +135,8 @@ class _fasilitas {
                     ? files.termservice[0].filename
                     : null;
                 const old_foto = JSON.parse(body.name_foto_old);
-                // const old_termservice = JSON.parse(body.name_termservice_old);
+                const old_termservice = JSON.parse(body.name_termservice_old);
+                console.log(old_termservice);
                 // old_foto.map((foto) => {
                 //     fs.unlinkSync(`./public/${foto}`);
                 // });
