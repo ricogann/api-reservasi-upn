@@ -136,6 +136,7 @@ class _fasilitas {
                     ? files.termservice[0].filename
                     : null;
 
+                console.log(body.name_termservice_old);
                 const fasilitasData = {
                     nama: body.nama,
                     alamat: body.alamat,
