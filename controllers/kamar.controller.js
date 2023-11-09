@@ -18,6 +18,12 @@ kamarController.get("/", authorization, async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+kamarController.get("/history", authorization, async (req, res) => {
+    const result = await m$kamar.getHistoryKamar();
+
+    return response.sendResponse(res, result);
+});
+
 kamarController.get("/:id", authorization, async (req, res) => {
     const result = await m$kamar.getKamarById(req.params.id);
 

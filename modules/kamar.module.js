@@ -90,6 +90,27 @@ class _kamar {
         }
     };
 
+    getHistoryKamar = async () => {
+        try {
+            const kamar = await prisma.history_kamar_asrama.findMany();
+            if (kamar) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Kamar success",
+                    data: kamar,
+                };
+            }
+        } catch (error) {
+            console.error("get kamar module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+
     getKamarById = async (id) => {
         try {
             const kamar = await prisma.kamar_asrama.findUnique({

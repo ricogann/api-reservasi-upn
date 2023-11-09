@@ -131,12 +131,14 @@ class _fasilitas {
         try {
             if (files.foto.length > 0 || files.termservice.length > 0) {
                 console.log(files);
-                const foto = files.foto.map((file) => file.filename);
+                const foto =
+                    files.foto.length > 0
+                        ? files.foto.map((file) => file.filename)
+                        : null;
                 const termservice = files.termservice
                     ? files.termservice[0].filename
                     : null;
 
-                console.log(body.name_termservice_old);
                 const fasilitasData = {
                     nama: body.nama,
                     alamat: body.alamat,
@@ -151,6 +153,7 @@ class _fasilitas {
                 if (foto) {
                     const old_foto = JSON.parse(body.name_foto_old);
                     fasilitasData.foto = JSON.stringify(foto);
+                    console.log(fasilitasData.foto);
                     old_foto.map((foto) => {
                         fs.unlinkSync(`./public/${foto}`);
                     });
@@ -160,7 +163,9 @@ class _fasilitas {
                     const old_termservice = JSON.parse(
                         body.name_termservice_old
                     );
-                    fs.unlinkSync(`./public/${old_termservice}`);
+                    old_termservice.map((termservice) => {
+                        fs.unlinkSync(`./public/${termservice}`);
+                    });
                 }
 
                 const fasilitas = await prisma.fasilitas.update({
