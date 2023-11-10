@@ -127,6 +127,48 @@ class _users {
         }
     };
 
+    getUkm = async () => {
+        try {
+            const Ukm = await prisma.ukm.findMany({});
+
+            if (Ukm) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Ukm success",
+                    data: Ukm,
+                };
+            }
+        } catch (error) {
+            console.error("get Ukm module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    getOrganisasi = async () => {
+        try {
+            const organisasi = await prisma.organisasi.findMany({});
+
+            if (organisasi) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get organisasi success",
+                    data: organisasi,
+                };
+            }
+        } catch (error) {
+            console.error("get organisasi module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
     getMahasiswa = async () => {
         try {
             const mahasiswa = await prisma.mahasiswa.findMany({

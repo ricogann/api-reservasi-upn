@@ -12,6 +12,18 @@ usersController.get("/account", authorization, async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+usersController.get("/ukm", authorization, async (req, res) => {
+    const result = await m$users.getUkm();
+
+    return response.sendResponse(res, result);
+});
+
+usersController.get("/organisasi", authorization, async (req, res) => {
+    const result = await m$users.getOrganisasi();
+
+    return response.sendResponse(res, result);
+});
+
 usersController.get("/umum", authorization, async (req, res) => {
     const result = await m$users.getUmum();
 
