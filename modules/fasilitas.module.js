@@ -154,18 +154,18 @@ class _fasilitas {
                     const old_foto = JSON.parse(body.name_foto_old);
                     fasilitasData.foto = JSON.stringify(foto);
                     console.log(fasilitasData.foto);
-                    old_foto.map((foto) => {
-                        fs.unlinkSync(`./public/${foto}`);
-                    });
+                    // old_foto.map((foto) => {
+                    //     fs.unlinkSync(`./public/${foto}`);
+                    // });
                 }
                 if (termservice) {
                     fasilitasData.termservice = JSON.stringify(termservice);
                     const old_termservice = JSON.parse(
                         body.name_termservice_old
                     );
-                    old_termservice.map((termservice) => {
-                        fs.unlinkSync(`./public/${termservice}`);
-                    });
+                    // old_termservice.map((termservice) => {
+                    //     fs.unlinkSync(`./public/${termservice}`);
+                    // });
                 }
 
                 const fasilitas = await prisma.fasilitas.update({
@@ -207,9 +207,9 @@ class _fasilitas {
                 }
             }
         } catch (error) {
-            files.map((file) => {
-                fs.unlinkSync(`./public/${file.filename}`);
-            });
+            // files.map((file) => {
+            //     fs.unlinkSync(`./public/${file.filename}`);
+            // });
             console.error("update fasilitas module Error: ", error);
             return {
                 status: false,
