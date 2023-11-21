@@ -158,9 +158,9 @@ class _fasilitas {
                 }
                 if (termservice) {
                     fasilitasData.termservice = JSON.stringify(termservice);
-                    const old_termservice = JSON.parse(
-                        body.name_termservice_old
-                    );
+			console.log("ha" + body.name_termservice_old);
+                    const old_termservice = JSON.parse(body.name_termservice_old);
+			console.log(old_termservice);
                     fs.unlinkSync(`./public/${old_termservice}`);
                 }
 
