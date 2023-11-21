@@ -130,7 +130,6 @@ class _fasilitas {
     updateFasilitas = async (id, body, files) => {
         try {
             if (files.foto.length > 0 || files.termservice.length > 0) {
-                console.log(files);
                 const foto =
                     files.foto.length > 0
                         ? files.foto.map((file) => file.filename)
@@ -151,18 +150,18 @@ class _fasilitas {
                 };
 
                 if (foto) {
-                    const old_foto = JSON.parse(body.name_foto_old);
+                    // const old_foto = JSON.parse(body.name_foto_old);
                     fasilitasData.foto = JSON.stringify(foto);
-                    console.log(fasilitasData.foto);
+                    // console.log(fasilitasData.foto);
                     // old_foto.map((foto) => {
                     //     fs.unlinkSync(`./public/${foto}`);
                     // });
                 }
                 if (termservice) {
-                    fasilitasData.termservice = JSON.stringify(termservice);
-                    const old_termservice = JSON.parse(
-                        body.name_termservice_old
-                    );
+                    // fasilitasData.termservice = JSON.stringify(termservice);
+                    // const old_termservice = JSON.parse(
+                    //     body.name_termservice_old
+                    // );
                     // old_termservice.map((termservice) => {
                     //     fs.unlinkSync(`./public/${termservice}`);
                     // });
