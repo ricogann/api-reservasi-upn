@@ -59,7 +59,6 @@ fasilitasController.put(
             req.body,
             req.files
         );
-        console.log(req.files);
 
         return response.sendResponse(res, result);
     }
