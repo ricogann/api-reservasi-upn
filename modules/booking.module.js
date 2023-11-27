@@ -2,6 +2,8 @@ const Joi = require("joi");
 const prisma = require("../helpers/database");
 const fs = require("fs");
 const main = require("../socket");
+const dotenv = require("dotenv");
+dotenv.config();
 
 class _booking {
     addBooking = async (body, files) => {
@@ -45,7 +47,11 @@ class _booking {
             });
 
             if (Booking) {
-                main.socket.emit("newPreBooking", Booking);
+                const token = process.env.TOKEN_TELEGRAM;
+                const chatId = process.env.CHAT_ID;
+                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=Ada Pemesanan Baru%0A%0AID Pemesanan: ${Booking.id_pemesanan}%0AID Fasilitas: ${Booking.id_fasilitas}%0AID Account: ${Booking.id_account}%0ATanggal Pemesanan: ${Booking.tanggal_pemesanan}%0AJam Checkin: ${Booking.jam_checkin}%0AJam Checkout: ${Booking.jam_checkout}%0ADurasi: ${Booking.durasi}%0ATotal Harga: ${Booking.total_harga}%0AKeterangan: ${Booking.keterangan}%0AStatus: ${Booking.status}`;
+
+                const response = await fetch(url);
                 return {
                     status: true,
                     code: 201,
@@ -269,7 +275,11 @@ class _booking {
             });
 
             if (Booking) {
-                main.socket.emit("newBooking", Booking);
+                const token = process.env.TOKEN_TELEGRAM;
+                const chatId = process.env.CHAT_ID;
+                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=Ada yang baru saja upload Bukti Pembayaran!%0A%0AID Pemesanan: ${Booking.id_pemesanan}%0AID Fasilitas: ${Booking.id_fasilitas}%0AID Account: ${Booking.id_account}%0ATanggal Pemesanan: ${Booking.tanggal_pemesanan}%0AJam Checkin: ${Booking.jam_checkin}%0AJam Checkout: ${Booking.jam_checkout}%0ADurasi: ${Booking.durasi}%0ATotal Harga: ${Booking.total_harga}%0AKeterangan: ${Booking.keterangan}%0AStatus: ${Booking.status}`;
+
+                const response = await fetch(url);
                 return {
                     status: true,
                     code: 200,
@@ -298,7 +308,11 @@ class _booking {
             });
 
             if (Booking) {
-                main.socket.emit("newBooking", Booking);
+                const token = process.env.TOKEN_TELEGRAM;
+                const chatId = process.env.CHAT_ID;
+                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=Ada yang baru saja upload SIK!%0A%0AID Pemesanan: ${Booking.id_pemesanan}%0AID Fasilitas: ${Booking.id_fasilitas}%0AID Account: ${Booking.id_account}%0ATanggal Pemesanan: ${Booking.tanggal_pemesanan}%0AJam Checkin: ${Booking.jam_checkin}%0AJam Checkout: ${Booking.jam_checkout}%0ADurasi: ${Booking.durasi}%0ATotal Harga: ${Booking.total_harga}%0AKeterangan: ${Booking.keterangan}%0AStatus: ${Booking.status}`;
+
+                const response = await fetch(url);
                 return {
                     status: true,
                     code: 200,
