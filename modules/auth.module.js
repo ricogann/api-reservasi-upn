@@ -589,7 +589,12 @@ class _auth {
             });
 
             if (insertData) {
-                main.socket.emit("newUser", insertData);
+                const token = process.env.TOKEN_TELEGRAM;
+                const chatId = process.env.CHAT_ID;
+                const message = `Ada mahasiswa baru yang mendaftar, silahkan cek di admin panel.`;
+                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${message}`;
+
+                const response = await fetch(url);
                 return {
                     status: true,
                     code: 201,
@@ -678,7 +683,12 @@ class _auth {
             });
 
             if (insertData) {
-                main.socket.emit("newUser", insertData);
+                const token = process.env.TOKEN_TELEGRAM;
+                const chatId = process.env.CHAT_ID;
+                const message = `Ada Umum baru yang mendaftar, silahkan cek di admin panel.`;
+                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${message}`;
+
+                const response = await fetch(url);
                 return {
                     status: true,
                     code: 201,
@@ -855,7 +865,12 @@ class _auth {
             });
 
             if (insertData) {
-                main.socket.emit("newUser", insertData);
+                const token = process.env.TOKEN_TELEGRAM;
+                const chatId = process.env.CHAT_ID;
+                const message = `Ada UKM baru yang mendaftar, silahkan cek di admin panel.`;
+                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${message}`;
+
+                const response = await fetch(url);
                 return {
                     status: true,
                     code: 201,
@@ -941,7 +956,12 @@ class _auth {
             });
 
             if (insertData) {
-                main.socket.emit("newUser", insertData);
+                const token = process.env.TOKEN_TELEGRAM;
+                const chatId = process.env.CHAT_ID;
+                const message = `Ada Organisasi baru yang mendaftar, silahkan cek di admin panel.`;
+                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${message}`;
+
+                const response = await fetch(url);
                 return {
                     status: true,
                     code: 201,
