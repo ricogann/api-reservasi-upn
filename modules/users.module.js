@@ -246,6 +246,228 @@ class _users {
         }
     };
 
+    getMahasiswaSpecific = async (id) => {
+        try {
+            const account = await prisma.mahasiswa.findUnique({
+                where: {
+                    id_account: Number(id),
+                },
+            });
+
+            if (account) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Mahasiswa Specific success",
+                    data: account,
+                };
+            }
+        } catch (error) {
+            console.error("get account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    getUmumSpecific = async (id) => {
+        try {
+            const account = await prisma.umum.findUnique({
+                where: {
+                    id_account: Number(id),
+                },
+            });
+
+            if (account) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Umum Specific success",
+                    data: account,
+                };
+            }
+        } catch (error) {
+            console.error("get account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    getOrganisasiSpecific = async (id) => {
+        try {
+            const account = await prisma.organisasi.findUnique({
+                where: {
+                    id_account: Number(id),
+                },
+            });
+
+            if (account) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get Organisasi Specific success",
+                    data: account,
+                };
+            }
+        } catch (error) {
+            console.error("get account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    getUkmSpecific = async (id) => {
+        try {
+            const account = await prisma.ukm.findUnique({
+                where: {
+                    id_account: Number(id),
+                },
+            });
+
+            if (account) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Get UKM Specific success",
+                    data: account,
+                };
+            }
+        } catch (error) {
+            console.error("get account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    updateUkm = async (id, body) => {
+        try {
+            const account = await prisma.ukm.update({
+                where: {
+                    id_account: parseInt(id),
+                },
+                data: {
+                    nama_ukm: body.nama_ukm,
+                    no_telp: body.no_telp,
+                    nama_pj: body.nama_pj,
+                },
+            });
+
+            if (account) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Update UKM success",
+                };
+            }
+        } catch (error) {
+            console.error("update account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    updateOrganisasi = async (id, body) => {
+        try {
+            const account = await prisma.organisasi.update({
+                where: {
+                    id_account: parseInt(id),
+                },
+                data: {
+                    nama_organisasi: body.nama_organisasi,
+                    no_telp: body.no_telp,
+                    nama_pj: body.nama_pj,
+                },
+            });
+
+            if (account) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Update UKM success",
+                };
+            }
+        } catch (error) {
+            console.error("update account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+updateMahasiswa = async (id, body) => {
+    try {
+        if (!body) {
+            return {
+                status: false,
+                error: "Request body is undefined.",
+            };
+        }
+
+        const account = await prisma.mahasiswa.update({
+            where: {
+                id_account: parseInt(id),
+            },
+            data: {
+                nama: body.nama,
+                no_telp: body.no_telp,
+            },
+        });
+
+        if (account) {
+            return {
+                status: true,
+                code: 200,
+                message: "Update Mahasiswa success",
+            };
+        }
+    } catch (error) {
+        console.error("update account module Error: ", error);
+        return {
+            status: false,
+            error,
+        };
+    }
+};
+
+
+    updateUmum = async (id, body) => {
+        try {
+            const account = await prisma.umum.update({
+                where: {
+                    id_account: parseInt(id),
+                },
+                data: {
+                    nama: body.nama,
+                    no_telp: body.no_telp,
+                },
+            });
+
+            if (account) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Update Umum success",
+                };
+            }
+        } catch (error) {
+            console.error("update account module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
     updateStatus = async (id, body) => {
         try {
             const account = await prisma.account.update({

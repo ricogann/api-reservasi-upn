@@ -18,8 +18,32 @@ usersController.get("/ukm", authorization, async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+usersController.get("/ukm/:id", authorization, async (req, res) => {
+    const result = await m$users.getUkmSpecific(req.params.id, req.body);
+
+    return response.sendResponse(res, result);
+});
+
+usersController.put("/ukm/:id", authorization, async (req, res) => {
+    const result = await m$users.updateUkm(req.params.id, req.body);
+
+    return response.sendResponse(res, result);
+});
+
 usersController.get("/organisasi", authorization, async (req, res) => {
     const result = await m$users.getOrganisasi();
+
+    return response.sendResponse(res, result);
+});
+
+usersController.get("/organisasi/:id", authorization, async (req, res) => {
+    const result = await m$users.getOrganisasiSpecific(req.params.id, req.body);
+
+    return response.sendResponse(res, result);
+});
+
+usersController.put("/organisasi/:id", authorization, async (req, res) => {
+    const result = await m$users.updateOrganisasi(req.params.id, req.body);
 
     return response.sendResponse(res, result);
 });
@@ -30,8 +54,32 @@ usersController.get("/umum", authorization, async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+usersController.get("/umum/:id", authorization, async (req, res) => {
+    const result = await m$users.getUmumSpecific(req.params.id, req.body);
+
+    return response.sendResponse(res, result);
+});
+
+usersController.put("/umum/:id", authorization, async (req, res) => {
+    const result = await m$users.updateUmum(req.params.id, req.body);
+
+    return response.sendResponse(res, result);
+});
+
 usersController.get("/mahasiswa", authorization, async (req, res) => {
     const result = await m$users.getMahasiswa();
+
+    return response.sendResponse(res, result);
+});
+
+usersController.get("/mahasiswa/:id", authorization, async (req, res) => {
+    const result = await m$users.getMahasiswaSpecific(req.params.id, req.body);
+
+    return response.sendResponse(res, result);
+});
+
+usersController.put("/mahasiswa/:id", authorization, async (req, res) => {
+    const result = await m$users.updateMahasiswa(req.params.id, req.body);
 
     return response.sendResponse(res, result);
 });
