@@ -3,6 +3,8 @@ const prisma = require("../helpers/database");
 const fs = require("fs");
 const main = require("../socket");
 const dotenv = require("dotenv");
+const axios = require("axios");
+const fetch = require("node-fetch");
 dotenv.config();
 
 class _booking {
