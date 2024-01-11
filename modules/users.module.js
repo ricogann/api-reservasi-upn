@@ -355,6 +355,7 @@ class _users {
                 data: {
                     nama_ukm: body.nama_ukm,
                     no_telp: body.no_telp,
+		    password: body.password,
                     nama_pj: body.nama_pj,
                 },
             });
@@ -384,6 +385,7 @@ class _users {
                 data: {
                     nama_organisasi: body.nama_organisasi,
                     no_telp: body.no_telp,
+		    password: body.password,
                     nama_pj: body.nama_pj,
                 },
             });
@@ -420,6 +422,7 @@ updateMahasiswa = async (id, body) => {
             data: {
                 nama: body.nama,
                 no_telp: body.no_telp,
+		password: body.password,
             },
         });
 
@@ -449,6 +452,7 @@ updateMahasiswa = async (id, body) => {
                 data: {
                     nama: body.nama,
                     no_telp: body.no_telp,
+		    password: body.password,
                 },
             });
 

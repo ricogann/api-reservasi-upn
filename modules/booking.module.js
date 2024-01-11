@@ -52,7 +52,6 @@ class _booking {
                 const chatId = process.env.CHAT_ID;
                 const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=Ada Pemesanan Baru%0A%0AID Pemesanan: ${Booking.id_pemesanan}%0AID Fasilitas: ${Booking.id_fasilitas}%0AID Account: ${Booking.id_account}%0ATanggal Pemesanan: ${Booking.tanggal_pemesanan}%0AJam Checkin: ${Booking.jam_checkin}%0AJam Checkout: ${Booking.jam_checkout}%0ADurasi: ${Booking.durasi}%0ATotal Harga: ${Booking.total_harga}%0AKeterangan: ${Booking.keterangan}%0AStatus: ${Booking.status}`;
 
-                const response = await fetch(url);
                 return {
                     status: true,
                     code: 201,
@@ -161,6 +160,7 @@ class _booking {
                     Fasilitas: {
                         select: {
                             nama: true,
+			    no_va: true,
                         },
                     },
                 },
@@ -280,7 +280,6 @@ class _booking {
                 const chatId = process.env.CHAT_ID;
                 const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=Ada yang baru saja upload Bukti Pembayaran!%0A%0AID Pemesanan: ${Booking.id_pemesanan}%0AID Fasilitas: ${Booking.id_fasilitas}%0AID Account: ${Booking.id_account}%0ATanggal Pemesanan: ${Booking.tanggal_pemesanan}%0AJam Checkin: ${Booking.jam_checkin}%0AJam Checkout: ${Booking.jam_checkout}%0ADurasi: ${Booking.durasi}%0ATotal Harga: ${Booking.total_harga}%0AKeterangan: ${Booking.keterangan}%0AStatus: ${Booking.status}`;
 
-                const response = await fetch(url);
                 return {
                     status: true,
                     code: 200,
@@ -313,7 +312,6 @@ class _booking {
                 const chatId = process.env.CHAT_ID;
                 const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=Ada yang baru saja upload SIK!%0A%0AID Pemesanan: ${Booking.id_pemesanan}%0AID Fasilitas: ${Booking.id_fasilitas}%0AID Account: ${Booking.id_account}%0ATanggal Pemesanan: ${Booking.tanggal_pemesanan}%0AJam Checkin: ${Booking.jam_checkin}%0AJam Checkout: ${Booking.jam_checkout}%0ADurasi: ${Booking.durasi}%0ATotal Harga: ${Booking.total_harga}%0AKeterangan: ${Booking.keterangan}%0AStatus: ${Booking.status}`;
 
-                const response = await fetch(url);
                 return {
                     status: true,
                     code: 200,
@@ -339,6 +337,7 @@ class _booking {
                     Fasilitas: {
                         select: {
                             nama: true,
+			    no_va: true,
                         },
                     },
                 },
