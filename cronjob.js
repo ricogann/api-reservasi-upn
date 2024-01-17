@@ -6,7 +6,6 @@ const m$asrama = require("../api-reservasi-upn/modules/kamar.module");
 const tugasCronMenit = () => {
     console.log("Cron job Menitan dijalankan pada: ", new Date());
     m$booking.deleteBookingCronJob();
-    m$asrama.deleteExpiredMahasiswaCronJob();
 };
 
 const tugasCronDay = () => {
