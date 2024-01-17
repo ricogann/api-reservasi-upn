@@ -160,7 +160,7 @@ class _booking {
                     Fasilitas: {
                         select: {
                             nama: true,
-			    no_va: true,
+                            no_va: true,
                         },
                     },
                 },
@@ -188,6 +188,36 @@ class _booking {
             const Booking = await prisma.pemesanan.findMany({
                 where: {
                     id_fasilitas: Number(id),
+                },
+                include: {
+                    Account: {
+                        include: {
+                            Mahasiswa: {
+                                select: {
+                                    nama: true,
+                                    no_telp: true,
+                                },
+                            },
+                            UKM: {
+                                select: {
+                                    nama_ukm: true,
+                                    no_telp: true,
+                                },
+                            },
+                            Organisasi: {
+                                select: {
+                                    nama_organisasi: true,
+                                    no_telp: true,
+                                },
+                            },
+                            Umum: {
+                                select: {
+                                    nama: true,
+                                    no_telp: true,
+                                },
+                            },
+                        },
+                    },
                 },
             });
 
@@ -337,7 +367,7 @@ class _booking {
                     Fasilitas: {
                         select: {
                             nama: true,
-			    no_va: true,
+                            no_va: true,
                         },
                     },
                 },
