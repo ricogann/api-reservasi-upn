@@ -70,6 +70,15 @@ fasilitasController.delete("/delete/:id", authorization, async (req, res) => {
     return response.sendResponse(res, result);
 });
 
+fasilitasController.put("/update-active/:id", async (req, res) => {
+    const result = await m$fasilitas.updateActiveFasilitas(
+        req.params.id,
+        req.body
+    );
+
+    return response.sendResponse(res, result);
+});
+
 // fasilitasController.put(
 //     "/update/:id",
 //     upload.array("foto_fasilitas", 3),

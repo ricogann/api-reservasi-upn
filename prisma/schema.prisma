@@ -159,6 +159,7 @@ model Fasilitas {
   durasi                  Int 
   no_va			              String
   termservice			        String
+  active                  Boolean
 
   Harga                   Harga[]
   Pemesanan               Pemesanan[]

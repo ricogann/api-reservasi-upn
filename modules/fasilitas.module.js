@@ -59,6 +59,7 @@ class _fasilitas {
                     termservice: termservice
                         ? JSON.stringify(termservice)
                         : null,
+                    active: false,
                 },
             });
 
@@ -158,9 +159,11 @@ class _fasilitas {
                 }
                 if (termservice) {
                     fasilitasData.termservice = JSON.stringify(termservice);
-			console.log("ha" + body.name_termservice_old);
-                    const old_termservice = JSON.parse(body.name_termservice_old);
-			console.log(old_termservice);
+                    console.log("ha" + body.name_termservice_old);
+                    const old_termservice = JSON.parse(
+                        body.name_termservice_old
+                    );
+                    console.log(old_termservice);
                     fs.unlinkSync(`./public/${old_termservice}`);
                 }
 
@@ -231,6 +234,33 @@ class _fasilitas {
             }
         } catch (error) {
             console.error("delete fasilitas module Error: ", error);
+            return {
+                status: false,
+                error,
+            };
+        }
+    };
+
+    updateActiveFasilitas = async (id, body) => {
+        try {
+            const fasilitas = await prisma.fasilitas.update({
+                where: {
+                    id_fasilitas: Number(id),
+                },
+                data: {
+                    active: body.active,
+                },
+            });
+
+            if (fasilitas) {
+                return {
+                    status: true,
+                    code: 200,
+                    message: "Update Fasilitas success",
+                };
+            }
+        } catch (error) {
+            console.error("update fasilitas module Error: ", error);
             return {
                 status: false,
                 error,
